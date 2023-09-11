@@ -6,6 +6,7 @@ import { Modal } from "../ui/modal"
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,6 +19,8 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useState } from "react"
+import toast from "react-hot-toast"
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -27,8 +30,18 @@ const formSchema = z.object({
 
 export const StoreModal = () => {
 
+    const [loading, setLoading] = useState(false)
+
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        // do whatever you want with values from form
+        try {
+            setLoading(true)
+            const res = await axios.post(`/api/stores`, values)
+            toast.success('store has been created!')
+        } catch (error) {
+            toast.error('something went wrong')
+        } finally {
+            setLoading(false)
+        }
     }
 
 
@@ -55,7 +68,7 @@ export const StoreModal = () => {
                                     <FormItem>
                                         <FormLabel>Store Name</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="shadcn" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
+                                            <Input disabled={loading} placeholder="shadcn" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
                                         </FormControl>
 
                                         <FormMessage />
@@ -63,8 +76,8 @@ export const StoreModal = () => {
                                 )}
                             />
                             <div className="pt-6 justify-self-end items-center justify-end place-self-end w-full flex gap-x-4">
-                                <Button variant={'outline'} onClick={onClose}>Cancel</Button>
-                                <Button type="submit" >Submit</Button>
+                                <Button disabled={loading} variant={'outline'} onClick={onClose}>Cancel</Button>
+                                <Button disabled={loading} type="submit" >Submit</Button>
                             </div>
                         </form>
                     </Form>

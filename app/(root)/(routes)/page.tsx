@@ -17,9 +17,6 @@ export default function Home() {
   }, [isOpen, onOpen])
 
   return (
-    <div className="p-4">
-      <UserButton afterSignOutUrl="/" />
-
-    </div>
+    null
   )
 }

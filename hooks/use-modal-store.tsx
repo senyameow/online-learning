@@ -1,13 +1,26 @@
+import { Store } from '@prisma/client';
 import { create } from 'zustand'
 
-interface useModalStoreProps {
+export type ModalType = 'createStore' | 'deleteStore'
+
+interface ModalData {
+    store?: Store;
+    apiUrl?: string;
+    query?: Record<string, any>;
+}
+
+interface ModalStoreProps {
+    type: ModalType | null;
+    data: ModalData;
     isOpen: boolean;
-    onOpen: () => void;
+    onOpen: (type: ModalType, data?: ModalData) => void;
     onClose: () => void;
 }
 
-export const useModalStore = create<useModalStoreProps>((set) => ({
+export const useModalStore = create<ModalStoreProps>((set) => ({
+    type: null,
+    data: {},
     isOpen: false,
-    onOpen: () => set({ isOpen: true }),
-    onClose: () => set({ isOpen: false }),
+    onOpen: (type, data = {}) => set({ isOpen: true, type: type, data }),
+    onClose: () => set({ isOpen: false, type: null, data: {} }),
 }))

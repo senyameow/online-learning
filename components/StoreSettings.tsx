@@ -14,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from './ui/input'
 import { useRouter } from 'next/navigation'
 import { useModalStore } from '@/hooks/use-modal-store'
+import { ApiAlert } from './ApiAlert'
 
 interface StoreSettingsProps {
     name: string;
@@ -105,6 +106,8 @@ const StoreSettings = ({ name, storeId }: StoreSettingsProps) => {
 
                 </form>
             </Form>
+            <Separator />
+            <ApiAlert title='something' description='somethiering' variant='public' />
         </>
     )
 }

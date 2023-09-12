@@ -24,3 +24,4 @@ export const useModalStore = create<ModalStoreProps>((set) => ({
     onOpen: (type, data = {}) => set({ isOpen: true, type: type, data }),
     onClose: () => set({ isOpen: false, type: null, data: {} }),
 }))
+

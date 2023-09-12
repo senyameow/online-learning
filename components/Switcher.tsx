@@ -97,7 +97,7 @@ export default function Switcher({ className, items = [] }: SwitcherProps) {
                             <CommandItem
                                 onSelect={() => {
                                     setOpen(false)
-                                    onOpen()
+                                    onOpen('createStore')
                                 }}
                             >
                                 <PlusCircle className="mr-2 h-6 w-6" />

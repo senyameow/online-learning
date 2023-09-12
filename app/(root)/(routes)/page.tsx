@@ -12,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     if (!isOpen) {
 
-      onOpen()
+      onOpen('createStore')
     }
   }, [isOpen, onOpen])
 

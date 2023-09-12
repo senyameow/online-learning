@@ -1,7 +1,7 @@
 import { Store } from '@prisma/client';
 import { create } from 'zustand'
 
-export type ModalType = 'createStore' | 'deleteStore'
+export type ModalType = 'createStore' | 'deleteStore' | 'createBillboard'
 
 interface ModalData {
     store?: Store;

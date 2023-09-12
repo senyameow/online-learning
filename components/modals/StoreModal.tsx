@@ -31,25 +31,32 @@ const formSchema = z.object({
 
 export const StoreModal = () => {
 
+    const { onClose, isOpen, type } = useModalStore()
+
+
     const router = useRouter()
 
     const [loading, setLoading] = useState(false)
 
+    const isModalOpen = type === 'createStore' && isOpen
+
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             setLoading(true)
-            const res = await axios.post(`/api/stores/`, values)
+            const res = await axios.post(`/api/stores`, values)
             toast.success('store has been created!')
             const storeId = res?.data?.id
-            redirect(`/${storeId}`)
-            router.refresh()
+            window.location.assign(`/$${storeId}`)
+
+
 
 
         } catch (error) {
             toast.error('something went wrong')
-            console.log(error)
+            console.log(error, 'CREATING STORE ERROR')
         } finally {
             setLoading(false)
+            router.refresh()
         }
     }
 
@@ -61,11 +68,10 @@ export const StoreModal = () => {
         }
     })
 
-    const { onClose, isOpen } = useModalStore()
 
     return (
 
-        < Modal title="create a store" description="create a store where you will sell products" isOpen={isOpen} onClose={onClose}>
+        < Modal title="create a store" description="create a store where you will sell products" isOpen={isModalOpen} onClose={onClose}>
             <div>
                 <div className="py-2 pb-4 space-y-4">
                     <Form {...form}>

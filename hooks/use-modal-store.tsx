@@ -5,6 +5,8 @@ export type ModalType = 'createStore' | 'deleteStore'
 
 interface ModalData {
     store?: Store;
+    storeId?: string;
+    storeName?: string;
     apiUrl?: string;
     query?: Record<string, any>;
 }

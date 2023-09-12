@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form'
 import { Input } from './ui/input'
 import { useRouter } from 'next/navigation'
+import { useModalStore } from '@/hooks/use-modal-store'
 
 interface StoreSettingsProps {
     name: string;
@@ -30,6 +31,8 @@ const formSchema = z.object({
 })
 
 const StoreSettings = ({ name, storeId }: StoreSettingsProps) => {
+
+    const { onOpen, onClose } = useModalStore()
 
     const router = useRouter()
 
@@ -74,7 +77,7 @@ const StoreSettings = ({ name, storeId }: StoreSettingsProps) => {
             <div className='flex flex-row justify-between items-center'>
                 <Heading title='settings' description='change / delete Your Store' />
 
-                <Button onClick={() => { }} variant={'destructive'} className='flex items-center justify-center'>
+                <Button onClick={() => onOpen('deleteStore', { storeId, storeName: name })} variant={'destructive'} className='flex items-center justify-center'>
                     <Trash className='w-4 h-4' />
                 </Button>
 

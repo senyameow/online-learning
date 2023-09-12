@@ -7,14 +7,16 @@ import { useEffect } from "react"
 
 export default function Home() {
 
-  const { onOpen, isOpen } = useModalStore()
+  const { onOpen, isOpen, type, onClose } = useModalStore()
+
 
   useEffect(() => {
     if (!isOpen) {
 
       onOpen('createStore')
     }
-  }, [isOpen, onOpen])
+
+  }, [onOpen, isOpen])
 
   return (
     null

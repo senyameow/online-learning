@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form'
 import { Input } from './ui/input'
+import { useRouter } from 'next/navigation'
 
 interface StoreSettingsProps {
     name: string;
@@ -29,6 +30,8 @@ const formSchema = z.object({
 })
 
 const StoreSettings = ({ name, storeId }: StoreSettingsProps) => {
+
+    const router = useRouter()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -54,10 +57,15 @@ const StoreSettings = ({ name, storeId }: StoreSettingsProps) => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            console.log(values)
+            setIsLoading(true)
+            await axios.patch(`/api/stores/${storeId}/change`, values)
+            router.refresh()
+            toast.success(`Successfully changed to ${values.name}`)
 
         } catch (error) {
-            console.log(error)
+            toast.error('something went wrong')
+        } finally {
+            setIsLoading(false)
         }
     }
 

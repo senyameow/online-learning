@@ -46,18 +46,7 @@ const StoreSettings = ({ name, storeId }: StoreSettingsProps) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
-    // const deleteStore = async () => {
-    //     try {
-    //         setIsLoading(true)
-    //         const res = await axios.delete(`/api/${storeId}/delete`)
-    //         toast.success('You Successfully Deleted Store')
 
-    //     } catch (error) {
-    //         console.log(error)
-    //     } finally {
-    //         setIsLoading(false)
-    //     }
-    // }
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
@@ -107,7 +96,7 @@ const StoreSettings = ({ name, storeId }: StoreSettingsProps) => {
                 </form>
             </Form>
             <Separator />
-            <ApiAlert title='something' description='somethiering' variant='public' />
+            <ApiAlert title='something' description={`${origin}/api/${storeId}`} variant='public' />
         </>
     )
 }

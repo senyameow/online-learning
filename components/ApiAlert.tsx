@@ -30,7 +30,7 @@ export const ApiAlert = ({ title, description, variant }: ApiAlertProps) => {
     return (
         <Alert>
             <Server className="w-4 h-4" />
-            <AlertTitle className="flex items-center gap-4 mb-3">
+            <AlertTitle className="flex items-center gap-4 mb-3 font-extrabold text-md">
                 {title}
                 <Badge variant={variantMap[variant] as 'destructive' | 'secondary'}>
                     {textMap[variant]}

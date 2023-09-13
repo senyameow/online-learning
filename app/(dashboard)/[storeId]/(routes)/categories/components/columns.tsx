@@ -3,27 +3,34 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Action } from "./Action"
 
+
+
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type BillboardColumn = {
+export type CategoryColumn = {
     id: string
     label: string
+    billboardName: string
     created_at: string
-    image_url: string;
 }
 
-export const columns: ColumnDef<BillboardColumn>[] = [
+export const columns: ColumnDef<CategoryColumn>[] = [
     {
         accessorKey: "label",
-        header: "label",
+        header: "Name",
+    },
+    {
+        accessorKey: "billboard",
+        header: "Billboard",
+        cell: (table) => table.row.original.billboardName
     },
     {
         accessorKey: "created_at",
-        header: "date",
+        header: "Date",
     },
     {
         id: 'actions',
-        cell: (table) => <Action billboard={table.row.original} />
+        cell: (table) => <Action category={table.row.original} />
     }
 
 ]

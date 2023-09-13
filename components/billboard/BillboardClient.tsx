@@ -6,12 +6,15 @@ import { Button } from '../ui/button'
 import { Plus } from 'lucide-react'
 import { Separator } from '../ui/separator'
 import { useModalStore } from '@/hooks/use-modal-store'
+import { useParams } from 'next/navigation'
 
 interface BillboardClientProps {
-    items: Billboard[]
+    items: Billboard[];
 }
 
 const BillboardClient = ({ items }: BillboardClientProps) => {
+
+    const params = useParams()
 
     const { onOpen } = useModalStore()
 
@@ -19,7 +22,7 @@ const BillboardClient = ({ items }: BillboardClientProps) => {
         <>
             <div className='flex items-center justify-between'>
                 <Heading title={`Billboards (${items.length})`} description='Create billboards for Your store' />
-                <Button onClick={() => onOpen('createBillboard')} className='flex items-center'>
+                <Button onClick={() => onOpen('createBillboard', { storeId: params?.storeId as string })} className='flex items-center'>
                     <Plus className='w-4 h-4 mr-2' />
                     Add New
                 </Button>

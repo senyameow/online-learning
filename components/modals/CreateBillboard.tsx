@@ -22,17 +22,19 @@ import { Input } from "@/components/ui/input"
 import { useState } from "react"
 import toast from "react-hot-toast"
 import { redirect, useRouter } from "next/navigation"
+import qs from 'query-string'
+import FileUpload from "../ImageUpload"
 
 const formSchema = z.object({
-    name: z.string().min(1, {
-        message: 'store should have a name'
+    label: z.string().min(1, {
+        message: 'billboard should have a label'
     }).max(10, { message: 'wowowowow chill out, big name!' }),
+    image_url: z.string().min(1, 'image is required')
 })
 
 export const BillboardModal = () => {
 
-    const { onClose, isOpen, type } = useModalStore()
-
+    const { onClose, isOpen, type, data } = useModalStore()
 
     const router = useRouter()
 
@@ -40,13 +42,22 @@ export const BillboardModal = () => {
 
     const isModalOpen = type === 'createBillboard' && isOpen
 
+    const { storeId } = data
+
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
+            console.log('qweqwe')
             setLoading(true)
-            const res = await axios.post(`/api/stores`, values)
-            toast.success('store has been created!')
-            const storeId = res?.data?.id
-            window.location.assign(`/${storeId}`)
+            const url = qs.stringifyUrl({
+                url: `/api/billboards`,
+                query: {
+                    storeId
+                }
+            })
+            const res = await axios.post(url, values)
+            toast.success('billboard has been created!')
+            onClose()
+            window.location.assign(`/${storeId}/billboards`)
 
 
 
@@ -64,7 +75,8 @@ export const BillboardModal = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: ''
+            label: '',
+            image_url: '',
         }
     })
 
@@ -78,18 +90,35 @@ export const BillboardModal = () => {
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                             <FormField
                                 control={form.control}
-                                name="name"
+                                name="label"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Label</FormLabel>
                                         <FormControl>
-                                            <Input disabled={loading} placeholder="shadcn" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
+                                            <Input disabled={loading} placeholder="label for your billboard" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
                                         </FormControl>
 
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
+                            <div className="flex justify-center items-center w-full">
+                                <FormField
+                                    control={form.control}
+                                    name='image_url'
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <FileUpload
+                                                    endpoint='billboardImage'
+                                                    value={field.value}
+                                                    onChange={field.onChange}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                             <div className="pt-6 justify-self-end items-center justify-end place-self-end w-full flex gap-x-4">
                                 <Button disabled={loading} variant={'outline'} onClick={onClose}>Cancel</Button>
                                 <Button disabled={loading} type="submit" >Submit</Button>

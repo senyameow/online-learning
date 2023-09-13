@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 
-import { BillboardColumn } from "@/app/(dashboard)/[storeId]/(routes)/billboards/components/columns"
 import React, { useState } from "react"
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react"
 import toast from "react-hot-toast"
@@ -29,7 +28,7 @@ const onCopy = (id: string) => {
     toast.success(`copied`)
 }
 
-export const Action = ({ category }: ActionProps) => {
+export const CategoryAction = ({ category }: ActionProps) => {
 
     const router = useRouter()
 
@@ -48,7 +47,7 @@ export const Action = ({ category }: ActionProps) => {
 
 
         } catch (error) {
-            console.log('DELETE_BILLBOARD_ERROR', error)
+            console.log('DELETE_CATEGORY_ERROR', error)
         } finally {
             setIsLoading(false)
             onClose()
@@ -69,7 +68,10 @@ export const Action = ({ category }: ActionProps) => {
                         Copy id
                     </div>
                 </DropdownMenuItem>
-                <DropdownMenuItem disabled={isLoading} onClick={() => onOpen('updateCategory', { category, storeId: params?.storeId as string })}>
+                <DropdownMenuItem disabled={isLoading} onClick={() => {
+                    console.log(category)
+                    onOpen('updateCategory', { category, storeId: params?.storeId as string })
+                }}>
                     <div className="flex flex-row items-center">
                         <Edit className="w-4 h-4 mr-2" />
                         Update
@@ -80,6 +82,11 @@ export const Action = ({ category }: ActionProps) => {
                         <Trash className="w-4 h-4 mr-2" />
                         Delete
                     </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem disabled={isLoading} onClick={onDelete}>
+                    <button onClick={() => console.log(category)} className="flex flex-row items-center">
+                        check category
+                    </button>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

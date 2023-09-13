@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Action } from "./Action"
+import { CategoryAction } from "./Action"
 
 
 
@@ -30,7 +30,7 @@ export const columns: ColumnDef<CategoryColumn>[] = [
     },
     {
         id: 'actions',
-        cell: (table) => <Action category={table.row.original} />
+        cell: (table) => <CategoryAction category={table.row.original} />
     }
 
 ]

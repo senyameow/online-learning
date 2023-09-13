@@ -67,6 +67,7 @@ export const CategoryModal = () => {
             console.log(error, 'CREATING STORE ERROR')
         } finally {
             setLoading(false)
+            onClose()
             router.refresh()
         }
     }

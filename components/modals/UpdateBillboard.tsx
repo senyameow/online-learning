@@ -70,6 +70,7 @@ export const BillboardUpdateModal = () => {
             console.log(error, 'CREATING STORE ERROR')
         } finally {
             setLoading(false)
+            onClose()
             router.refresh()
         }
     }
@@ -90,7 +91,7 @@ export const BillboardUpdateModal = () => {
             form.setValue('label', billboard.label);
             form.setValue('image_url', billboard.image_url);
         } // вот так можно реализовывать едитинг формы (т.е. открывается модалка, и когда она загрузилась там уже в полях есть предыдущие значения)
-    }, [form, billboard, billboard?.id])
+    }, [form, billboard])
 
 
 

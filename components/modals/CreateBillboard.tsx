@@ -66,6 +66,7 @@ export const BillboardModal = () => {
             console.log(error, 'CREATING STORE ERROR')
         } finally {
             setLoading(false)
+            onClose()
             router.refresh()
         }
     }

@@ -3,6 +3,8 @@ import BillboardClient from "@/components/billboard/BillboardClient"
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs"
 import { redirect } from "next/navigation"
+import { format } from 'date-fns'
+import { BillboardColumn } from "./components/columns"
 
 interface BillboardPageProps {
     params: {
@@ -21,6 +23,9 @@ const BillboardPage = async ({ params }: BillboardPageProps) => {
         where: {
             id: params.storeId,
             userId
+        },
+        orderBy: {
+            created_at: 'asc'
         }
     })
 
@@ -34,12 +39,18 @@ const BillboardPage = async ({ params }: BillboardPageProps) => {
         }
     })
 
+    const formattedBillboards: BillboardColumn[] = billboards.map(billboard => ({
+        id: billboard.id,
+        label: billboard.label,
+        created_at: format(billboard.created_at, 'MMMM do, yyyy'),
+    }))
+
 
 
     return (
         <div className="flex flex-col">
             <div className="flex-1 p-8 pt-6 space-y-4">
-                <BillboardClient items={billboards} />
+                <BillboardClient items={formattedBillboards} />
             </div>
         </div>
     )

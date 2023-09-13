@@ -7,9 +7,11 @@ import { Plus } from 'lucide-react'
 import { Separator } from '../ui/separator'
 import { useModalStore } from '@/hooks/use-modal-store'
 import { useParams } from 'next/navigation'
+import { DataTable } from '../ui/DataTable'
+import { BillboardColumn, columns } from '@/app/(dashboard)/[storeId]/(routes)/billboards/components/columns'
 
 interface BillboardClientProps {
-    items: Billboard[];
+    items: BillboardColumn[];
 }
 
 const BillboardClient = ({ items }: BillboardClientProps) => {
@@ -28,6 +30,7 @@ const BillboardClient = ({ items }: BillboardClientProps) => {
                 </Button>
             </div>
             <Separator />
+            <DataTable columns={columns} data={items} />
         </>
     )
 }

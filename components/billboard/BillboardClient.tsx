@@ -9,6 +9,7 @@ import { useModalStore } from '@/hooks/use-modal-store'
 import { useParams } from 'next/navigation'
 import { DataTable } from '../ui/DataTable'
 import { BillboardColumn, columns } from '@/app/(dashboard)/[storeId]/(routes)/billboards/components/columns'
+import { ApiList } from '../ApiList'
 
 interface BillboardClientProps {
     items: BillboardColumn[];
@@ -31,6 +32,10 @@ const BillboardClient = ({ items }: BillboardClientProps) => {
             </div>
             <Separator />
             <DataTable columns={columns} data={items} />
+            <Separator />
+            <Heading title='api' description='api calls for billboards' />
+            <Separator />
+            <ApiList name='billboards' idName='billboardId' />
         </>
     )
 }

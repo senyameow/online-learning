@@ -1,6 +1,7 @@
 'use client'
 
 import { BillboardModal } from "@/components/modals/CreateBillboard"
+import { CategoryModal } from "@/components/modals/CreateCategory"
 import { DeleteStoreModal } from "@/components/modals/DeleteStoreModal"
 import { StoreModal } from "@/components/modals/StoreModal"
 import { BillboardUpdateModal } from "@/components/modals/UpdateBillboard"
@@ -22,6 +23,7 @@ export const ModalProvider = () => {
             <DeleteStoreModal />
             <BillboardModal />
             <BillboardUpdateModal />
+            <CategoryModal />
         </>
     )
 }

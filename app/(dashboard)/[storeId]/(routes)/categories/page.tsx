@@ -30,6 +30,12 @@ const CategoriesPage = async ({ params }: CategoryPageProps) => {
         }
     })
 
+    const billboards = await db.billboard.findMany({
+        where: {
+            storeId: params.storeId,
+        }
+    })
+
     const formattedCategories: CategoryColumn[] = categories.map(category => ({
         id: category.id,
         label: category.label,
@@ -42,7 +48,7 @@ const CategoriesPage = async ({ params }: CategoryPageProps) => {
     return (
         <div className="flex flex-col">
             <div className="flex-1 p-8 pt-6 space-y-4">
-                <CategoryClient items={formattedCategories} />
+                <CategoryClient items={formattedCategories} billboards={billboards} />
             </div>
         </div>
     )

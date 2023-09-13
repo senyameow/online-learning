@@ -15,9 +15,10 @@ import { CategoryColumn } from './columns'
 
 interface CategoryClientProps {
     items: CategoryColumn[];
+    billboards: Billboard[]
 }
 
-const CategoryClient = ({ items }: CategoryClientProps) => {
+const CategoryClient = ({ items, billboards }: CategoryClientProps) => {
 
     const params = useParams()
 
@@ -27,7 +28,7 @@ const CategoryClient = ({ items }: CategoryClientProps) => {
         <>
             <div className='flex items-center justify-between'>
                 <Heading title={`Categories (${items.length})`} description='Create category for Your store' />
-                <Button onClick={() => onOpen('createCategory', { storeId: params?.storeId as string })} className='flex items-center'>
+                <Button onClick={() => onOpen('createCategory', { storeId: params?.storeId as string, billboardsByStoreId: billboards })} className='flex items-center'>
                     <Plus className='w-4 h-4 mr-2' />
                     Add New
                 </Button>

@@ -1,7 +1,8 @@
+import { BillboardColumn } from '@/app/(dashboard)/[storeId]/(routes)/billboards/components/columns';
 import { Store } from '@prisma/client';
 import { create } from 'zustand'
 
-export type ModalType = 'createStore' | 'deleteStore' | 'createBillboard'
+export type ModalType = 'createStore' | 'deleteStore' | 'createBillboard' | 'updateBillboard'
 
 interface ModalData {
     store?: Store;
@@ -9,6 +10,7 @@ interface ModalData {
     storeName?: string;
     apiUrl?: string;
     query?: Record<string, any>;
+    billboard?: BillboardColumn;
 }
 
 interface ModalStoreProps {

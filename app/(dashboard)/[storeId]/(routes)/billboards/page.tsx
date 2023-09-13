@@ -43,6 +43,7 @@ const BillboardPage = async ({ params }: BillboardPageProps) => {
         id: billboard.id,
         label: billboard.label,
         created_at: format(billboard.created_at, 'MMMM do, yyyy'),
+        image_url: billboard.image_url
     }))
 
 

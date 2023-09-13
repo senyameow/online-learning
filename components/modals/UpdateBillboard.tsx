@@ -19,7 +19,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { redirect, useRouter } from "next/navigation"
 import qs from 'query-string'
@@ -32,7 +32,9 @@ const formSchema = z.object({
     image_url: z.string().min(1, 'image is required')
 })
 
-export const BillboardModal = () => {
+export const BillboardUpdateModal = () => {
+
+
 
     const { onClose, isOpen, type, data } = useModalStore()
 
@@ -40,21 +42,23 @@ export const BillboardModal = () => {
 
     const [loading, setLoading] = useState(false)
 
-    const isModalOpen = type === 'createBillboard' && isOpen
+    const isModalOpen = type === 'updateBillboard' && isOpen
 
-    const { storeId } = data
+    const { billboard, storeId } = data
+
+
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             setLoading(true)
             const url = qs.stringifyUrl({
-                url: `/api/billboards`,
+                url: `/api/billboards/${billboard?.id}/change`,
                 query: {
                     storeId
                 }
             })
-            const res = await axios.post(url, values)
-            toast.success('billboard has been created!')
+            const res = await axios.patch(url, values)
+            toast.success('billboard has been updated!')
             onClose()
             window.location.assign(`/${storeId}/billboards`)
 
@@ -78,6 +82,17 @@ export const BillboardModal = () => {
             image_url: '',
         }
     })
+
+    useEffect(() => {
+        console.log('mounted')
+        console.log(billboard)
+        if (billboard) {
+            form.setValue('label', billboard.label);
+            form.setValue('image_url', billboard.image_url);
+        } // вот так можно реализовывать едитинг формы (т.е. открывается модалка, и когда она загрузилась там уже в полях есть предыдущие значения)
+    }, [form, billboard, billboard?.id])
+
+
 
 
     return (

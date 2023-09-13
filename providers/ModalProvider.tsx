@@ -3,6 +3,7 @@
 import { BillboardModal } from "@/components/modals/CreateBillboard"
 import { DeleteStoreModal } from "@/components/modals/DeleteStoreModal"
 import { StoreModal } from "@/components/modals/StoreModal"
+import { BillboardUpdateModal } from "@/components/modals/UpdateBillboard"
 import { useEffect, useState } from "react"
 
 export const ModalProvider = () => {
@@ -20,6 +21,7 @@ export const ModalProvider = () => {
             <StoreModal />
             <DeleteStoreModal />
             <BillboardModal />
+            <BillboardUpdateModal />
         </>
     )
 }

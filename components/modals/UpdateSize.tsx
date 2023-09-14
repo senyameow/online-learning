@@ -19,21 +19,21 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
-import { redirect, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import qs from 'query-string'
-import FileUpload from "../ImageUpload"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
 const formSchema = z.object({
     label: z.string().min(1, {
-        message: 'size should have a label'
+        message: 'billboard should have a label'
     }).max(10, { message: 'wowowowow chill out, big name!' }),
     value: z.string().min(1, ' ').max(3, ' ')
 })
 
-export const SizeModal = () => {
+export const SizeUpdateModal = () => {
+
+
 
     const { onClose, isOpen, type, data } = useModalStore()
 
@@ -41,30 +41,32 @@ export const SizeModal = () => {
 
     const [loading, setLoading] = useState(false)
 
-    const isModalOpen = type === 'createSize' && isOpen
+    const isModalOpen = type === 'updateSize' && isOpen
 
-    const { storeId } = data
+    const { storeId, size } = data
+
+
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             setLoading(true)
             const url = qs.stringifyUrl({
-                url: `/api/sizes`,
+                url: `/api/sizes/${size?.id}/change`,
                 query: {
                     storeId
                 }
             })
-            const res = await axios.post(url, values)
-            toast.success('size has been created!')
+            const res = await axios.patch(url, values)
+            toast.success('category has been updated!')
             onClose()
-            // window.location.assign(`/${storeId}/categories`)
+            window.location.assign(`/${storeId}/sizes`)
 
 
 
 
         } catch (error) {
             toast.error('something went wrong')
-            console.log(error, 'CREATING SIZE ERROR')
+            console.log(error, 'UPDATING SIZE ERROR')
         } finally {
             setLoading(false)
             onClose()
@@ -77,14 +79,24 @@ export const SizeModal = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             label: '',
-            value: '',
+            value: ''
         }
     })
+
+    useEffect(() => {
+        if (size) {
+            console.log(size)
+            form.setValue('label', size?.label as string);
+            form.setValue('value', size?.value as string);
+        } // вот так можно реализовывать едитинг формы (т.е. открывается модалка, и когда она загрузилась там уже в полях есть предыдущие значения)
+    }, [form, size])
+
+
 
 
     return (
 
-        < Modal title="create a size" description="" isOpen={isModalOpen} onClose={onClose}>
+        < Modal title="update categoty" description="change category name if you want" isOpen={isModalOpen} onClose={onClose}>
             <div>
                 <div className="py-2 pb-4 space-y-4">
                     <Form {...form}>
@@ -96,7 +108,7 @@ export const SizeModal = () => {
                                     <FormItem>
                                         <FormLabel>Label</FormLabel>
                                         <FormControl>
-                                            <Input disabled={loading} placeholder="name your size" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
+                                            <Input disabled={loading} placeholder="bane for you size" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
                                         </FormControl>
 
                                         <FormMessage />
@@ -105,14 +117,19 @@ export const SizeModal = () => {
                             />
                             <FormField
                                 control={form.control}
-                                name='value'
+                                name="value"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Size</FormLabel>
-                                        <Input disabled={loading} placeholder="size for your products" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
+                                        <FormLabel>Value</FormLabel>
+                                        <FormControl>
+                                            <Input disabled={loading} placeholder="value for size" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
+                                        </FormControl>
+
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
+
                             <div className="pt-6 justify-self-end items-center justify-end place-self-end w-full flex gap-x-4">
                                 <Button disabled={loading} variant={'outline'} onClick={onClose}>Cancel</Button>
                                 <Button disabled={loading} type="submit" >Submit</Button>

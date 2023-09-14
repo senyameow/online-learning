@@ -15,11 +15,7 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
             href: `/${params.storeId}/overview`,
             active: pathname === `/${params.storeId}/overview`
         },
-        {
-            label: 'Settings',
-            href: `/${params.storeId}/settings`,
-            active: pathname === `/${params.storeId}/settings`
-        },
+
         {
             label: 'Categories',
             href: `/${params.storeId}/categories`,
@@ -29,6 +25,16 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
             label: 'Billboards',
             href: `/${params.storeId}/billboards`,
             active: pathname === `/${params.storeId}/billboards`
+        },
+        {
+            label: 'Sizes',
+            href: `/${params.storeId}/sizes`,
+            active: pathname === `/${params.storeId}/sizes`
+        },
+        {
+            label: 'Settings',
+            href: `/${params.storeId}/settings`,
+            active: pathname === `/${params.storeId}/settings`
         },
 
     ]

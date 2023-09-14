@@ -20,6 +20,7 @@ model Store {
   Category   Category[]
   Size       Size[]
   Color      Color[]
+  Product    Product[]
 }
 
 model Billboard {
@@ -44,8 +45,9 @@ model Category {
   storeId     String
   Store       Store     @relation(fields: [storeId], references: [id])
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  Product    Product[]
 
   @@index([billboardId])
   @@index([storeId])
@@ -58,8 +60,9 @@ model Size {
   storeId String
   Store   Store  @relation(fields: [storeId], references: [id])
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  Product    Product[]
 
   @@index([storeId])
 }
@@ -71,8 +74,47 @@ model Color {
   storeId String
   Store   Store  @relation(fields: [storeId], references: [id])
 
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  Product    Product[]
+
+  @@index([storeId])
+}
+
+model Product {
+  id         String  @id @default(uuid())
+  label      String
+  price      Decimal
+  isFeatured Boolean @default(false)
+  isArchived Boolean @default(false)
+
+  storeId    String
+  Store      Store    @relation(fields: [storeId], references: [id])
+  categoryId String
+  Category   Category @relation(fields: [categoryId], references: [id])
+  sizeId     String
+  Size       Size     @relation(fields: [sizeId], references: [id])
+  colorId    String
+  Color      Color    @relation(fields: [colorId], references: [id])
+  Image      Image[]
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
+  @@index([sizeId])
+  @@index([colorId])
   @@index([storeId])
+  @@index([categoryId])
+}
+
+model Image {
+  id        String  @id @default(uuid())
+  url       String  @db.Text
+  productId String
+  Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([productId])
 }

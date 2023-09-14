@@ -15,7 +15,10 @@ export const ourFileRouter = {
 
     billboardImage: f({ image: { maxFileSize: '4MB', maxFileCount: 1 } })
         .middleware(() => handleAuth())
-        .onUploadComplete(() => { })
+        .onUploadComplete((val) => console.log(val)),
+    productImage: f({ image: { maxFileSize: '32MB', maxFileCount: 5 } })
+        .middleware(() => handleAuth())
+        .onUploadComplete((val) => console.log(val.file))
 
 } satisfies FileRouter;
 

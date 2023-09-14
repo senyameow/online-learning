@@ -77,7 +77,7 @@ export const ProductModalTwo = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            image_url: ''
+            image_url: '',
         }
     })
 
@@ -102,7 +102,7 @@ export const ProductModalTwo = () => {
                                         <FormItem>
                                             <FormControl>
                                                 <FileUpload
-                                                    endpoint='billboardImage'
+                                                    endpoint='productImage'
                                                     value={field.value}
                                                     onChange={field.onChange}
                                                 />

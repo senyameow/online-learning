@@ -11,7 +11,7 @@ import { FileIcon, X } from 'lucide-react'
 import Image from 'next/image'
 
 interface FileUploadProps {
-    endpoint: "billboardImage"
+    endpoint: "billboardImage" | 'productImage'
     value: string;
     onChange: (url?: string) => void
 }
@@ -27,9 +27,10 @@ const FileUpload = ({ endpoint, value, onChange }: FileUploadProps) => {
     // нам надо получить тип файла
 
 
-    const fileType = value.split('.').pop() // в валью мы прокидываем значение поля (строка юрл картинки), сплитом разбиваем по точкам, и попом достаем последний элемент массива - расширение
+    // const fileType = value.split('.').pop() // в валью мы прокидываем значение поля (строка юрл картинки), сплитом разбиваем по точкам, и попом достаем последний элемент массива - расширение
 
-    if (fileType !== 'pdf' && value) {
+
+    if (endpoint === 'billboardImage' && value.length > 0) {
         return (
             <div className='h-44 w-44 relative'>
                 <Image src={value} alt='server image' fill className='rounded-md' />
@@ -40,6 +41,17 @@ const FileUpload = ({ endpoint, value, onChange }: FileUploadProps) => {
         )
     }
 
+    // if (endpoint === 'productImage' && value.length > 0) {
+    //     return (
+    //         <div className='h-44 w-44 relative'>
+    //             <Image src={value} alt='server image' fill className='rounded-md' />
+    //             <button onClick={() => onChange('')} className='absolute top-2 right-2 rounded-full p-1 shadow-lg shadow-gray-400 bg-red-500'>
+    //                 <X className=' w-4 h-4 text-white' type='button' />
+    //             </button> {/* с помощью такой ерунды как onChange мы можем убирать эту фотку и вставлять другую (просто пропихиваем пустую строчку, что заменяет наш линк картинки на пустую строку) */}
+    //         </div>
+    //     )
+    // }
+
     // if (fileType === 'pdf' && value) {
     //     return (
     //         <div className='relative bg-black/10 flex items-center'>
@@ -49,7 +61,6 @@ const FileUpload = ({ endpoint, value, onChange }: FileUploadProps) => {
     //     )
     // }
 
-    console.log(fileType)
 
 
     return (

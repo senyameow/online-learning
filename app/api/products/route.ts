@@ -12,18 +12,33 @@ export async function POST(req: Request) {
 
         const storeId = searchParams.get('storeId')
 
-        const { label, image_url } = await req.json()
+        const { label, image_url, category, size, price, isFeatured, isArchived, color } = await req.json()
 
 
         if (!label) return new NextResponse('No label provided', { status: 400 })
         if (!image_url) return new NextResponse('No image provided', { status: 400 })
+        if (!category) return new NextResponse('No catefory provided', { status: 400 })
+        if (!size) return new NextResponse('No size provided', { status: 400 })
+        if (!price) return new NextResponse('No price provided', { status: 400 })
+        if (!isFeatured) return new NextResponse('No data provided', { status: 400 })
+        if (!isArchived) return new NextResponse('No data provided', { status: 400 })
+        if (!color) return new NextResponse('No color provided', { status: 400 })
         if (!storeId) return new NextResponse('No store id provided', { status: 400 })
 
-        const billboard = await db.billboard.create({
+
+
+        const product = await db.product.create({
             data: {
                 label,
-                image_url,
+
                 storeId: storeId as string,
+                Image: {
+                    createMany: {
+                        data: [
+                            ...im
+                        ]
+                    }
+                }
             }
         })
 

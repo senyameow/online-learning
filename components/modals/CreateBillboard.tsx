@@ -29,7 +29,7 @@ const formSchema = z.object({
     label: z.string().min(1, {
         message: 'billboard should have a label'
     }).max(10, { message: 'wowowowow chill out, big name!' }),
-    image_url: z.string().min(1, 'image is required')
+    image_url: z.string().min(1, ' ')
 })
 
 export const BillboardModal = () => {

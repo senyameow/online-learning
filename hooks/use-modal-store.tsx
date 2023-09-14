@@ -1,11 +1,12 @@
 import { BillboardColumn } from '@/app/(dashboard)/[storeId]/(routes)/billboards/components/columns';
 import { CategoryColumn } from '@/app/(dashboard)/[storeId]/(routes)/categories/components/columns';
 import { ColorsColumn } from '@/app/(dashboard)/[storeId]/(routes)/colors/components/columns';
+import { ProductColumn } from '@/app/(dashboard)/[storeId]/(routes)/products/components/columns';
 import { SizesColumn } from '@/app/(dashboard)/[storeId]/(routes)/sizes/components/columns';
 import { Billboard, Store } from '@prisma/client';
 import { create } from 'zustand'
 
-export type ModalType = 'createStore' | 'deleteStore' | 'createBillboard' | 'updateBillboard' | 'updateCategory' | 'createCategory' | 'createSize' | 'updateSize' | 'createColor' | 'updateColor'
+export type ModalType = 'createStore' | 'deleteStore' | 'createBillboard' | 'updateBillboard' | 'updateCategory' | 'createCategory' | 'createSize' | 'updateSize' | 'createColor' | 'updateColor' | 'createProduct' | 'updateProduct'
 
 interface ModalData {
     store?: Store;
@@ -17,7 +18,8 @@ interface ModalData {
     billboardsByStoreId?: Billboard[]
     category?: CategoryColumn;
     size?: SizesColumn;
-    color?: ColorsColumn
+    color?: ColorsColumn;
+    product?: ProductColumn;
 }
 
 interface ModalStoreProps {

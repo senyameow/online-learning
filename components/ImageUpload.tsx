@@ -30,7 +30,7 @@ const FileUpload = ({ endpoint, value, onChange }: FileUploadProps) => {
     // const fileType = value.split('.').pop() // в валью мы прокидываем значение поля (строка юрл картинки), сплитом разбиваем по точкам, и попом достаем последний элемент массива - расширение
 
 
-    if (endpoint === 'billboardImage' && value.length > 0) {
+    if (value.length > 0) {
         return (
             <div className='h-44 w-44 relative'>
                 <Image src={value} alt='server image' fill className='rounded-md' />
@@ -42,14 +42,16 @@ const FileUpload = ({ endpoint, value, onChange }: FileUploadProps) => {
     }
 
     // if (endpoint === 'productImage' && value.length > 0) {
-    //     return (
-    //         <div className='h-44 w-44 relative'>
-    //             <Image src={value} alt='server image' fill className='rounded-md' />
-    //             <button onClick={() => onChange('')} className='absolute top-2 right-2 rounded-full p-1 shadow-lg shadow-gray-400 bg-red-500'>
-    //                 <X className=' w-4 h-4 text-white' type='button' />
-    //             </button> {/* с помощью такой ерунды как onChange мы можем убирать эту фотку и вставлять другую (просто пропихиваем пустую строчку, что заменяет наш линк картинки на пустую строку) */}
-    //         </div>
-    //     )
+    //     // {
+    //     //     value.map((item, ind) => (
+    //     //         <div key={ind} className='h-24 w-24 relative'>
+    //     //             <Image src={item} alt='server image' fill className='rounded-md' />
+    //     //             <button onClick={() => onChange('')} className='absolute top-2 right-2 rounded-full p-1 shadow-lg shadow-gray-400 bg-red-500'>
+    //     //                 <X className=' w-4 h-4 text-white' type='button' />
+    //     //             </button> {/* с помощью такой ерунды как onChange мы можем убирать эту фотку и вставлять другую (просто пропихиваем пустую строчку, что заменяет наш линк картинки на пустую строку) */}
+    //     //         </div>
+    //     //     ))
+    //     // }
     // }
 
     // if (fileType === 'pdf' && value) {

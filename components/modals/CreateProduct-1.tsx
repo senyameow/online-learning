@@ -51,7 +51,7 @@ export const ProductModalOne = () => {
 
     const isModalOpen = type === 'createProduct-1' && isOpen
 
-    const { colors, sizes, categories, values } = data
+    const { colors, sizes, categories, values, storeId } = data
 
 
 
@@ -71,7 +71,8 @@ export const ProductModalOne = () => {
 
     const onNext = async (values: z.infer<typeof formSchema>) => {
         try {
-            onOpen('createProduct-2', { values, colors, sizes, categories })
+            console.log(values)
+            onOpen('createProduct-2', { values, colors, sizes, categories, storeId })
         } catch (error) {
             console.log(error)
         }

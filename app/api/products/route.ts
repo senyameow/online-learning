@@ -20,8 +20,6 @@ export async function POST(req: Request) {
         if (!category) return new NextResponse('No catefory provided', { status: 400 })
         if (!size) return new NextResponse('No size provided', { status: 400 })
         if (!price) return new NextResponse('No price provided', { status: 400 })
-        if (!isFeatured) return new NextResponse('No data provided', { status: 400 })
-        if (!isArchived) return new NextResponse('No data provided', { status: 400 })
         if (!color) return new NextResponse('No color provided', { status: 400 })
         if (!storeId) return new NextResponse('No store id provided', { status: 400 })
 
@@ -30,13 +28,17 @@ export async function POST(req: Request) {
         const product = await db.product.create({
             data: {
                 label,
-
+                categoryId: category,
+                colorId: color,
+                sizeId: size,
+                price: price,
+                isFeatured,
+                isArchived,
                 storeId: storeId as string,
+
                 Image: {
-                    createMany: {
-                        data: [
-                            ...im
-                        ]
+                    create: {
+                        url: image_url
                     }
                 }
             }
@@ -51,10 +53,10 @@ export async function POST(req: Request) {
 
         if (!storeByUserId) return new NextResponse('Unauthorized', { status: 401 })
 
-        return NextResponse.json(billboard, { status: 200 })
+        return NextResponse.json(product, { status: 200 })
 
     } catch (error) {
-        console.log('CREATE_BILLBOARD_ERROR', error)
+        console.log('CREATE_PRODUCT_ERROR', error)
         return new NextResponse('internal error', { status: 500 })
     }
 }
@@ -75,17 +77,17 @@ export async function GET(req: Request) {
 
 
 
-        const billboards = await db.billboard.findMany({
+        const products = await db.product.findMany({
             where: {
                 storeId
             }
         })
 
 
-        return NextResponse.json(billboards, { status: 200 })
+        return NextResponse.json(products, { status: 200 })
 
     } catch (error) {
-        console.log('GET_BILLBOARD_ERROR', error)
+        console.log('GET_PRODUCTS_ERROR', error)
         return new NextResponse('internal error', { status: 500 })
     }
 }

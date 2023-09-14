@@ -3,6 +3,8 @@
 import { BillboardModal } from "@/components/modals/CreateBillboard"
 import { CategoryModal } from "@/components/modals/CreateCategory"
 import { ColorModal } from "@/components/modals/CreateColor"
+import { ProductModalOne } from "@/components/modals/CreateProduct-1"
+import { ProductModalTwo } from "@/components/modals/CreateProduct-2"
 import { SizeModal } from "@/components/modals/CreateSize"
 import { DeleteStoreModal } from "@/components/modals/DeleteStoreModal"
 import { StoreModal } from "@/components/modals/StoreModal"
@@ -34,6 +36,8 @@ export const ModalProvider = () => {
             <SizeUpdateModal />
             <ColorModal />
             <ColorUpdateModal />
+            <ProductModalOne />
+            <ProductModalTwo />
         </>
     )
 }

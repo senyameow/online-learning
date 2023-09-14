@@ -19,6 +19,7 @@ model Store {
   Billboard  Billboard[]
   Category   Category[]
   Size       Size[]
+  Color      Color[]
 }
 
 model Billboard {
@@ -51,6 +52,19 @@ model Category {
 }
 
 model Size {
+  id      String @id @default(uuid())
+  label   String
+  value   String @unique
+  storeId String
+  Store   Store  @relation(fields: [storeId], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([storeId])
+}
+
+model Color {
   id      String @id @default(uuid())
   label   String
   value   String @unique

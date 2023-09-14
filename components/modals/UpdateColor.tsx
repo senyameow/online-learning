@@ -28,10 +28,10 @@ const formSchema = z.object({
     label: z.string().min(1, {
         message: 'billboard should have a label'
     }).max(10, { message: 'wowowowow chill out, big name!' }),
-    value: z.string().min(1, ' ').max(3, ' ')
+    value: z.string().min(1, ' ').max(8, ' ')
 })
 
-export const SizeUpdateModal = () => {
+export const ColorUpdateModal = () => {
 
 
 
@@ -41,9 +41,9 @@ export const SizeUpdateModal = () => {
 
     const [loading, setLoading] = useState(false)
 
-    const isModalOpen = type === 'updateSize' && isOpen
+    const isModalOpen = type === 'updateColor' && isOpen
 
-    const { storeId, size } = data
+    const { storeId, color } = data
 
 
 
@@ -51,7 +51,7 @@ export const SizeUpdateModal = () => {
         try {
             setLoading(true)
             const url = qs.stringifyUrl({
-                url: `/api/sizes/${size?.id}/change`,
+                url: `/api/colors/${color?.id}/change`,
                 query: {
                     storeId
                 }
@@ -59,14 +59,14 @@ export const SizeUpdateModal = () => {
             const res = await axios.patch(url, values)
             toast.success('category has been updated!')
             onClose()
-            window.location.assign(`/${storeId}/sizes`)
+            window.location.assign(`/${storeId}/colors`)
 
 
 
 
         } catch (error) {
             toast.error('something went wrong')
-            console.log(error, 'UPDATING SIZE ERROR')
+            console.log(error, 'UPDATING color ERROR')
         } finally {
             setLoading(false)
             onClose()
@@ -84,12 +84,12 @@ export const SizeUpdateModal = () => {
     })
 
     useEffect(() => {
-        if (size) {
-            console.log(size)
-            form.setValue('label', size?.label as string);
-            form.setValue('value', size?.value as string);
+        if (color) {
+            console.log(color)
+            form.setValue('label', color?.label as string);
+            form.setValue('value', color?.value as string);
         } // вот так можно реализовывать едитинг формы (т.е. открывается модалка, и когда она загрузилась там уже в полях есть предыдущие значения)
-    }, [form, size])
+    }, [form, color])
 
 
 
@@ -108,7 +108,7 @@ export const SizeUpdateModal = () => {
                                     <FormItem>
                                         <FormLabel>Label</FormLabel>
                                         <FormControl>
-                                            <Input disabled={loading} placeholder="name for you size" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
+                                            <Input disabled={loading} placeholder="name for your color" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
                                         </FormControl>
 
                                         <FormMessage />
@@ -122,7 +122,7 @@ export const SizeUpdateModal = () => {
                                     <FormItem>
                                         <FormLabel>Value</FormLabel>
                                         <FormControl>
-                                            <Input disabled={loading} placeholder="value for size" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
+                                            <Input disabled={loading} placeholder="value for color" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
                                         </FormControl>
 
                                         <FormMessage />

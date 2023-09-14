@@ -19,21 +19,21 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import toast from "react-hot-toast"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import qs from 'query-string'
+import FileUpload from "../ImageUpload"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
 const formSchema = z.object({
     label: z.string().min(1, {
-        message: 'billboard should have a label'
+        message: 'size should have a label'
     }).max(10, { message: 'wowowowow chill out, big name!' }),
-    value: z.string().min(1, ' ').max(3, ' ')
+    value: z.string().min(1, ' ').max(8, ' ')
 })
 
-export const SizeUpdateModal = () => {
-
-
+export const ColorModal = () => {
 
     const { onClose, isOpen, type, data } = useModalStore()
 
@@ -41,32 +41,30 @@ export const SizeUpdateModal = () => {
 
     const [loading, setLoading] = useState(false)
 
-    const isModalOpen = type === 'updateSize' && isOpen
+    const isModalOpen = type === 'createColor' && isOpen
 
-    const { storeId, size } = data
-
-
+    const { storeId } = data
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             setLoading(true)
             const url = qs.stringifyUrl({
-                url: `/api/sizes/${size?.id}/change`,
+                url: `/api/colors`,
                 query: {
                     storeId
                 }
             })
-            const res = await axios.patch(url, values)
-            toast.success('category has been updated!')
+            const res = await axios.post(url, values)
+            toast.success('color has been created!')
             onClose()
-            window.location.assign(`/${storeId}/sizes`)
+            // window.location.assign(`/${storeId}/categories`)
 
 
 
 
         } catch (error) {
             toast.error('something went wrong')
-            console.log(error, 'UPDATING SIZE ERROR')
+            console.log(error, 'CREATING SIZE ERROR')
         } finally {
             setLoading(false)
             onClose()
@@ -79,24 +77,14 @@ export const SizeUpdateModal = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             label: '',
-            value: ''
+            value: '',
         }
     })
-
-    useEffect(() => {
-        if (size) {
-            console.log(size)
-            form.setValue('label', size?.label as string);
-            form.setValue('value', size?.value as string);
-        } // вот так можно реализовывать едитинг формы (т.е. открывается модалка, и когда она загрузилась там уже в полях есть предыдущие значения)
-    }, [form, size])
-
-
 
 
     return (
 
-        < Modal title="update categoty" description="change category name if you want" isOpen={isModalOpen} onClose={onClose}>
+        < Modal title="create a color" description="" isOpen={isModalOpen} onClose={onClose}>
             <div>
                 <div className="py-2 pb-4 space-y-4">
                     <Form {...form}>
@@ -108,7 +96,7 @@ export const SizeUpdateModal = () => {
                                     <FormItem>
                                         <FormLabel>Label</FormLabel>
                                         <FormControl>
-                                            <Input disabled={loading} placeholder="name for you size" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
+                                            <Input disabled={loading} placeholder="name your color" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
                                         </FormControl>
 
                                         <FormMessage />
@@ -117,19 +105,14 @@ export const SizeUpdateModal = () => {
                             />
                             <FormField
                                 control={form.control}
-                                name="value"
+                                name='value'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Value</FormLabel>
-                                        <FormControl>
-                                            <Input disabled={loading} placeholder="value for size" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
-                                        </FormControl>
-
-                                        <FormMessage />
+                                        <FormLabel>Color</FormLabel>
+                                        <Input disabled={loading} placeholder="color for your products" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none " />
                                     </FormItem>
                                 )}
                             />
-
                             <div className="pt-6 justify-self-end items-center justify-end place-self-end w-full flex gap-x-4">
                                 <Button disabled={loading} variant={'outline'} onClick={onClose}>Cancel</Button>
                                 <Button disabled={loading} type="submit" >Submit</Button>

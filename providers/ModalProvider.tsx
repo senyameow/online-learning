@@ -2,11 +2,13 @@
 
 import { BillboardModal } from "@/components/modals/CreateBillboard"
 import { CategoryModal } from "@/components/modals/CreateCategory"
+import { ColorModal } from "@/components/modals/CreateColor"
 import { SizeModal } from "@/components/modals/CreateSize"
 import { DeleteStoreModal } from "@/components/modals/DeleteStoreModal"
 import { StoreModal } from "@/components/modals/StoreModal"
 import { BillboardUpdateModal } from "@/components/modals/UpdateBillboard"
 import { CategoryUpdateModal } from "@/components/modals/UpdateCategory"
+import { ColorUpdateModal } from "@/components/modals/UpdateColor"
 import { SizeUpdateModal } from "@/components/modals/UpdateSize"
 import { useEffect, useState } from "react"
 
@@ -30,6 +32,8 @@ export const ModalProvider = () => {
             <CategoryUpdateModal />
             <SizeModal />
             <SizeUpdateModal />
+            <ColorModal />
+            <ColorUpdateModal />
         </>
     )
 }

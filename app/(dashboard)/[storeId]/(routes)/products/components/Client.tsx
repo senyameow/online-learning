@@ -24,6 +24,7 @@ const ProductClient = ({ items, colors, sizes, categories }: ProductClientProps)
 
     const { onOpen } = useModalStore()
 
+
     return (
         <>
             <div className='flex items-center justify-between'>

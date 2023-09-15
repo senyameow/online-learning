@@ -4,7 +4,7 @@ import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs"
 import { NextResponse } from "next/server"
 
-export async function GET(req: Request, { params }: { params: { billboardId: string } }) {
+export async function GET(req: Request, { params }: { params: { productId: string } }) {
     try {
         const { userId } = auth()
 
@@ -14,19 +14,25 @@ export async function GET(req: Request, { params }: { params: { billboardId: str
 
         const storeId = searchParams.get('storeId')
 
-        if (!params.billboardId) return new NextResponse('No store id provided', { status: 400 })
+        if (!params.productId) return new NextResponse('No store id provided', { status: 400 })
 
-        const billboard = await db.billboard.findUnique({
+        const product = await db.product.findUnique({
             where: {
-                id: params.billboardId,
+                id: params.productId,
                 storeId: storeId as string
+            },
+            include: {
+                Image: true,
+                Color: true,
+                Size: true,
+                Category: true,
             }
         })
 
-        return NextResponse.json(billboard, { status: 200 })
+        return NextResponse.json(product, { status: 200 })
 
     } catch (error) {
-        console.log('GET_BILLBOARD_ERROR', error)
+        console.log('GET_product_ERROR', error)
         return new NextResponse('internal error', { status: 500 })
     }
 }

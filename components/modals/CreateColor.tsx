@@ -25,6 +25,7 @@ import { redirect, useRouter } from "next/navigation"
 import qs from 'query-string'
 import FileUpload from "../ImageUpload"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { Color } from "@prisma/client"
 
 const formSchema = z.object({
     label: z.string().min(1, {
@@ -35,7 +36,7 @@ const formSchema = z.object({
 
 export const ColorModal = () => {
 
-    const { onClose, isOpen, type, data } = useModalStore()
+    const { onClose, isOpen, type, data, onStoreColor } = useModalStore()
 
     const router = useRouter()
 
@@ -55,6 +56,8 @@ export const ColorModal = () => {
                 }
             })
             const res = await axios.post(url, values)
+            const color = res.data
+            onStoreColor({ color })
             toast.success('color has been created!')
             onClose()
             // window.location.assign(`/${storeId}/categories`)
@@ -114,7 +117,7 @@ export const ColorModal = () => {
                                 )}
                             />
                             <div className="pt-6 justify-self-end items-center justify-end place-self-end w-full flex gap-x-4">
-                                <Button disabled={loading} variant={'outline'} onClick={onClose}>Cancel</Button>
+                                <Button disabled={loading} variant={'outline'} onClick={() => onClose()}>Cancel</Button>
                                 <Button disabled={loading} type="submit" >Submit</Button>
                             </div>
                         </form>

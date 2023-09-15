@@ -35,7 +35,7 @@ const formSchema = z.object({
 
 export const SizeModal = () => {
 
-    const { onClose, isOpen, type, data } = useModalStore()
+    const { onClose, isOpen, type, data, onStoreSize } = useModalStore()
 
     const router = useRouter()
 
@@ -55,6 +55,8 @@ export const SizeModal = () => {
                 }
             })
             const res = await axios.post(url, values)
+            const size = res.data
+            onStoreSize({ size })
             toast.success('size has been created!')
             onClose()
             // window.location.assign(`/${storeId}/categories`)
@@ -114,7 +116,7 @@ export const SizeModal = () => {
                                 )}
                             />
                             <div className="pt-6 justify-self-end items-center justify-end place-self-end w-full flex gap-x-4">
-                                <Button disabled={loading} variant={'outline'} onClick={onClose}>Cancel</Button>
+                                <Button disabled={loading} variant={'outline'} onClick={() => onClose()}>Cancel</Button>
                                 <Button disabled={loading} type="submit" >Submit</Button>
                             </div>
                         </form>

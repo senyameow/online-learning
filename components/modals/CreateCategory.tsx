@@ -35,7 +35,7 @@ const formSchema = z.object({
 
 export const CategoryModal = () => {
 
-    const { onClose, isOpen, type, data } = useModalStore()
+    const { onClose, isOpen, type, data, onStoreCategory } = useModalStore()
 
     const router = useRouter()
 
@@ -55,7 +55,9 @@ export const CategoryModal = () => {
                 }
             })
             const res = await axios.post(url, values)
-            toast.success('billboard has been created!')
+            const category = res.data
+            onStoreCategory({ category })
+            toast.success('category has been created!')
             onClose()
             // window.location.assign(`/${storeId}/categories`)
 
@@ -123,7 +125,7 @@ export const CategoryModal = () => {
                                 )}
                             />
                             <div className="pt-6 justify-self-end items-center justify-end place-self-end w-full flex gap-x-4">
-                                <Button disabled={loading} variant={'outline'} onClick={onClose}>Cancel</Button>
+                                <Button disabled={loading} variant={'outline'} onClick={() => onClose()}>Cancel</Button>
                                 <Button disabled={loading} type="submit" >Submit</Button>
                             </div>
                         </form>

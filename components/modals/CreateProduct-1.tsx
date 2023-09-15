@@ -19,7 +19,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { redirect, useRouter } from "next/navigation"
 import qs from 'query-string'
@@ -43,7 +43,7 @@ const formSchema = z.object({
 
 export const ProductModalOne = () => {
 
-    const { onClose, isOpen, type, data, onOpen } = useModalStore()
+    const { onClose, isOpen, type, data, onOpen, Colors, Sizes, Categories } = useModalStore()
 
     const router = useRouter()
 
@@ -53,21 +53,33 @@ export const ProductModalOne = () => {
 
     const { colors, sizes, categories, values, storeId } = data
 
-
+    console.log(Colors, Sizes, Categories)
 
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             label: values?.label || '',
-            isArchived: values?.isArchived || false,
-            isFeatured: values?.isFeatured || false,
+            isArchived: values?.isArchived || undefined,
+            isFeatured: values?.isFeatured || undefined,
             price: values?.price || '',
             category: values?.category || '',
             color: values?.color || '',
             size: values?.size || ''
         }
     })
+
+    useEffect(() => {
+        if (values) {
+            form.setValue('label', values?.label);
+            form.setValue('isArchived', values?.isArchived);
+            form.setValue('isFeatured', values?.isFeatured);
+            form.setValue('price', values?.price);
+            form.setValue('category', values?.category);
+            form.setValue('color', values?.color);
+            form.setValue('size', values?.size);
+        } // вот так можно реализовывать едитинг формы (т.е. открывается модалка, и когда она загрузилась там уже в полях есть предыдущие значения)
+    }, [form, values])
 
     const onNext = async (values: z.infer<typeof formSchema>) => {
         try {
@@ -81,7 +93,7 @@ export const ProductModalOne = () => {
 
     return (
 
-        < Modal title="create a product" description="create a beautiful looking product" isOpen={isModalOpen} onClose={onClose}>
+        < Modal title="create a product" description="create a beautiful looking product" isOpen={isModalOpen} onClose={() => onClose()}>
             <div>
                 <div className="space-y-4">
                     <Form {...form}>
@@ -141,7 +153,7 @@ export const ProductModalOne = () => {
                                                 <SelectValue placeholder={values?.color} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {colors?.map(color => (
+                                                {Colors?.map(color => (
                                                     <SelectItem key={color.id} value={color.id}>{color.label}</SelectItem>
                                                 ))}
                                             </SelectContent>
@@ -162,7 +174,7 @@ export const ProductModalOne = () => {
                                                 <SelectValue placeholder="Theme" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {sizes?.map(size => (
+                                                {Sizes?.map(size => (
                                                     <SelectItem key={size.id} value={size.id}>{size.label}</SelectItem>
                                                 ))}
                                             </SelectContent>
@@ -183,7 +195,7 @@ export const ProductModalOne = () => {
                                                 <SelectValue placeholder="Theme" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {categories?.map(category => (
+                                                {Categories?.map(category => (
                                                     <SelectItem key={category.id} value={category.id}>{category.label}</SelectItem>
                                                 ))}
                                             </SelectContent>

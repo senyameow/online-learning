@@ -73,7 +73,7 @@ export const DeleteStoreModal = () => {
 
 
     return (
-        <Dialog open={isModalOpen} onOpenChange={onClose}> {/* сделаем его по дефолту открытым */}
+        <Dialog open={isModalOpen} onOpenChange={() => onClose()}> {/* сделаем его по дефолту открытым */}
             <DialogContent className='bg-white text-black p-0 overflow-hidden'>
                 <DialogHeader className='pt-8 px-6 flex flex-col gap-3 items-center justify-center'>
                     <DialogTitle className='text-2xl font-bold text-center'>
@@ -88,7 +88,7 @@ export const DeleteStoreModal = () => {
 
                 <DialogFooter className='w-full  bg-gray-100 px-6 py-4'>
                     <div className='flex flex-row justify-between items-center w-full'>
-                        <Button onClick={onClose} className='bg-transparent hover:bg-transparent'>
+                        <Button onClick={() => onClose()} className='bg-transparent hover:bg-transparent'>
                             Cancel
                         </Button>
                         <Button disabled={isLoading} onClick={onDelete} className='text-white hover:text-white hover:bg-indigo-500/90 font-bold bg-indigo-500'>

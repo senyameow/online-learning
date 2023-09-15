@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Action } from "./Action"
 import { Category, Color, Image, Size } from "@prisma/client"
 import { Check, X } from "lucide-react"
+import { useEffect } from "react"
+import { db } from "@/lib/db"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -13,13 +15,16 @@ export type ProductColumn = {
     price: string;
     isFeatured: boolean;
     isArchived: boolean;
+    priceToModal: string;
 
     category: Category;
     size: Size;
-    color: string;
+    color: Color;
 
     created_at: string
 }
+
+
 
 export const columns: ColumnDef<ProductColumn>[] = [
     {
@@ -54,11 +59,17 @@ export const columns: ColumnDef<ProductColumn>[] = [
     {
         accessorKey: "color",
         header: "Color",
-        cell: (table) => (
-            <div className="flex items-center gap-2 w-6 h-6">
-                <div className={`w-6 h-6 rounded-full border border-black`} style={{ backgroundColor: table.row.original.color }} />
-            </div>
-        )
+        cell: (table) => {
+
+
+            return (
+
+                < div className="flex items-center gap-2 w-6 h-6" >
+                    <div className={`w-6 h-6 rounded-full border border-black`} style={{ backgroundColor: table.row.original.color.value as string }} />
+                </div >
+            )
+
+        }
     },
     {
         accessorKey: "created_at",
@@ -66,7 +77,21 @@ export const columns: ColumnDef<ProductColumn>[] = [
     },
     {
         id: 'actions',
-        cell: (table) => <Action product={table.row.original} />
+        cell: (table) => {
+
+            const readyProduct = {
+                id: table.row.original.id,
+                category: table.row.original.category.id,
+                size: table.row.original.size.id,
+                label: table.row.original.label,
+                price: table.row.original.priceToModal,
+                isFeatured: table.row.original.isFeatured,
+                isArchived: table.row.original.isArchived,
+                color: table.row.original.color.id,
+            }
+
+            return (<Action product={readyProduct} />)
+        }
     }
 
 ]

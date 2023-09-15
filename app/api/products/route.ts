@@ -71,6 +71,11 @@ export async function GET(req: Request) {
 
         const storeId = searchParams.get('storeId')
 
+        const colorId = searchParams.get('colorId') || undefined
+        const sizeId = searchParams.get('sizeId') || undefined
+        const categoryId = searchParams.get('categoryId') || undefined
+        const isFeatured = searchParams.get('isFeatured')
+
 
 
         if (!storeId) return new NextResponse('No store id provided', { status: 400 })
@@ -79,7 +84,21 @@ export async function GET(req: Request) {
 
         const products = await db.product.findMany({
             where: {
-                storeId
+                storeId,
+                categoryId,
+                colorId,
+                sizeId,
+                isFeatured: isFeatured ? true : undefined,
+                isArchived: false
+            },
+            include: {
+                Color: true,
+                Size: true,
+                Category: true,
+                Image: true,
+            },
+            orderBy: {
+                created_at: 'desc'
             }
         })
 

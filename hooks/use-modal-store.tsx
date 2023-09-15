@@ -5,6 +5,7 @@ import { ProductColumn } from '@/app/(dashboard)/[storeId]/(routes)/products/com
 import { SizesColumn } from '@/app/(dashboard)/[storeId]/(routes)/sizes/components/columns';
 import { Billboard, Category, Color, Size, Store } from '@prisma/client';
 import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
 export type ModalType = 'createStore' | 'deleteStore' | 'createBillboard' | 'updateBillboard' | 'updateCategory' | 'createCategory' | 'createSize' | 'updateSize' | 'createColor' | 'updateColor' | 'createProduct-1' | 'createProduct-2' | 'updateProduct'
 
@@ -34,20 +35,47 @@ interface ModalData {
         color: string;
     }
 }
+// interface Constants {
+//     colors?: Color[]
+//     sizes?: Size[];
+//     categories?: Category[]
+// }
+
+
 
 interface ModalStoreProps {
     type: ModalType | null;
     data: ModalData;
+    Colors: Color[];
+    Sizes: Size[];
+    Categories: Category[];
     isOpen: boolean;
     onOpen: (type: ModalType, data?: ModalData) => void;
     onClose: () => void;
+    onStoreSize: ({ size }: { size: any }) => void;
+    onStoreColor: ({ color }: { color: any }) => void;
+    onStoreCategory: ({ category }: { category: any }) => void;
 }
 
-export const useModalStore = create<ModalStoreProps>((set) => ({
-    type: null,
-    data: {},
-    isOpen: false,
-    onOpen: (type, data = {}) => set({ isOpen: true, type: type, data }),
-    onClose: () => set({ isOpen: false, type: null, data: {} }),
-}))
+export const useModalStore = create<ModalStoreProps, [["zustand/persist", ModalStoreProps]]>(
+    persist((set, get) => ({
+        type: null,
+        data: {},
+        Colors: [],
+        Sizes: [],
+        Categories: [],
+        isOpen: false,
+        onOpen: (type: any, data = {}) => set({ isOpen: true, type: type, data }),
+        onClose: () => set({ isOpen: false, type: null, data: {} }),
+        onStoreSize: ({ size }: { size: any }) => set((state: any) => ({ Sizes: [...state.Sizes, size] })),
+        onStoreColor: ({ color }: { color: any }) => set((state: any) => ({ Colors: [...state.Colors, color] })),
+        onStoreCategory: ({ category }: { category: any }) => set((state: any) => ({ Categories: [...state.Categories, category] })),
+    }),
+
+        {
+            name: 'qwe'
+        }
+
+
+    ))
 

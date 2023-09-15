@@ -34,6 +34,8 @@ const BillboardPage = async ({ params }: BillboardPageProps) => {
         redirect('/')
     }
 
+
+
     const products = await db.product.findMany({
         where: {
             storeId: store.id,
@@ -56,9 +58,10 @@ const BillboardPage = async ({ params }: BillboardPageProps) => {
         isFeatured: product.isFeatured,
         isArchived: product.isArchived,
         price: formatter.format(product.price.toNumber()),
+        priceToModal: product.price.toString(),
         category: product.Category,
         size: product.Size,
-        color: product.Color.value,
+        color: product.Color,
         created_at: format(product.created_at, 'MMMM do, yyyy'),
     }))
 

@@ -18,9 +18,22 @@ import { useParams } from "next/navigation"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { ProductColumn } from "./columns"
+import { Category, Color, Size } from "@prisma/client"
 
 interface ActionProps {
-    product: ProductColumn
+    product: {
+        id: string;
+        category: string;
+        size: string;
+        label: string;
+        price: string;
+        isFeatured: boolean;
+        isArchived: boolean;
+        color: string;
+    } | undefined
+    colors?: Color[]
+    categories?: Category[]
+    sizes?: Size[]
 }
 
 const onCopy = (id: string) => {
@@ -28,7 +41,9 @@ const onCopy = (id: string) => {
     toast.success(`copied`)
 }
 
-export const Action = ({ product }: ActionProps) => {
+export const Action = ({ product, colors, categories, sizes }: ActionProps) => {
+
+    console.log(colors, sizes, categories)
 
     const router = useRouter()
 
@@ -41,8 +56,8 @@ export const Action = ({ product }: ActionProps) => {
     const onDelete = async () => {
         try {
             setIsLoading(true)
-            await axios.delete(`/api/billboards/${product.id}/delete`)
-            toast.success(`product ${product.label} successfully deleted`)
+            await axios.delete(`/api/billboards/${product?.id}/delete`)
+            toast.success(`product ${product?.label} successfully deleted`)
             router.refresh()
 
 
@@ -62,13 +77,13 @@ export const Action = ({ product }: ActionProps) => {
             <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem disabled={isLoading} onClick={() => onCopy(product.id)}>
+                <DropdownMenuItem disabled={isLoading} onClick={() => onCopy(product?.id!)}>
                     <div className="flex flex-row items-center">
                         <Copy className="w-4 h-4 mr-2" />
                         Copy id
                     </div>
                 </DropdownMenuItem>
-                <DropdownMenuItem disabled={isLoading} onClick={() => onOpen('updateProduct', { product, storeId: params?.storeId as string })}>
+                <DropdownMenuItem disabled={isLoading} onClick={() => onOpen('createProduct-1', { values: product, storeId: params?.storeId as string, colors, categories, sizes })}>
                     <div className="flex flex-row items-center">
                         <Edit className="w-4 h-4 mr-2" />
                         Update

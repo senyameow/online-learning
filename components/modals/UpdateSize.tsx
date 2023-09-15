@@ -131,7 +131,7 @@ export const SizeUpdateModal = () => {
                             />
 
                             <div className="pt-6 justify-self-end items-center justify-end place-self-end w-full flex gap-x-4">
-                                <Button disabled={loading} variant={'outline'} onClick={onClose}>Cancel</Button>
+                                <Button disabled={loading} variant={'outline'} onClick={() => onClose()}>Cancel</Button>
                                 <Button disabled={loading} type="submit" >Submit</Button>
                             </div>
                         </form>

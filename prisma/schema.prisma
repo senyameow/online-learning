@@ -138,8 +138,7 @@ model Order {
 }
 
 model OrderItem {
-  id    String  @id @default(uuid())
-  total Decimal
+  id String @id @default(uuid())
 
   productId String
   Product   Product @relation(fields: [productId], references: [id])

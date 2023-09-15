@@ -31,9 +31,11 @@ interface ActionProps {
         isArchived: boolean;
         color: string;
     } | undefined
-    colors?: Color[]
-    categories?: Category[]
-    sizes?: Size[]
+    defaultVal: {
+        color: Color,
+        size: Size,
+        category: Category,
+    }
 }
 
 const onCopy = (id: string) => {
@@ -41,9 +43,8 @@ const onCopy = (id: string) => {
     toast.success(`copied`)
 }
 
-export const Action = ({ product, colors, categories, sizes }: ActionProps) => {
+export const Action = ({ product, defaultVal }: ActionProps) => {
 
-    console.log(colors, sizes, categories)
 
     const router = useRouter()
 
@@ -56,7 +57,7 @@ export const Action = ({ product, colors, categories, sizes }: ActionProps) => {
     const onDelete = async () => {
         try {
             setIsLoading(true)
-            await axios.delete(`/api/billboards/${product?.id}/delete`)
+            await axios.delete(`/api/products/${product?.id}/delete`)
             toast.success(`product ${product?.label} successfully deleted`)
             router.refresh()
 
@@ -83,7 +84,7 @@ export const Action = ({ product, colors, categories, sizes }: ActionProps) => {
                         Copy id
                     </div>
                 </DropdownMenuItem>
-                <DropdownMenuItem disabled={isLoading} onClick={() => onOpen('createProduct-1', { values: product, storeId: params?.storeId as string, colors, categories, sizes })}>
+                <DropdownMenuItem disabled={isLoading} onClick={() => onOpen('updateProduct', { values: product, storeId: params?.storeId as string, defaultVal, productId: product?.id })}>
                     <div className="flex flex-row items-center">
                         <Edit className="w-4 h-4 mr-2" />
                         Update

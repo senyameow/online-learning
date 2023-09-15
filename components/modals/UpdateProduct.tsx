@@ -21,7 +21,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
-import { redirect, useRouter } from "next/navigation"
+import { redirect, useParams, useRouter } from "next/navigation"
 import qs from 'query-string'
 import FileUpload from "../ImageUpload"
 import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
@@ -41,7 +41,8 @@ const formSchema = z.object({
     size: z.string().min(1, ' ')
 })
 
-export const ProductModalOne = () => {
+export const UpdateProduct = () => {
+
 
     const { onClose, isOpen, type, data, onOpen, Colors, Sizes, Categories } = useModalStore()
 
@@ -49,11 +50,10 @@ export const ProductModalOne = () => {
 
     const [loading, setLoading] = useState(false)
 
-    const isModalOpen = type === 'createProduct-1' && isOpen
+    const isModalOpen = type === 'updateProduct' && isOpen
 
-    const { colors, sizes, categories, values, storeId, defaultVal } = data
+    const { values, storeId, defaultVal, productId } = data
 
-    console.log(Colors, Sizes, Categories)
 
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -63,9 +63,9 @@ export const ProductModalOne = () => {
             isArchived: values?.isArchived || undefined,
             isFeatured: values?.isFeatured || undefined,
             price: values?.price || '',
-            category: values?.category || 'ZCXC',
-            color: values?.color,
-            size: values?.size
+            category: values?.category || '',
+            color: values?.color || '',
+            size: values?.size || ''
         }
     })
 
@@ -83,23 +83,41 @@ export const ProductModalOne = () => {
         } // вот так можно реализовывать едитинг формы (т.е. открывается модалка, и когда она загрузилась там уже в полях есть предыдущие значения)
     }, [form, values])
 
-    const onNext = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            console.log(values)
-            onOpen('createProduct-2', { values, colors, sizes, categories, storeId, defaultVal })
+            setLoading(true)
+            const url = qs.stringifyUrl({
+                url: `/api/products/${productId}/change`,
+                query: {
+                    storeId
+                }
+            })
+            const res = await axios.patch(url, values)
+            toast.success('product has been changed!')
+            onClose()
+            router.refresh()
+
+
+
+
         } catch (error) {
-            console.log(error)
+            toast.error('something went wrong')
+            console.log(error, 'CREATING PRODUCT ERROR')
+        } finally {
+            setLoading(false)
+            onClose()
+            router.refresh()
         }
     }
 
 
     return (
 
-        < Modal title="create a product" description="create a beautiful looking product" isOpen={isModalOpen} onClose={() => onClose()}>
+        < Modal title="update your product info" description="adjust price or name or whatever..." isOpen={isModalOpen} onClose={() => onClose()}>
             <div>
                 <div className="space-y-4">
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onNext)} className="space-y-8">
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                             <FormField
 
                                 control={form.control}
@@ -150,9 +168,9 @@ export const ProductModalOne = () => {
                                 render={({ field }) => (
                                     <FormItem className="space-y-0">
                                         <FormLabel>Color</FormLabel>
-                                        <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                                        <Select disabled={loading} onValueChange={field.onChange}>
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder={'Theme'} />
+                                                <SelectValue placeholder={defaultVal?.color.label} />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {Colors?.map(color => (
@@ -171,9 +189,9 @@ export const ProductModalOne = () => {
                                 render={({ field }) => (
                                     <FormItem className="space-y-0">
                                         <FormLabel>Size</FormLabel>
-                                        <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                                        <Select disabled={loading} onValueChange={field.onChange}>
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder={'Theme'} />
+                                                <SelectValue placeholder={defaultVal?.size.label} />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {Sizes?.map(size => (
@@ -192,9 +210,9 @@ export const ProductModalOne = () => {
                                 render={({ field }) => (
                                     <FormItem className="space-y-0">
                                         <FormLabel>Category</FormLabel>
-                                        <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                                        <Select disabled={loading} onValueChange={field.onChange}>
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder={'Theme'} />
+                                                <SelectValue placeholder={defaultVal?.category.label} />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {Categories?.map(category => (
@@ -243,7 +261,7 @@ export const ProductModalOne = () => {
 
                             <div className=" justify-self-end items-center justify-end place-self-end w-full flex gap-x-4">
                                 <Button disabled={loading} variant={'outline'} onClick={onClose}>Cancel</Button>
-                                <Button disabled={loading} type="submit" >Next</Button>
+                                <Button disabled={loading} type="submit" >Save</Button>
                             </div>
                         </form>
                     </Form>

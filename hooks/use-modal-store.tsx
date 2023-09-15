@@ -34,6 +34,12 @@ interface ModalData {
         isArchived: boolean;
         color: string;
     }
+    defaultVal?: {
+        color: Color,
+        size: Size,
+        category: Category,
+    },
+    productId?: string;
 }
 // interface Constants {
 //     colors?: Color[]

@@ -90,7 +90,13 @@ export const columns: ColumnDef<ProductColumn>[] = [
                 color: table.row.original.color.id,
             }
 
-            return (<Action product={readyProduct} />)
+            const defaultVal = {
+                color: table.row.original.color,
+                size: table.row.original.size,
+                category: table.row.original.category,
+            }
+
+            return (<Action product={readyProduct} defaultVal={defaultVal} />)
         }
     }
 

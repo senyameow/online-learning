@@ -42,7 +42,7 @@ export const ProductModalTwo = () => {
 
     const isModalOpen = type === 'createProduct-2' && isOpen
 
-    const { storeId, values: firstValues, colors, sizes, categories } = data
+    const { storeId, values: firstValues, colors, sizes, categories, defaultVal } = data
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
 
@@ -82,7 +82,7 @@ export const ProductModalTwo = () => {
     })
 
     const onPrev = () => {
-        onOpen('createProduct-1', { values: firstValues, categories, colors, sizes })
+        onOpen('createProduct-1', { values: firstValues, categories, colors, sizes, defaultVal })
     }
 
 

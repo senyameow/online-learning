@@ -6,9 +6,6 @@ import { NextResponse } from "next/server"
 
 export async function GET(req: Request, { params }: { params: { productId: string } }) {
     try {
-        const { userId } = auth()
-
-        if (!userId) return new NextResponse('Unauthorized', { status: 401 })
 
         const { searchParams } = new URL(req.url)
 

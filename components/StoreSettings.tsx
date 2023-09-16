@@ -96,7 +96,9 @@ const StoreSettings = ({ name, storeId }: StoreSettingsProps) => {
                 </form>
             </Form>
             <Separator />
-            <ApiAlert title='something' description={`${origin}/api/${storeId}`} variant='public' />
+            <ApiAlert title='Categories' description={`${origin}/api/categories?storeId=${storeId}`} variant='public' />
+            <ApiAlert title='Billboards' description={`${origin}/api/billboards?storeId=${storeId}`} variant='public' />
+            <ApiAlert title='Products' description={`${origin}/api/products?storeId=${storeId}`} variant='public' />
         </>
     )
 }

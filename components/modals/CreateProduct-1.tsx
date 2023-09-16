@@ -53,17 +53,16 @@ export const ProductModalOne = () => {
 
     const { colors, sizes, categories, values, storeId, defaultVal } = data
 
-    console.log(Colors, Sizes, Categories)
 
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             label: values?.label || '',
-            isArchived: values?.isArchived || undefined,
-            isFeatured: values?.isFeatured || undefined,
+            isArchived: values?.isArchived || false,
+            isFeatured: values?.isFeatured || false,
             price: values?.price || '',
-            category: values?.category || 'ZCXC',
+            category: values?.category || '',
             color: values?.color,
             size: values?.size
         }
@@ -152,7 +151,7 @@ export const ProductModalOne = () => {
                                         <FormLabel>Color</FormLabel>
                                         <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder={'Theme'} />
+                                                <SelectValue placeholder={''} />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {Colors?.map(color => (
@@ -173,7 +172,7 @@ export const ProductModalOne = () => {
                                         <FormLabel>Size</FormLabel>
                                         <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder={'Theme'} />
+                                                <SelectValue placeholder={''} />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {Sizes?.map(size => (

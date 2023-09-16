@@ -34,3 +34,25 @@ export async function POST(req: Request) {
         return new NextResponse('internal error', { status: 500 })
     }
 }
+
+export async function GET(req: Request) {
+    try {
+
+        const { searchParams } = new URL(req.url)
+        const storeId = searchParams.get('storeId')
+
+        if (!storeId) return new NextResponse(`no store id provided`, { status: 401 })
+
+        const categories = await db.category.findMany({
+            where: {
+                storeId
+            }
+        })
+
+        return NextResponse.json(categories, { status: 200 })
+
+    } catch (error) {
+        console.log(error)
+        return new NextResponse('internal error', { status: 500 })
+    }
+}

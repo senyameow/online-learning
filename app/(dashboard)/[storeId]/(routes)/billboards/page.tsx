@@ -1,10 +1,10 @@
 import StoreSettings from "@/components/StoreSettings"
-import BillboardClient from "@/components/billboard/BillboardClient"
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs"
 import { redirect } from "next/navigation"
 import { format } from 'date-fns'
 import { BillboardColumn } from "./components/columns"
+import BillboardClient from "./components/Client"
 
 interface BillboardPageProps {
     params: {

@@ -3,7 +3,6 @@ import React from 'react'
 import Heading from '@/components/Heading'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { DataTable } from '@/components/ui/DataTable'
-import { ApiList } from '@/components/ApiList'
 import { OrdersColumn, columns } from './columns'
 interface OrderClientProps {
     items: OrdersColumn[];

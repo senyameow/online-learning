@@ -41,13 +41,6 @@ interface ModalData {
     },
     productId?: string;
 }
-// interface Constants {
-//     colors?: Color[]
-//     sizes?: Size[];
-//     categories?: Category[]
-// }
-
-
 
 interface ModalStoreProps {
     type: ModalType | null;
@@ -77,11 +70,8 @@ export const useModalStore = create<ModalStoreProps, [["zustand/persist", ModalS
         onStoreColor: ({ color }: { color: any }) => set((state: any) => ({ Colors: [...state.Colors, color] })),
         onStoreCategory: ({ category }: { category: any }) => set((state: any) => ({ Categories: [...state.Categories, category] })),
     }),
-
         {
             name: 'qwe'
         }
-
-
     ))
 

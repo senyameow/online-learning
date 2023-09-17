@@ -35,3 +35,24 @@ export async function POST(req: Request) {
         return new NextResponse('internal error', { status: 500 })
     }
 }
+export async function GET(req: Request) {
+    try {
+
+        const { searchParams } = new URL(req.url)
+
+        const storeId = searchParams.get('storeId')
+
+        const sizes = await db.size.findMany({
+            where: {
+                storeId: storeId as string
+            }
+        })
+
+        return NextResponse.json(sizes, { status: 200 })
+
+    } catch (error) {
+        console.log('CREATE_SIZE_ERROR', error)
+        return new NextResponse('internal error', { status: 500 })
+    }
+}
+

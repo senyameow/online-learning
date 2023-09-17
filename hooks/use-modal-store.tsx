@@ -57,7 +57,7 @@ interface ModalStoreProps {
 }
 
 export const useModalStore = create<ModalStoreProps, [["zustand/persist", ModalStoreProps]]>(
-    persist((set, get) => ({
+    persist((set) => ({
         type: null,
         data: {},
         Colors: [],

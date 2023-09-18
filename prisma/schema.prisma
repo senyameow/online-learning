@@ -123,13 +123,12 @@ model Image {
 
 model Order {
   id        String      @id @default(uuid())
-  paid      Boolean     @default(false)
-  total     Decimal
   storeId   String
   Store     Store       @relation(fields: [storeId], references: [id])
   OrderItem OrderItem[]
-  phone     String
-  address   String
+  paid      Boolean     @default(false)
+  phone     String      @default("")
+  address   String      @default("")
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

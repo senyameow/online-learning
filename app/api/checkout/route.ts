@@ -13,7 +13,7 @@ export async function OPTIONS() {
     return NextResponse.json({}, { headers: corsHeaders })
 }
 
-export default async function POST(req: Request) {
+export async function POST(req: Request) {
     try {
 
         const { searchParams } = new URL(req.url)

@@ -5,6 +5,7 @@ import MainNav from './MainNav'
 import Switcher from './Switcher'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
+import { ModeToggle } from './ModeToggle'
 
 const Navbar = async () => {
 
@@ -25,7 +26,7 @@ const Navbar = async () => {
             <Switcher items={stores} />
             <MainNav className='mx-8' />
             <div className='flex flex-row items-center gap-[10px] ml-auto'>
-                <span>mode</span>
+                <ModeToggle />
                 <UserButton afterSignOutUrl='/' />
             </div>
         </div>

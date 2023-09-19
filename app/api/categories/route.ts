@@ -46,6 +46,9 @@ export async function GET(req: Request) {
         const categories = await db.category.findMany({
             where: {
                 storeId
+            },
+            orderBy: {
+                created_at: 'desc'
             }
         })
 

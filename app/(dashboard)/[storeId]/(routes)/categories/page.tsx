@@ -1,5 +1,4 @@
 import StoreSettings from "@/components/StoreSettings"
-import BillboardClient from "@/components/billboard/BillboardClient"
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs"
 import { redirect } from "next/navigation"

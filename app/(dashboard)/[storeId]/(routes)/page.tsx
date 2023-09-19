@@ -1,8 +1,10 @@
+import getMonthlyRevenue from '@/actions/getMonthlyRevenue'
 import getTotalProducts from '@/actions/getTotalProducts'
 import getTotalRevenue from '@/actions/getTotalRevenue'
 import getTotalSales from '@/actions/getTotalSales'
 import CardOverview from '@/components/CardOverview'
 import Heading from '@/components/Heading'
+import Overview from '@/components/Overview'
 import { Separator } from '@/components/ui/separator'
 import { formatter } from '@/lib/utils'
 import { CreditCard, DollarSign, Package } from 'lucide-react'
@@ -20,6 +22,8 @@ const Dashboard = async ({ params }: DashboardProps) => {
     const totalSales = await getTotalSales(params.storeId)
     const totalProducts = await getTotalProducts(params.storeId)
 
+    const data = await getMonthlyRevenue(params.storeId)
+
     return (
         <div className='flex flex-col'>
             <div className='flex-1 p-8 pt-6 space-y-8'>
@@ -35,10 +39,11 @@ const Dashboard = async ({ params }: DashboardProps) => {
                     <CardOverview title='Products in stock' icon={Package}>
                         {totalProducts}
                     </CardOverview>
-                </div>
-                <div>
 
                 </div>
+                <CardOverview title='Overview'>
+                    <Overview data={data} />
+                </CardOverview>
             </div>
         </div>
     )

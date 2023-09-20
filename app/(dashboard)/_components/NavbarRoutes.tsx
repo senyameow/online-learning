@@ -22,7 +22,7 @@ const NavbarRoutes = () => {
 
     return (
         <div className='flex flex-row items-center gap-4 '>
-            {teacherPage ? <Button onClick={onExitTeacher} className='text-md font-bold'>
+            {teacherPage ? <Button variant={'ghost'} onClick={onExitTeacher} className='text-md font-bold'>
                 <LogOut className='w-4 h-4 mr-2' />
                 Exit
             </Button> : <Button variant={'ghost'} onClick={onOpenTeacher} className='text-md font-bold'>

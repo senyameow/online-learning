@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input'
 import toast from 'react-hot-toast'
 import { db } from '@/lib/db'
 import { useRouter } from 'next/navigation'
+import EmojiPicker from '@/components/EmojiPicker'
 
 interface TitleFormProps {
     course: Course
@@ -70,7 +71,12 @@ const TitleForm = ({ course }: TitleFormProps) => {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormControl>
-                                            <Input disabled={isSubmitting} placeholder="" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none font-normal" />
+                                            <div className='relative'>
+                                                <Input disabled={isSubmitting} placeholder="" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none font-normal relative" />
+                                                <div className='absolute top-2 right-2'>
+                                                    <EmojiPicker onChange={(emoji: string) => field.onChange(`${field.value}${emoji}`)} />
+                                                </div>
+                                            </div>
                                         </FormControl>
 
                                         <FormMessage />

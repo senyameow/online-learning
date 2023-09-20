@@ -9,6 +9,7 @@ import React from 'react'
 import TitleForm from './_components/TitleForm'
 import { Description } from '@radix-ui/react-dialog'
 import DescriptionForm from './_components/DescriptionForm'
+import ImageForm from './_components/ImageForm'
 
 interface CoursePageProps {
     params: {
@@ -71,9 +72,8 @@ const CoursePage = async ({ params }: CoursePageProps) => {
                         </div>
                         <TitleForm course={course} />
                         <DescriptionForm course={course} />
-                        <div>qwe</div>
-                        <div>qwe</div>
-                        <div>qwe</div>
+                        <ImageForm course={course} />
+
                     </div>
                     <div className=''>qwe</div>
                 </div>

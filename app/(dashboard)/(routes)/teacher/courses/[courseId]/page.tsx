@@ -30,6 +30,12 @@ const CoursePage = async ({ params }: CoursePageProps) => {
         }
     })
 
+    const categories = await db.category.findMany({
+        orderBy: {
+            title: 'asc'
+        }
+    })
+
     if (!course) return redirect('/')
 
     const steps = [

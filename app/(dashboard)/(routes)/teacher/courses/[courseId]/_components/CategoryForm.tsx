@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { Course } from '@prisma/client'
+import { Category, Course } from '@prisma/client'
 import { Pencil, X } from 'lucide-react'
 import React, { useState } from 'react'
 
@@ -16,29 +16,14 @@ import { useRouter } from 'next/navigation'
 import EmojiPicker from '@/components/EmojiPicker'
 
 interface TitleFormProps {
+    categories: Category[],
     course: Course
 }
 
-const formSchema = z.object({
-    title: z.string().min(3, {
-        message: 'course should have a title'
-    }).max(12, { message: 'wowowowow chill out, big title!' }),
-})
 
-const TitleForm = ({ course }: TitleFormProps) => {
 
-    const router = useRouter()
+const TitleForm = ({ categories, course }: TitleFormProps) => {
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            title: course?.title,
-        }
-    })
-
-    const [isOpen, setIsOpen] = useState(false)
-
-    const { isValid, isSubmitting } = form.formState
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {

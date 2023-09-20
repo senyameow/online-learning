@@ -22,7 +22,7 @@ model Course {
 
   categoryId String?
   Category   Category?    @relation(fields: [categoryId], references: [id])
-  Chapter    Chapter[]
+  // Chapter    Chapter[]
   Attachment Attachment[]
 
   created_at DateTime @default(now())
@@ -31,20 +31,20 @@ model Course {
   @@index([categoryId])
 }
 
-model Chapter {
-  id          String  @id @default(uuid())
-  title       String
-  isFree      Boolean @default(false)
-  isPublished Boolean @default(false)
+// model Chapter {
+//   id          String  @id @default(uuid())
+//   title       String
+//   isFree      Boolean @default(false)
+//   isPublished Boolean @default(false)
 
-  courseId String
-  Course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+//   courseId String
+//   Course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+//   created_at DateTime @default(now())
+//   updated_at DateTime @updatedAt
 
-  @@index([courseId])
-}
+//   @@index([courseId])
+// }
 
 model Category {
   id    String @id @default(uuid())

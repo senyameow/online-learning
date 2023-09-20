@@ -17,13 +17,11 @@ const SidebarRoutes = () => {
             label: 'Dashboard',
             icon: Layout,
             href: `/`,
-            active: pathname === `/${params.storeId}/`
         },
         {
             label: 'Browse',
             icon: Compass,
-            href: `/search`,
-            active: pathname === `/${params.storeId}/`
+            href: `/browse`,
         },
     ]
 
@@ -32,7 +30,7 @@ const SidebarRoutes = () => {
     return (
         <div className='w-full flex flex-col'>
             {routes.map(route => (
-                <SidebarRoute key={route.href} href={route.href} title={route.label} active={route.active} icon={route.icon} />
+                <SidebarRoute key={route.href} href={route.href} title={route.label} icon={route.icon} />
             ))}
         </div>
     )

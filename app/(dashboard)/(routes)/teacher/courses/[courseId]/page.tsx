@@ -6,6 +6,9 @@ import { auth } from '@clerk/nextjs'
 import { LayoutDashboard, Trash } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import React from 'react'
+import TitleForm from './_components/TitleForm'
+import { Description } from '@radix-ui/react-dialog'
+import DescriptionForm from './_components/DescriptionForm'
 
 interface CoursePageProps {
     params: {
@@ -61,17 +64,18 @@ const CoursePage = async ({ params }: CoursePageProps) => {
                     </div>
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                    <div className='border'>
-                        <div className='flex items-center gap-4'>
+                    <div className='space-y-4'>
+                        <div className='flex items-center gap-4 mb-4'>
                             <IconCourse icon={LayoutDashboard} />
                             <h2 className='text-2xl font-semibold'>Customize Your Course</h2>
                         </div>
-                        <div>qwe</div>
+                        <TitleForm course={course} />
+                        <DescriptionForm course={course} />
                         <div>qwe</div>
                         <div>qwe</div>
                         <div>qwe</div>
                     </div>
-                    <div className='border'>qwe</div>
+                    <div className=''>qwe</div>
                 </div>
             </div>
         </div>

@@ -14,6 +14,7 @@ import toast from 'react-hot-toast'
 import { db } from '@/lib/db'
 import { useRouter } from 'next/navigation'
 import ChapterCard from './ChapterCard'
+import ChapterList from './ChapterList'
 
 interface ChapterFormProps {
     courseId: string;
@@ -50,9 +51,19 @@ const ChapterForm = ({ courseId, chapters }: ChapterFormProps) => {
         }
     }
 
+    const onReorder = async (updatedData: { id: string, position: number }[]) => {
+        try {
+            await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+                list: updatedData
+            })
+        } catch (error) {
+            toast.error(`something went wrong`)
+        }
+    }
+
     return (
-        <div className='p-4 pt-6 pr-6 bg-blue-100 font-bold rounded-md border'>
-            <div>
+        <div className={`p-4 pt-6 pr-6 bg-blue-100 font-bold rounded-md border min-h-fit `}>
+            <div className={`h-[${chapters.length * 60 + 900}px]`}>
                 <div className='flex flex-row items-center justify-between w-full mb-4'>
                     <span className='text-2xl'>Chapters</span>
                     <Button onClick={() => setIsOpen(!isOpen)} className='flex items-center'>
@@ -61,11 +72,9 @@ const ChapterForm = ({ courseId, chapters }: ChapterFormProps) => {
                     </Button>
                 </div>
                 {chapters.length === 0 && !isOpen && <div className='italic text-neutral-400 text-sm'>No chapters added</div>}
-                <ul className='flex flex-col gap-2'>
-                    {chapters.map(chapter => (
-                        <ChapterCard courseId={courseId} isPublished={chapter.isPublished!} isFree={chapter.isFree!} key={chapter.id} title={chapter.title} id={chapter.id} />
-                    ))}
-                </ul>
+                <div className={`h-[${chapters.length * 90 + 300}px] min-h-full`}>
+                    <ChapterList onReorder={onReorder} items={chapters} courseId={courseId} />
+                </div>
                 {!isOpen ? <div className='mt-2'>
                 </div> : (
                     <Form {...form}>

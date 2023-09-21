@@ -26,11 +26,11 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
                 courseId: params.courseId,
             },
             orderBy: {
-                position: 'desc'
-            }
-        })
+                position: "desc",
+            },
+        });
 
-        const newPosition = lastChapter?.position ? lastChapter.position + 1 : 1
+        const newPosition = lastChapter ? lastChapter.position! + 1 : 1;
 
         const chapter = await db.chapter.create({
             data: {
@@ -38,7 +38,7 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
                 courseId: params.courseId,
                 position: newPosition,
             }
-        })
+        });
 
         return NextResponse.json(chapter, { status: 200 })
 

@@ -7,6 +7,8 @@ import { redirect } from 'next/navigation'
 import React from 'react'
 import TitleForm from './_components/TitleForm'
 import Back from '@/components/Back'
+import DescriptionForm from './_components/DescriptionForm'
+import { PlanForm } from './_components/PlanForm'
 
 const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
 
@@ -36,8 +38,8 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
             <div className='mt-4 ml-4'>
                 <Back />
             </div>
-            <div className='h-full p-6 '>
-                <div className='w-full flex items-center justify-between pb-12'>
+            <div className='h-full p-6 pb-4 '>
+                <div className='w-full flex items-center justify-between pb-8'>
                     <div className='flex flex-col gap-2'>
                         <span className='text-2xl font-bold'>Course Setup</span>
                         <span className='text-sm text-neutral-500'>Completed fields ({progress})</span>
@@ -58,9 +60,8 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                             <h2 className='text-2xl font-semibold'>Customize Your Chapter</h2>
                         </div>
                         <TitleForm courseId={params.courseId} chapter={chapter} />
-                        {/* <DescriptionForm course={course} />
-                        <ImageForm course={course} />
-                        <CategoryForm categories={categories} course={course} /> */}
+                        <DescriptionForm courseId={params.courseId} chapter={chapter} />
+                        <PlanForm courseId={params.courseId} chapter={chapter} />
 
 
                     </div>

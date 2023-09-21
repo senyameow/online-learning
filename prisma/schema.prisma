@@ -32,12 +32,12 @@ model Course {
 }
 
 model Chapter {
-  id          String  @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
-  description String? @db.Text
-  isFree      Boolean @default(false)
-  isPublished Boolean @default(false)
-  video_url   String  @db.Text
+  description String?  @db.Text
+  isFree      Boolean? @default(false)
+  isPublished Boolean? @default(false)
+  video_url   String?  @db.Text
 
   muxData MuxData? // для Mux
 

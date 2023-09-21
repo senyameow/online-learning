@@ -13,6 +13,7 @@ import ImageForm from './_components/ImageForm'
 import CategoryForm from './_components/CategoryForm'
 import PriceForm from './_components/PriceForm'
 import FilesForm from './_components/FilesForm'
+import ChapterForm from './_components/ChapterForm'
 
 interface CoursePageProps {
     params: {
@@ -47,6 +48,12 @@ const CoursePage = async ({ params }: CoursePageProps) => {
         }
     })
 
+    const chapters = await db.chapter.findMany({
+        where: {
+            courseId: params.courseId,
+        }
+    })
+
     if (!course) return redirect('/')
 
     const steps = [
@@ -67,7 +74,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
         <div className=''>
             {!course.isPublished && <Warning />}
             <div className='h-full p-6 '>
-                <div className='w-full border flex items-center justify-between pb-20'>
+                <div className='w-full flex items-center justify-between pb-12'>
                     <div className='flex flex-col gap-2'>
                         <span className='text-2xl font-bold'>Course Setup</span>
                         <span className='text-sm text-neutral-500'>Completed fields ({progress})</span>
@@ -99,7 +106,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
                             <IconCourse icon={ListChecks} />
                             <h2 className='text-2xl font-semibold'>Chapters</h2>
                         </div>
-                        <div>CHAPTERS WILL BE HERE</div>
+                        <ChapterForm courseId={course.id} chapters={chapters} />
                         <div className='flex items-center gap-4 mb-4'>
                             <IconCourse icon={DollarSign} />
                             <h2 className='text-2xl font-semibold'>Sell Your Course</h2>

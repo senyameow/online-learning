@@ -3,7 +3,7 @@ import IconCourse from '@/components/IconCourse'
 import { Button } from '@/components/ui/button'
 import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs'
-import { DollarSign, LayoutDashboard, ListChecks, Trash } from 'lucide-react'
+import { DollarSign, File, LayoutDashboard, ListChecks, Trash } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import TitleForm from './_components/TitleForm'
@@ -12,6 +12,7 @@ import DescriptionForm from './_components/DescriptionForm'
 import ImageForm from './_components/ImageForm'
 import CategoryForm from './_components/CategoryForm'
 import PriceForm from './_components/PriceForm'
+import FilesForm from './_components/FilesForm'
 
 interface CoursePageProps {
     params: {
@@ -35,6 +36,14 @@ const CoursePage = async ({ params }: CoursePageProps) => {
     const categories = await db.category.findMany({
         orderBy: {
             title: 'asc'
+        }
+    })
+    const attachments = await db.attachment.findMany({
+        where: {
+            courseId: params.courseId
+        },
+        orderBy: {
+            title: 'asc',
         }
     })
 
@@ -96,6 +105,11 @@ const CoursePage = async ({ params }: CoursePageProps) => {
                             <h2 className='text-2xl font-semibold'>Sell Your Course</h2>
                         </div>
                         <PriceForm course={course} />
+                        <div className='flex items-center gap-4 mb-4'>
+                            <IconCourse icon={File} />
+                            <h2 className='text-2xl font-semibold'>Files</h2>
+                        </div>
+                        <FilesForm courseID={course?.id} attachments={attachments} />
 
                     </div>
 

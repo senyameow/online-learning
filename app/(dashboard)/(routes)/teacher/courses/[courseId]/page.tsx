@@ -3,7 +3,7 @@ import IconCourse from '@/components/IconCourse'
 import { Button } from '@/components/ui/button'
 import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs'
-import { LayoutDashboard, Trash } from 'lucide-react'
+import { DollarSign, LayoutDashboard, ListChecks, Trash } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import TitleForm from './_components/TitleForm'
@@ -11,6 +11,7 @@ import { Description } from '@radix-ui/react-dialog'
 import DescriptionForm from './_components/DescriptionForm'
 import ImageForm from './_components/ImageForm'
 import CategoryForm from './_components/CategoryForm'
+import PriceForm from './_components/PriceForm'
 
 interface CoursePageProps {
     params: {
@@ -82,8 +83,22 @@ const CoursePage = async ({ params }: CoursePageProps) => {
                         <ImageForm course={course} />
                         <CategoryForm categories={categories} course={course} />
 
+
                     </div>
-                    <div className=''>qwe</div>
+                    <div className='space-y-4'>
+                        <div className='flex items-center gap-4 mb-4'>
+                            <IconCourse icon={ListChecks} />
+                            <h2 className='text-2xl font-semibold'>Chapters</h2>
+                        </div>
+                        <div>CHAPTERS WILL BE HERE</div>
+                        <div className='flex items-center gap-4 mb-4'>
+                            <IconCourse icon={DollarSign} />
+                            <h2 className='text-2xl font-semibold'>Sell Your Course</h2>
+                        </div>
+                        <PriceForm course={course} />
+
+                    </div>
+
                 </div>
             </div>
         </div>

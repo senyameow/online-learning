@@ -38,6 +38,7 @@ model Chapter {
   isFree      Boolean? @default(false)
   isPublished Boolean? @default(false)
   video_url   String?  @db.Text
+  position    Int?
 
   muxData MuxData? // для Mux
 

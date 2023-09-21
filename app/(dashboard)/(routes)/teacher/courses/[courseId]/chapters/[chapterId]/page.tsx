@@ -2,7 +2,7 @@ import Warning from '@/app/(dashboard)/_components/Warning'
 import IconCourse from '@/components/IconCourse'
 import { Button } from '@/components/ui/button'
 import { db } from '@/lib/db'
-import { ArrowLeft, LayoutDashboard, ListChecks, Trash } from 'lucide-react'
+import { ArrowLeft, LayoutDashboard, ListChecks, Trash, Video } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import TitleForm from './_components/TitleForm'
@@ -67,8 +67,8 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                     </div>
                     <div className='space-y-4'>
                         <div className='flex items-center gap-4 mb-4'>
-                            <IconCourse icon={ListChecks} />
-                            <h2 className='text-2xl font-semibold'>Chapters</h2>
+                            <IconCourse icon={Video} />
+                            <h2 className='text-2xl font-semibold'>Video</h2>
                         </div>
 
 

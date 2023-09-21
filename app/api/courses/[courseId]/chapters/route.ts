@@ -13,14 +13,34 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
 
         const { title } = await req.json()
 
-        const course = await db.chapter.create({
-            data: {
-                title,
-                courseId: params.courseId
+        const course = await db.course.findUnique({
+            where: {
+                id: params.courseId,
+                userId
+            }
+        })
+        if (!course) return new NextResponse('Unauthorized', { status: 400 })
+
+        const lastChapter = await db.chapter.findFirst({
+            where: {
+                courseId: params.courseId,
+            },
+            orderBy: {
+                position: 'desc'
             }
         })
 
-        return NextResponse.json(course, { status: 200 })
+        const newPosition = lastChapter?.position ? lastChapter.position + 1 : 1
+
+        const chapter = await db.chapter.create({
+            data: {
+                title,
+                courseId: params.courseId,
+                position: newPosition,
+            }
+        })
+
+        return NextResponse.json(chapter, { status: 200 })
 
 
     } catch (error) {

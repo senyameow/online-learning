@@ -9,6 +9,7 @@ import TitleForm from './_components/TitleForm'
 import Back from '@/components/Back'
 import DescriptionForm from './_components/DescriptionForm'
 import { PlanForm } from './_components/PlanForm'
+import ChapterVideo from './_components/ChapterVideo'
 
 const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
 
@@ -70,6 +71,7 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                             <IconCourse icon={Video} />
                             <h2 className='text-2xl font-semibold'>Video</h2>
                         </div>
+                        <ChapterVideo courseId={params.courseId} chapter={chapter} muxData={ } />
 
 
                     </div>

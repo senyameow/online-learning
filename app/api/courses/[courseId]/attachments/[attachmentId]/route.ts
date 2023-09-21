@@ -10,12 +10,19 @@ export async function DELETE(req: Request, { params }: { params: { courseId: str
 
         if (!params.courseId) return new NextResponse('No course ID provided', { status: 401 })
 
-        const { id } = await req.json()
+        const course = await db.course.findUnique({
+            where: {
+                id: params.courseId,
+                userId
+            }
+        })
+
+        if (!course) return new NextResponse('Unauthorized', { status: 400 })
 
         const attachment = await db.attachment.delete({
             where: {
                 courseId: params.courseId,
-                id
+                id: params.attachmentId
             }
         })
 

@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Attachment, Course } from '@prisma/client'
-import { FileIcon, ImageIcon, Pencil, PictureInPicture, PlusCircle, X } from 'lucide-react'
+import { FileIcon, ImageIcon, Loader2, Pencil, PictureInPicture, PlusCircle, X } from 'lucide-react'
 import React, { useState } from 'react'
 
 import * as z from 'zod'
@@ -28,6 +28,7 @@ const formSchema = z.object({
 const FilesForm = ({ courseID, attachments }: FilesFormProps) => {
 
     const [isEditing, setIsEditing] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const router = useRouter()
 
@@ -46,7 +47,8 @@ const FilesForm = ({ courseID, attachments }: FilesFormProps) => {
 
     const onDelete = async (id: string) => {
         try {
-            const res = await axios.patch(`/api/courses/${courseID}/attachments/${id}`)
+            setIsLoading(true)
+            const res = await axios.delete(`/api/courses/${courseID}/attachments/${id}`)
             router.refresh()
             setIsEditing(false)
             toast.success(`${res.data.title} has been deleted`)
@@ -54,7 +56,11 @@ const FilesForm = ({ courseID, attachments }: FilesFormProps) => {
             toast.error('something went wrong')
 
         }
+        finally {
+            setIsLoading(false)
+        }
     }
+
 
 
 
@@ -88,7 +94,10 @@ const FilesForm = ({ courseID, attachments }: FilesFormProps) => {
                                     {fileType === 'pdf' && <FileIcon />}
                                     {fileType !== 'pdf' && <PictureInPicture />}
                                     <a href={attachment.url} className='text-sky-700 hover:underline' target='_blank' rel='noopener noreferrer'>{attachment?.title}</a>
-                                    <Button onClick={() => onDelete(attachment.id)} className='p-1 h-fit rounded-full opacity-0 group-hover:opacity-100 transition' variant={'ghost'}><X className='w-4 h-4' /></Button>
+                                    {isLoading ? <Loader2 className='w-4 h-4 text-sky-700 animate-spin' /> : (
+                                        <Button onClick={() => onDelete(attachment.id)} className='p-1 h-fit rounded-full opacity-0 group-hover:opacity-100 transition' variant={'ghost'}><X className='w-4 h-4' /></Button>
+
+                                    )}
                                 </div>
                             )
                         })}

@@ -72,7 +72,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 
     return (
         <div className=''>
-            {!course.isPublished && <Warning />}
+            {!course.isPublished && <Warning type='course' />}
             <div className='h-full p-6 '>
                 <div className='w-full flex items-center justify-between pb-12'>
                     <div className='flex flex-col gap-2'>

@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Chapter, Course } from '@prisma/client'
-import { Pencil, X } from 'lucide-react'
+import { Pencil, PlusCircle, X } from 'lucide-react'
 import React, { useState } from 'react'
 
 import * as z from 'zod'
@@ -56,13 +56,16 @@ const ChapterForm = ({ courseId, chapters }: ChapterFormProps) => {
                 <div className='flex flex-row items-center justify-between w-full mb-4'>
                     <span className='text-2xl'>Chapters</span>
                     <Button onClick={() => setIsOpen(!isOpen)} className='flex items-center'>
-                        {isOpen ? <X className='w-4 h-4' /> : <Pencil className='w-4 h-4' />}
+                        {isOpen && <X className='w-4 h-4' />}
+                        {!isOpen && <PlusCircle className='w-4 h-4' />}
                     </Button>
                 </div>
                 {chapters.length === 0 && !isOpen && <div className='italic text-neutral-400 text-sm'>No chapters added</div>}
-                {chapters.map(chapter => (
-                    <ChapterCard key={chapter.id} title={chapter.title} id={chapter.id} />
-                ))}
+                <ul className='flex flex-col gap-2'>
+                    {chapters.map(chapter => (
+                        <ChapterCard courseId={courseId} isPublished={chapter.isPublished!} isFree={chapter.isFree!} key={chapter.id} title={chapter.title} id={chapter.id} />
+                    ))}
+                </ul>
                 {!isOpen ? <div className='mt-2'>
                 </div> : (
                     <Form {...form}>
@@ -73,7 +76,7 @@ const ChapterForm = ({ courseId, chapters }: ChapterFormProps) => {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormControl>
-                                            <Input disabled={isSubmitting} placeholder="" {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none font-normal" />
+                                            <Input disabled={isSubmitting} placeholder=""  {...field} className="border border-black ring-0 ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 outline-none font-normal" />
                                         </FormControl>
 
                                         <FormMessage />

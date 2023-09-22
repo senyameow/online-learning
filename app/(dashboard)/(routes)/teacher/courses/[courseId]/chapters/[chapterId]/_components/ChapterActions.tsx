@@ -29,12 +29,13 @@ const ChapterActions = ({ chapter, course }: ChapterActionsProps) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const onPublish = async (value: boolean) => {
+    const onAction = async (value: 'publish' | 'unpublish') => {
         try {
             setIsLoading(true)
-            await axios.patch(`/api/courses/${course?.id}/chapters/${chapter?.id}`, { isPublished: value })
+            await axios.patch(`/api/courses/${course?.id}/chapters/${chapter?.id}/${value}`)
             toast.success('chapter has been published')
-            router.push(`/teacher/courses`)
+            router.push(`/teacher/courses/${course?.id}`)
+            router.refresh()
         } catch (error) {
             toast.error(`something went wrong`)
         } finally {
@@ -44,9 +45,9 @@ const ChapterActions = ({ chapter, course }: ChapterActionsProps) => {
 
     return (
         <div className='flex flex-row items-center gap-2 '>
-            {chapter.isPublished ? <Button onClick={() => onPublish(false)} disabled={completedSteps.length !== steps.length || isLoading} className='border' variant={'ghost'}>
+            {chapter.isPublished ? <Button onClick={() => onAction('unpublish')} disabled={completedSteps.length !== steps.length || isLoading} className='border' variant={'ghost'}>
                 Unpublish
-            </Button> : <Button onClick={() => onPublish(true)} disabled={completedSteps.length !== steps.length || isLoading} className='border' variant={'ghost'}>
+            </Button> : <Button onClick={() => onAction('publish')} disabled={completedSteps.length !== steps.length || isLoading} className='border' variant={'ghost'}>
                 Publish
             </Button>}
             <Button onClick={() => onOpen(`DeleteChapter`, { chapter: chapter, course: course })}>

@@ -1,5 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
+import { useConfettiStore } from '@/hooks/use-confetti-store'
 import { useModalStore } from '@/hooks/use-modal-store'
 import { Chapter, Course } from '@prisma/client'
 import axios from 'axios'
@@ -28,6 +29,8 @@ const CourseActions = ({ course }: CourseActionsProps) => {
 
     const { onOpen } = useModalStore()
 
+    const { onOpen: onConfettiOpen } = useConfettiStore()
+
     const [isLoading, setIsLoading] = useState(false)
 
     const onAction = async (value: 'publish' | 'unpublish') => {
@@ -36,6 +39,7 @@ const CourseActions = ({ course }: CourseActionsProps) => {
             await axios.patch(`/api/courses/${course?.id}/${value}`)
             toast.success('chapter has been published')
             router.push(`/teacher/courses/${course?.id}`)
+            onConfettiOpen()
             router.refresh()
         } catch (error) {
             toast.error(`something went wrong`)

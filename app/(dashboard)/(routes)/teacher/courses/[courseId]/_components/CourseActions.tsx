@@ -38,7 +38,7 @@ const CourseActions = ({ course }: CourseActionsProps) => {
             setIsLoading(true)
             await axios.patch(`/api/courses/${course?.id}/${value}`)
             toast.success('chapter has been published')
-            router.push(`/teacher/courses/${course?.id}`)
+            router.push(`/teacher/courses`)
             onConfettiOpen()
             router.refresh()
         } catch (error) {
@@ -55,7 +55,7 @@ const CourseActions = ({ course }: CourseActionsProps) => {
             </Button> : <Button onClick={() => onAction('publish')} disabled={completedSteps.length !== steps.length || isLoading} className='border' variant={'ghost'}>
                 Publish
             </Button>}
-            <Button onClick={() => onOpen(`DeleteCourse`, { course: course })}>
+            <Button onClick={() => onOpen(`DeleteCourse`, { courseInfo: { courseId: course.id, courseTitle: course.title } })}>
                 <Trash className='w-5 h-5 ' />
             </Button>
         </div>

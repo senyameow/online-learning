@@ -1,20 +1,46 @@
 import { Button } from '@/components/ui/button'
+import { db } from '@/lib/db'
+import { auth } from '@clerk/nextjs'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import React from 'react'
+import { CoursesColumn } from '../_components/columns'
+import { formatter } from '@/lib/utils'
+import { format } from 'date-fns'
+import CoursesClient from '../_components/Client'
+import CourseActions from './[courseId]/_components/CourseActions'
 
-const page = () => {
+const CoursesPage = async () => {
+    const { userId } = auth()
+
+    if (!userId) return redirect('/sign-in')
+
+    const myCourses = await db.course.findMany({
+        where: {
+            userId
+        }
+    })
+
+    if (!myCourses) return redirect('/teacher/new')
+
+    const formattedCourses: CoursesColumn[] = myCourses.map(course => ({
+        id: course.id,
+        title: course.title,
+        price: formatter.format(Number(course.price)),
+        status: course.isPublished,
+        created_at: format(course.created_at, 'MMMM do, yyyy'),
+    }))
+
     return (
-        <div className='p-8 h-full flex'>
-            <Link href={'/teacher/new'} className='ml-auto'>
-                <Button className='px-3 '>
-                    <Plus className='w-4 h-4 mr-2' />
-                    Add Course
-                </Button>
-            </Link>
+        <div className="flex flex-col w-full">
 
+            <div className="flex-1 p-8 pt-6 space-y-4">
+
+                <CoursesClient items={formattedCourses} />
+            </div>
         </div>
     )
 }
 
-export default page
+export default CoursesPage

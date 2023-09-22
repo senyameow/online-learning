@@ -6,6 +6,10 @@ export type ModalType = 'DeleteChapter' | 'DeleteCourse'
 interface ModalData {
     chapter?: Chapter;
     course?: Course;
+    courseInfo?: {
+        courseTitle?: string;
+        courseId?: string;
+    }
 }
 
 interface useModalStoreProps {

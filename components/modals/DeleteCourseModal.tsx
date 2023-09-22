@@ -15,7 +15,9 @@ const DeleteCourse = () => {
     const isModalOpen = type === 'DeleteCourse' && isOpen
 
 
-    const course = data?.course
+    const courseInfo = data?.courseInfo
+
+
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -24,9 +26,9 @@ const DeleteCourse = () => {
             setIsLoading(true)
             console.log(data)
 
-            await axios.delete(`/api/courses/${course?.id}`)
+            await axios.delete(`/api/courses/${courseInfo?.courseId}`)
             router.refresh()
-            router.push(`/courses`)
+            router.push(`/teacher/courses`)
             toast.success('chater was successfully deleted')
 
         } catch (error) {
@@ -45,7 +47,7 @@ const DeleteCourse = () => {
                     </DialogTitle>
                     <DialogDescription>
                         Are You Sure You Want To Delete <span className='text-md text-black font-bold'>Course</span>{` `} <span> </span>
-                        <span className='text-indigo-500 font-semibold'>{course?.title}</span>
+                        <span className='text-indigo-500 font-semibold'>{courseInfo?.courseTitle}</span>
                     </DialogDescription>
 
                 </DialogHeader>

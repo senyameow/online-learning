@@ -8,6 +8,7 @@ import Query from './Query'
 interface QueriesProps {
     data: Category[];
     valueKey: string
+    valueKey2?: string
 }
 
 const Queries = ({ data, valueKey }: QueriesProps) => {

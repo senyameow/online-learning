@@ -10,23 +10,20 @@ import Link from 'next/link'
 interface QueryProps {
     item: Category;
     valueKey: string;
-    valueKey2?: string;
 }
 
-const Query = ({ item, valueKey, valueKey2 }: QueryProps) => {
+const Query = ({ item, valueKey }: QueryProps) => {
 
     const searchParams = useSearchParams()
     const pathname = usePathname()
 
     const selectedValue = searchParams.get(valueKey)
-    const selectedValue2 = searchParams.get(valueKey2!)
 
     const current = qs.parse(searchParams.toString())
 
     const query = {
         ...current,
-        [valueKey]: selectedValue ? null : item.id,
-        [valueKey2!]: selectedValue2
+        [valueKey]: selectedValue === item.id ? null : item.id,
     }
 
     const url = qs.stringifyUrl({

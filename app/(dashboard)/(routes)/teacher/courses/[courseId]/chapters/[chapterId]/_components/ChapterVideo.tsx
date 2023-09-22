@@ -1,20 +1,15 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Chapter, Course, MuxData } from '@prisma/client'
-import { ImageIcon, Pencil, PlusCircle, Video, X } from 'lucide-react'
+import { Pencil, PlusCircle, Video, X } from 'lucide-react'
 import React, { useState } from 'react'
 
 import * as z from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import toast from 'react-hot-toast'
-import { db } from '@/lib/db'
 import { useRouter } from 'next/navigation'
 import { FileUpload } from '@/components/FileUpload'
-import Image from 'next/image'
+import MuxPlayer from '@mux/mux-player-react'
 
 interface ChapterVideoProps {
     courseId: string
@@ -73,7 +68,7 @@ const ChapterVideo = ({ courseId, initialData }: ChapterVideoProps) => {
                     </div>
                 ) : (
                     <div className="relative aspect-video mt-2">
-                        VIDEO PLAYER
+                        <MuxPlayer streamType='on-demand' playbackId={initialData.muxData?.playbackId!} />
                     </div>
                 )
             )}

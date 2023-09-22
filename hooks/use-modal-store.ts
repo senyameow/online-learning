@@ -1,7 +1,7 @@
 import { Chapter, Course } from '@prisma/client';
 import { create } from 'zustand'
 
-export type ModalType = 'DeleteChapter'
+export type ModalType = 'DeleteChapter' | 'DeleteCourse'
 
 interface ModalData {
     chapter?: Chapter;

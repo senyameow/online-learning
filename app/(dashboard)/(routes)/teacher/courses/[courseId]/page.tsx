@@ -14,6 +14,7 @@ import CategoryForm from './_components/CategoryForm'
 import PriceForm from './_components/PriceForm'
 import FilesForm from './_components/FilesForm'
 import ChapterForm from './_components/ChapterForm'
+import CourseActions from './_components/CourseActions'
 
 interface CoursePageProps {
     params: {
@@ -79,14 +80,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
                         <span className='text-2xl font-bold'>Course Setup</span>
                         <span className='text-sm text-neutral-500'>Completed fields ({progress})</span>
                     </div>
-                    <div className='flex flex-row items-center gap-2 '>
-                        <Button disabled={completedSteps.length !== steps.length} className='border' variant={'ghost'}>
-                            Publish
-                        </Button>
-                        <Button>
-                            <Trash className='w-5 h-5 ' />
-                        </Button>
-                    </div>
+                    <CourseActions course={course} />
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                     <div className='space-y-4'>

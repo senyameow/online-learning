@@ -1,6 +1,7 @@
 'use client'
 
 import DeleteChapterModal from "@/components/modals/DeleteChapterModal"
+import DeleteCourse from "@/components/modals/DeleteCourseModal"
 import { useEffect, useState } from "react"
 
 
@@ -17,6 +18,7 @@ export const ModalProvider = () => {
     return (
         <>
             <DeleteChapterModal />
+            <DeleteCourse />
         </>
     )
 }

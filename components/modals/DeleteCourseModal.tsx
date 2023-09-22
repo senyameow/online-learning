@@ -7,15 +7,14 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
-const DeleteChapterModal = () => {
+const DeleteCourse = () => {
     const router = useRouter()
 
     const { type, data, onClose, isOpen } = useModalStore()
 
-    const isModalOpen = type === 'DeleteChapter' && isOpen
+    const isModalOpen = type === 'DeleteCourse' && isOpen
 
 
-    const chapter = data?.chapter
     const course = data?.course
 
     const [isLoading, setIsLoading] = useState(false)
@@ -25,9 +24,9 @@ const DeleteChapterModal = () => {
             setIsLoading(true)
             console.log(data)
 
-            await axios.delete(`/api/courses/${course?.id}/chapters/${chapter?.id}`)
+            await axios.delete(`/api/courses/${course?.id}`)
             router.refresh()
-            router.push(`/courses/${course?.id}`)
+            router.push(`/courses`)
             toast.success('chater was successfully deleted')
 
         } catch (error) {
@@ -42,11 +41,11 @@ const DeleteChapterModal = () => {
             <DialogContent className='bg-white text-black p-0 overflow-hidden'>
                 <DialogHeader className='pt-8 px-6 flex flex-col gap-3 items-center justify-center'>
                     <DialogTitle className='text-2xl font-bold text-center'>
-                        Delete Chapter
+                        Delete Course
                     </DialogTitle>
                     <DialogDescription>
-                        Are You Sure You Want To Delete <span className='text-md text-black font-bold'>Chapter{` `}</span> <span> </span>
-                        <span className='text-indigo-500 font-semibold'>{chapter?.title}</span>
+                        Are You Sure You Want To Delete <span className='text-md text-black font-bold'>Course</span>{` `} <span> </span>
+                        <span className='text-indigo-500 font-semibold'>{course?.title}</span>
                     </DialogDescription>
 
                 </DialogHeader>
@@ -67,4 +66,4 @@ const DeleteChapterModal = () => {
     )
 }
 
-export default DeleteChapterModal
+export default DeleteCourse

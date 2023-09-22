@@ -29,3 +29,22 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
 
     }
 }
+export async function DELETE(req: Request, { params }: { params: { courseId: string } }) {
+    try {
+        const { userId } = auth()
+
+        if (!userId) return new NextResponse(`Unauthorized`, { status: 401 })
+
+        const course = await db.course.delete({
+            where: {
+                id: params.courseId,
+                userId
+            }
+        })
+
+        return NextResponse.json(course, { status: 200 })
+
+    } catch (error) {
+
+    }
+}

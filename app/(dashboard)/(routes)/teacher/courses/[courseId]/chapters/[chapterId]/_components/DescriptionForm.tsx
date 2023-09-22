@@ -55,7 +55,7 @@ const DescriptionForm = ({ courseId, chapter }: DescriptionFormProps) => {
             <div>
                 <div className='flex flex-row items-center justify-between w-full'>
                     <span className='text-2xl'>Chapter Description</span>
-                    <Button onClick={() => setIsOpen(!isOpen)} className='flex items-center'>
+                    <Button disabled={isSubmitting} onClick={() => setIsOpen(!isOpen)} className='flex items-center'>
                         {isOpen ? <X className='w-4 h-4' /> : <Pencil className='w-4 h-4' />}
                     </Button>
                 </div>

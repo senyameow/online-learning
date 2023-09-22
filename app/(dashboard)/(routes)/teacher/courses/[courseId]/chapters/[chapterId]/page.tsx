@@ -10,6 +10,8 @@ import Back from '@/components/Back'
 import DescriptionForm from './_components/DescriptionForm'
 import { PlanForm } from './_components/PlanForm'
 import ChapterVideo from './_components/ChapterVideo'
+import { useModalStore } from '@/hooks/use-modal-store'
+import ChapterActions from './_components/ChapterActions'
 
 const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
 
@@ -20,6 +22,12 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
         },
         include: {
             muxData: true
+        }
+    })
+
+    const course = await db.course.findFirst({
+        where: {
+            id: params.courseId
         }
     })
 
@@ -35,7 +43,6 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
 
     const progress = `${completedSteps.length} / ${steps.length}`
 
-
     return (
         <div className=''>
             {!chapter?.isPublished && <Warning type='chapter' />}
@@ -48,14 +55,7 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                         <span className='text-2xl font-bold'>Course Setup</span>
                         <span className='text-sm text-neutral-500'>Completed fields ({progress})</span>
                     </div>
-                    <div className='flex flex-row items-center gap-2 '>
-                        <Button disabled={completedSteps.length !== steps.length} className='border' variant={'ghost'}>
-                            Publish
-                        </Button>
-                        <Button>
-                            <Trash className='w-5 h-5 ' />
-                        </Button>
-                    </div>
+                    <ChapterActions course={course!} chapter={chapter} />
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                     <div className='space-y-4'>

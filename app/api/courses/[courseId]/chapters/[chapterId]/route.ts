@@ -20,13 +20,15 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
         if (!params.courseId) return new NextResponse('No course ID provided', { status: 401 })
 
         const body = await req.json()
+        const { isPublished } = body
 
         const chapter = await db.chapter.update({
             where: {
                 id: params.chapterId
             },
             data: {
-                ...body
+                ...body,
+                isPublished: isPublished ? true : undefined
             }
         })
 
@@ -62,6 +64,37 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
                 }
             })
         }
+
+        return NextResponse.json(chapter, { status: 200 })
+
+
+    } catch (error) {
+        console.log(error)
+        return new NextResponse(`internal error`, { status: 500 })
+    }
+}
+
+
+
+export async function DELETE(req: Request, { params }: { params: { courseId: string, chapterId: string } }) {
+    try {
+
+
+
+        const { userId } = auth()
+
+        if (!userId) return new NextResponse(`Unauthorized`, { status: 401 })
+
+        if (!params.courseId) return new NextResponse('No course ID provided', { status: 401 })
+
+        const chapter = await db.chapter.delete({
+            where: {
+                id: params.chapterId,
+                courseId: params.courseId
+            }
+        })
+
+
 
         return NextResponse.json(chapter, { status: 200 })
 

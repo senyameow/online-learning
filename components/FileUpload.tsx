@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 import { UploadDropzone } from "@/lib/uploadthing";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
-import { FileIcon } from "lucide-react";
+import { FileIcon, Video } from "lucide-react";
 
 interface FileUploadProps {
     onChange: (url?: string) => void;
@@ -30,6 +30,7 @@ export const FileUpload = ({
             </div>
         )
     }
+
 
     return (
         <UploadDropzone

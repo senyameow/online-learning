@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Chapter, Course, MuxData } from '@prisma/client'
-import { ImageIcon, Pencil, PlusCircle, X } from 'lucide-react'
+import { ImageIcon, Pencil, PlusCircle, Video, X } from 'lucide-react'
 import React, { useState } from 'react'
 
 import * as z from 'zod'
@@ -18,8 +18,7 @@ import Image from 'next/image'
 
 interface ChapterVideoProps {
     courseId: string
-    chapter: Chapter;
-    muxData: MuxData
+    initialData: Chapter & { muxData?: MuxData | null };
 
 }
 
@@ -27,7 +26,7 @@ const formSchema = z.object({
     video_url: z.string(),
 })
 
-const ChapterVideo = ({ courseId, chapter, muxData }: ChapterVideoProps) => {
+const ChapterVideo = ({ courseId, initialData }: ChapterVideoProps) => {
 
     const [isEditing, setIsEditing] = useState(false)
 
@@ -36,7 +35,7 @@ const ChapterVideo = ({ courseId, chapter, muxData }: ChapterVideoProps) => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            await axios.patch(`/api/courses/${courseId}/chapters/${chapter.id}`, values)
+            await axios.patch(`/api/courses/${courseId}/chapters/${initialData.id}`, values)
             router.refresh()
             setIsEditing(false)
             toast.success(`image has been updated!`)
@@ -55,12 +54,12 @@ const ChapterVideo = ({ courseId, chapter, muxData }: ChapterVideoProps) => {
                     {isEditing && (
                         <><X className='w-4 h-4' /></>
                     )}
-                    {!isEditing && !chapter.video_url && (
+                    {!isEditing && !initialData.video_url && (
                         <>
                             <PlusCircle className="h-4 w-4" />
                         </>
                     )}
-                    {!isEditing && chapter.video_url && (
+                    {!isEditing && initialData.video_url && (
                         <>
                             <Pencil className="h-4 w-4" />
                         </>
@@ -68,9 +67,9 @@ const ChapterVideo = ({ courseId, chapter, muxData }: ChapterVideoProps) => {
                 </Button>
             </div>
             {!isEditing && (
-                !chapter.video_url ? (
+                !initialData.video_url ? (
                     <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
-                        <ImageIcon className="h-10 w-10 text-slate-500" />
+                        <Video className="h-10 w-10 text-slate-500" />
                     </div>
                 ) : (
                     <div className="relative aspect-video mt-2">

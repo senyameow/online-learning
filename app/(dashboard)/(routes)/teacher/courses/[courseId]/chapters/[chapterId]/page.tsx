@@ -17,6 +17,9 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
     const chapter = await db.chapter.findUnique({
         where: {
             id: params.chapterId,
+        },
+        include: {
+            muxData: true
         }
     })
 
@@ -71,7 +74,7 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                             <IconCourse icon={Video} />
                             <h2 className='text-2xl font-semibold'>Video</h2>
                         </div>
-                        <ChapterVideo courseId={params.courseId} chapter={chapter} muxData={ } />
+                        <ChapterVideo courseId={params.courseId} initialData={chapter} />
 
 
                     </div>

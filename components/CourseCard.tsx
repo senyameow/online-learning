@@ -25,13 +25,13 @@ const CourseCard = ({ id, image_url, title, category, chapters, progress, price 
                     <Image src={image_url} alt='product image' fill className='rounded-xl object-cover' />
                 </div>
                 {/* <div className='opacity-0 group-hover:opacity-100 absolute flex items-center justify-around w-[80%] ml-4 transition top-[50%]'>
-                <button onClick={onModalOpen} className='w-[40px] h-[40px]  rounded-full bg-white flex items-center justify-center border  hover:bg-gray-100 transition'>
-                    <Expand className='w-4 h-4' />
-                </button>
-                <button onClick={addToCart} className='w-[40px] h-[40px]  rounded-full bg-white flex items-center justify-center border  hover:bg-gray-100 transition'>
-                    <ShoppingCart className='w-4 h-4' />
-                </button>
-            </div> */}
+                    <button onClick={onModalOpen} className='w-[40px] h-[40px]  rounded-full bg-white flex items-center justify-center border  hover:bg-gray-100 transition'>
+                        <Expand className='w-4 h-4' />
+                    </button>
+                    <button onClick={addToCart} className='w-[40px] h-[40px]  rounded-full bg-white flex items-center justify-center border  hover:bg-gray-100 transition'>
+                        <ShoppingCart className='w-4 h-4' />
+                    </button>
+                </div> */}
 
                 <p className='font-semibold text-xl group-hover:text-sky-600 transition'>{title}</p>
                 <p className='text-neutral-500 text-sm font-semibold mb-3'>{category}</p>

@@ -8,13 +8,16 @@ import { Chapter } from '@prisma/client'
 interface SidebarRoutesProps {
     chapters: Chapter[];
     isBought: boolean;
+
 }
 
 const SidebarRoutes = ({ chapters, isBought }: SidebarRoutesProps) => {
 
+    const params = useParams()
+
     const routes = chapters.map(chapter => ({
         label: chapter.title,
-        href: chapter.id,
+        href: `/courses/${params?.courseId}/chapters/${chapter.id}`,
         icon: isBought || chapter.isFree ? PlayCircleIcon : Lock
     }))
 

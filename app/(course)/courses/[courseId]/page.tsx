@@ -1,4 +1,5 @@
 import { db } from '@/lib/db'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 const CoursePage = async ({ params }: { params: { courseId: string } }) => {
@@ -8,16 +9,21 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
             id: params.courseId
         },
         include: {
-            Chapter: true
+            Chapter: {
+                where: {
+                    isPublished: true
+                },
+                orderBy: {
+                    position: 'desc'
+                }
+            },
         }
     })
 
+    if (!course) return redirect('/')
+
     return (
-        <div className='bg-white'>
-            <div className='px-12 pt-2 flex flex-col items-start'>
-                wqe
-            </div>
-        </div>
+        redirect(`/courses/${params.courseId}/chapters/${course?.Chapter[0]?.id}`)
     )
 }
 

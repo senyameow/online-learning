@@ -53,7 +53,7 @@ export const getChapter = async ({ chapterId, courseId, userId }: getChapterProp
         let muxData = null
         let nextChapter = null
 
-        if (purchase) {
+        if (purchase || chapter.isFree) {
             attachments = await db.attachment.findMany({
                 where: {
                     courseId

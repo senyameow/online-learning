@@ -18,14 +18,15 @@ const SidebarRoutes = ({ chapters, isBought }: SidebarRoutesProps) => {
     const routes = chapters.map(chapter => ({
         label: chapter.title,
         href: `/courses/${params?.courseId}/chapters/${chapter.id}`,
-        icon: isBought || chapter.isFree ? PlayCircleIcon : Lock
+        icon: isBought || chapter.isFree ? PlayCircleIcon : Lock,
+        isLocked: !isBought && !chapter.isFree,
     }))
 
 
     return (
         <div className='w-full flex flex-col'>
             {routes.map(route => (
-                <SidebarRoute key={route.href} href={route.href} title={route.label} icon={route.icon} />
+                <SidebarRoute key={route.href} href={route.href} title={route.label} icon={route.icon} isLocked={route.isLocked} />
             ))}
         </div>
     )

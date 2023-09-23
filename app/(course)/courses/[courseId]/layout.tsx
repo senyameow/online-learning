@@ -25,6 +25,7 @@ const Course = async ({ children, params }: { children: React.ReactNode, params:
         }
     })
 
+
     // if (!course) return redirect('/browse')
 
     return (

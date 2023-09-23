@@ -30,7 +30,7 @@ const Course = async ({ children, params }: { children: React.ReactNode, params:
     return (
         <div className='h-full'>
             <div className='h-20 flex inset-y-0 fixed z-50 border w-full md:pl-56'>
-                <Navbar />
+                <Navbar title={course?.title!} chapters={course?.Chapter!} isBought={Boolean(bought)} />
             </div>
             <div className='hidden md:flex inset-y-0 fixed w-56 z-50'>
                 <Sidebar title={course?.title!} chapters={course?.Chapter!} isBought={Boolean(bought)} />

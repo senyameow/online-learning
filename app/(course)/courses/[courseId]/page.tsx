@@ -14,11 +14,14 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                     isPublished: true
                 },
                 orderBy: {
-                    position: 'desc'
+                    position: 'asc'
                 }
             },
         }
     })
+
+    // TODO: сделать так, чтобы могло редиректить только на фрищный чаптер, если такого нет, то будет редиректить на другую страницу, где будет просто инфа и кнопка купить, или отзывы, хз короче, что-то
+
 
     if (!course) return redirect('/')
 

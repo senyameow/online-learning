@@ -1,17 +1,19 @@
 import { db } from '@/lib/db'
+import { auth } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
 
-    const initialChapter = await db.chapter.findFirst({
-        where: {
-            isFree: true,
-            courseId: params.courseId
-        }
-    })
+    const { userId } = auth()
+
+    if (!userId) return redirect('/')
+
+
 
     return (
         <div>
+            initial chapter
             {params.chapterId}
         </div>
     )

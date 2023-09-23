@@ -3,6 +3,7 @@ import { Category, Course } from "@prisma/client"
 import axios from "axios";
 import qs from 'query-string'
 import { getProgress } from "./get-progress";
+import { CourseWithCategoryAndProgress } from "@/types";
 
 interface getCoursesProps {
     userId: string;
@@ -10,11 +11,7 @@ interface getCoursesProps {
     categoryId?: string;
 }
 
-type CourseWithCategoryAndProgress = {
-    categories: Category | null;
-    chapters: { id: string }[];
-    progress: number | null;
-}
+
 
 
 export const getCourses = async ({ userId, title, categoryId }: getCoursesProps): Promise<CourseWithCategoryAndProgress[]> => {
@@ -46,9 +43,10 @@ export const getCourses = async ({ userId, title, categoryId }: getCoursesProps)
 
 
         const coursesWithCategoryAndProgress: CourseWithCategoryAndProgress[] = await Promise.all(courses.map(async course => ({
-            categories: course.Category,
+            category: course.Category,
             chapters: course.Chapter,
             progress: (course.Purchases.length === 0 ? null : await getProgress(userId, course.id)),
+            ...course
         })))
 
         return coursesWithCategoryAndProgress

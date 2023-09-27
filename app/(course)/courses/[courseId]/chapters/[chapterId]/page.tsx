@@ -32,7 +32,7 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
 
     // const isLocked = !chapter.isFree && !purchase
 
-    const completeOnEnd = !!purchase && !userProgress?.isCompleted
+    const completeOnEnd = !!purchase && !userProgress?.isCompleted // если купили курс и этот чаптер не закончен, то окей заканчивай его и переходи на некст
 
     return (
         <div className='flex flex-col h-full w-full overflow-x-hidden'>

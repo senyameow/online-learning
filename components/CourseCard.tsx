@@ -4,6 +4,7 @@ import React from 'react'
 import IconCourse from './IconCourse';
 import { Book } from 'lucide-react';
 import { formatter } from '@/lib/utils';
+import CourseProgress from './CourseProgress';
 // import Currency from './Currency';
 
 
@@ -42,6 +43,7 @@ const CourseCard = ({ id, image_url, title, category, chapters, progress, price 
                 </div>
 
                 {!progress && <div className='text-black font-bold text-xl pt-2'>{formatter.format(price)}</div>}
+                {progress !== null && <CourseProgress variant={progress === 100 ? 'success' : 'default'} value={progress} />}
             </div>
 
         </Link>

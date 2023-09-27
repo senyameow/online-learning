@@ -4,6 +4,7 @@ import React from 'react'
 import Navbar from './_components/Navbar'
 import Sidebar from './_components/Sidebar'
 import { auth } from '@clerk/nextjs'
+import { getProgress } from '@/actions/get-progress'
 
 const Course = async ({ children, params }: { children: React.ReactNode, params: { courseId: string } }) => {
 
@@ -25,6 +26,8 @@ const Course = async ({ children, params }: { children: React.ReactNode, params:
         }
     })
 
+    const progress = await getProgress(userId!, params.courseId)
+
 
     // if (!course) return redirect('/browse')
 
@@ -34,7 +37,7 @@ const Course = async ({ children, params }: { children: React.ReactNode, params:
                 <Navbar title={course?.title!} chapters={course?.Chapter!} isBought={Boolean(bought)} />
             </div>
             <div className='hidden md:flex inset-y-0 fixed w-56 z-50'>
-                <Sidebar title={course?.title!} chapters={course?.Chapter!} isBought={Boolean(bought)} />
+                <Sidebar title={course?.title!} chapters={course?.Chapter!} isBought={Boolean(bought)} progress={progress} />
             </div>
             <div className='md:pl-56 md:pt-20 h-full'>
                 {children}

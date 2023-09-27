@@ -40,7 +40,7 @@ export const getChapter = async ({ chapterId, courseId, userId }: getChapterProp
 
         if (!course || !chapter) throw new Error('No chapter or course found')
 
-        const userProgress = await db.userProgress.findUnique({
+        let userProgress = await db.userProgress.findUnique({
             where: {
                 userId_chapterId: {
                     userId,
@@ -48,6 +48,15 @@ export const getChapter = async ({ chapterId, courseId, userId }: getChapterProp
                 }
             }
         })
+
+        if (!userProgress && purchase) {
+            userProgress = await db.userProgress.create({
+                data: {
+                    userId,
+                    chapterId
+                }
+            })
+        }
 
         let attachments: Attachment[] = []
         let muxData = null
@@ -83,7 +92,7 @@ export const getChapter = async ({ chapterId, courseId, userId }: getChapterProp
             userProgress,
             attachments,
             muxData,
-            nextChapter
+            nextChapter,
         }
 
     } catch (error) {

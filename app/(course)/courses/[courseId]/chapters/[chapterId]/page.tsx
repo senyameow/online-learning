@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button'
 import { cn, formatter } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
 import Enroll from './_components/Enroll'
-import { File } from 'lucide-react'
+import { Eye, File } from 'lucide-react'
+import NextChapterButton from './_components/NextChapter'
 
 const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
 
@@ -34,12 +35,8 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
     const completeOnEnd = !!purchase && !userProgress?.isCompleted
 
     return (
-        <div className='flex flex-col h-full w-full'>
-            {userProgress?.isCompleted && (
-                <div className=''>
-                    you completed this chapter
-                </div>
-            )}
+        <div className='flex flex-col h-full w-full overflow-x-hidden'>
+
             {!purchase && !userProgress?.isCompleted && (
                 <Banner canClose label='you have not purchased this course yet, next chapters will not be awailable to you' variant={'error'} />
             )}
@@ -62,6 +59,7 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                         {chapter.title}
                     </div>
                     {!purchase && < Enroll price={Number(course.price)} courseId={params.courseId} chapterId={chapter.id} />}
+                    <NextChapterButton nextChapterId={nextChapter?.id!} isCompleted={userProgress?.isCompleted!} courseId={params.courseId} chapterId={chapter.id} userId={userId} chapterTitle={chapter.title} />
                 </div>
                 <Separator className='my-4' />
                 <div className='flex flex-col items-start'>
@@ -81,8 +79,14 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                         </a>
                     ))}
                     {(attachments?.length === 0 || !attachments) && (
+                        <div className='w-full py-6 text-sky-700 text-center text-xl '>
+                            it seems there is no attachments in this chapter..
+                        </div>
+                    )}
+                    {!purchase && (
                         <div className='w-full py-6 text-rose-700 text-center text-xl '>
-                            You have to enroll course to get recourses
+                            You have to enroll course to see the attachments
+                            <Eye className='w-4 h-4 ' />
                         </div>
                     )}
                 </div>

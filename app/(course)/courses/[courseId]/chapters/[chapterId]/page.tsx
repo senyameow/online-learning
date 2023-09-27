@@ -33,10 +33,6 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
 
     const completeOnEnd = !!purchase && !userProgress?.isCompleted
 
-    console.log(muxData, 'MUX')
-
-    console.log(attachments)
-
     return (
         <div className='flex flex-col h-full w-full'>
             {userProgress?.isCompleted && (
@@ -65,7 +61,7 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                     <div className='text-2xl font-bold mb-3'>
                         {chapter.title}
                     </div>
-                    <Enroll price={Number(course.price)} courseId={params.courseId} />
+                    {!purchase && < Enroll price={Number(course.price)} courseId={params.courseId} chapterId={chapter.id} />}
                 </div>
                 <Separator className='my-4' />
                 <div className='flex flex-col items-start'>

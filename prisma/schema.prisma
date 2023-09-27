@@ -115,3 +115,22 @@ model Purchases {
 
   @@index([courseId])
 }
+
+model StripeCustomer {
+  id               String @id @default(uuid())
+  userId           String @unique
+  stripeCustomerId String @unique
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Coupon {
+  id      String  @id @default(uuid())
+  userId  String  @unique
+  coupon  String
+  isValid Boolean @default(true)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

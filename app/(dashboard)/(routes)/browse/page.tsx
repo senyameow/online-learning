@@ -6,6 +6,8 @@ import Search from '../../_components/Search'
 import { getCourses } from '@/actions/get-courses'
 import { auth } from '@clerk/nextjs'
 import CoursesList from './_components/CoursesList'
+import { Banner } from '@/components/Banner'
+import { redirect } from 'next/navigation'
 
 interface BrowsePageProps {
     searchParams: {
@@ -18,9 +20,13 @@ const BrowsePage = async ({ searchParams }: BrowsePageProps) => {
 
     const { userId } = auth()
 
+    if (!userId) return redirect('sign-in')
+
     const categories = await db.category.findMany()
 
     const courses = await getCourses({ userId: userId as string, title: searchParams.title, categoryId: searchParams.categoryId })
+
+
 
     return (
         <div className="flex flex-col w-full px-6 h-full">

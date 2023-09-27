@@ -5,6 +5,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import Countdown from 'react-countdown';
+import { Coupon } from "@prisma/client";
 
 const bannerVariants = cva(
     "border text-center p-4 text-sm flex items-center w-full",
@@ -24,19 +26,21 @@ const bannerVariants = cva(
 
 interface BannerProps extends VariantProps<typeof bannerVariants> {
     label: string;
-    canClose?: boolean
+    canClose?: boolean,
+    coupon?: Coupon
 };
 
 const iconMap = {
     warning: AlertTriangle,
     success: CheckCircleIcon,
-    error: StopCircle
+    error: StopCircle,
 };
 
 export const Banner = ({
     label,
     variant,
     canClose,
+    coupon
 }: BannerProps) => {
     const Icon = iconMap[variant || "warning"];
 

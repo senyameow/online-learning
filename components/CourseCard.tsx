@@ -19,6 +19,7 @@ interface CourseCardProps {
 }
 
 const CourseCard = ({ id, image_url, title, category, chapters, progress, price }: CourseCardProps) => {
+    console.log(progress, 'card progress')
     return (
         <Link href={`/courses/${id}`} className='bg-white p-2 border border-neutral-300 rounded-xl gap-2 group relative cursor-pointer'>
             <div className='h-full overflow-hidden'>

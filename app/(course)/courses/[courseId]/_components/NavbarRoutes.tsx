@@ -12,7 +12,7 @@ const NavbarRoutes = () => {
     const router = useRouter()
 
     const isTeacherPage = pathname.startsWith(`/teacher`)
-    const isBrowsePage = pathname === `/browse`
+    // const isBrowsePage = pathname === `/browse` || pathname === '/'
 
     const isStudentPage = pathname.startsWith(`/courses`)
 
@@ -28,9 +28,9 @@ const NavbarRoutes = () => {
     return (
         <div className='flex flex-row items-center gap-4 w-full justify-between'>
 
-            {isBrowsePage ? <div className='hidden md:block'><Search /></div> : <div></div>}
+            {/* {isBrowsePage ? <div className='hidden md:block'><Search /></div> : <div></div>} */}
             <div className='flex flex-row items-center gap-4 '>
-                {(isTeacherPage || isBrowsePage || isStudentPage) ? <Button variant={'ghost'} onClick={onExit} className='text-md font-bold'>
+                {(isTeacherPage || isStudentPage) ? <Button variant={'ghost'} onClick={onExit} className='text-md font-bold'>
                     <LogOut className='w-4 h-4 mr-2' />
                     Exit
                 </Button> : <Button variant={'ghost'} onClick={onOpenTeacher} className='text-md font-bold'>

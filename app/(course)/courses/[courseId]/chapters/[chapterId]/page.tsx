@@ -65,7 +65,7 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                     <div className='text-2xl font-bold mb-3'>
                         {chapter.title}
                     </div>
-                    <Enroll price={Number(course.price)} />
+                    <Enroll price={Number(course.price)} courseId={params.courseId} />
                 </div>
                 <Separator className='my-4' />
                 <div className='flex flex-col items-start'>

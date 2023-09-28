@@ -9,6 +9,8 @@ import { redirect } from 'next/navigation'
 import Search from '../_components/Search'
 import CoursesList from './browse/_components/CoursesList'
 import { getDashboard } from '@/actions/get-dashboard'
+import InfoCard from '../_components/InfoCard'
+import { CheckCircle, Clock } from 'lucide-react'
 
 interface DashboardProps {
     searchParams: {
@@ -40,8 +42,8 @@ const Dashboard = async ({ searchParams }: DashboardProps) => {
                 <Queries data={categories} valueKey='categoryId' />
             </div>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                <div>1 card</div>
-                <div>2 card</div>
+                <InfoCard icon={Clock} label='In Progress' numberOfCourses={coursesInProgress.length} variant={'default'} />
+                <InfoCard icon={CheckCircle} label='Completed' numberOfCourses={completedCourses.length} variant={'success'} />
             </div>
             <CoursesList courses={[...coursesInProgress, ...completedCourses]} />
         </div>

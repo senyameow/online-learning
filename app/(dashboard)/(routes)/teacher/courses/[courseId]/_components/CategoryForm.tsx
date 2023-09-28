@@ -22,6 +22,9 @@ interface CategoryFormProps {
 const formSchema = z.object({
     categoryId: z.string(),
 })
+const createSchema = z.object({
+    title: z.string().min(2, ' '),
+})
 
 const CategoryForm = ({ course, categories }: CategoryFormProps) => {
 
@@ -33,12 +36,18 @@ const CategoryForm = ({ course, categories }: CategoryFormProps) => {
             categoryId: course?.categoryId || '',
         }
     })
+    const createForm = useForm<z.infer<typeof createSchema>>({
+        resolver: zodResolver(createSchema),
+        defaultValues: {
+            title: '',
+        }
+    })
 
     const [isEditing, setIsEditing] = useState(false)
 
     const { isValid, isSubmitting } = form.formState
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onChange = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${course.id}`, values)
             router.refresh()
@@ -48,6 +57,17 @@ const CategoryForm = ({ course, categories }: CategoryFormProps) => {
             toast.error('something went wrong')
         }
     }
+    const onCreate = async (values: z.infer<typeof createSchema>) => {
+        try {
+            await axios.patch(`/api/categories`, values)
+            router.refresh()
+            setIsEditing(false)
+            toast.success(`You created a category!`)
+        } catch (error) {
+            toast.error('something went wrong')
+        }
+    }
+
 
     const selectedCategory = categories.find(category => category?.id === course?.categoryId)
 
@@ -65,8 +85,8 @@ const CategoryForm = ({ course, categories }: CategoryFormProps) => {
                     <div className='italic text-md font-semibold'>No Category</div>
                 )}
 
-                {(!selectedCategory || isEditing) && <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 mt-2">
+                {(!selectedCategory && isEditing && categories.length > 0) && <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onChange)} className="space-y-2 mt-2">
                         <FormField
                             control={form.control}
                             name="categoryId"
@@ -82,6 +102,26 @@ const CategoryForm = ({ course, categories }: CategoryFormProps) => {
                         />
                         <Button type='submit' className='' disabled={isSubmitting || !isValid}>
                             Save
+                        </Button>
+                    </form>
+                </Form>}
+                {(!selectedCategory && isEditing && categories.length === 0) && <Form {...createForm}>
+                    <form onSubmit={createForm.handleSubmit(onCreate)} className="space-y-2 mt-2">
+                        <FormField
+                            control={createForm.control}
+                            name="title"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input {...field} placeholder='create new category' />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button type='submit' className='' disabled={isSubmitting || !isValid}>
+                            Create
                         </Button>
                     </form>
                 </Form>}

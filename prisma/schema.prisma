@@ -21,13 +21,14 @@ model Course {
   isPublished Boolean  @default(false)
 
   categoryId String?
-  Category   Category?    @relation(fields: [categoryId], references: [id])
+  Category   Category?    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   Attachment Attachment[]
   Chapter    Chapter[]
 
-  created_at DateTime    @default(now())
-  updated_at DateTime    @updatedAt
+  created_at DateTime           @default(now())
+  updated_at DateTime           @updatedAt
   Purchases  Purchases[]
+  students   StudetsOnCourses[]
 
   @@index([categoryId])
 }
@@ -133,4 +134,24 @@ model Coupon {
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+model Student {
+  id        String             @id @default(uuid())
+  name      String
+  image_url String
+  courses   StudetsOnCourses[]
+}
+
+model StudetsOnCourses {
+  id        String  @id @default(uuid())
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
+  courseId  String
+  course    Course  @relation(fields: [courseId], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([courseId, studentId])
 }

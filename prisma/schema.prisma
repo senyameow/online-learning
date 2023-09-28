@@ -155,3 +155,57 @@ model StudetsOnCourses {
 
   @@index([courseId, studentId])
 }
+
+// FOR CHAT
+
+model Chat {
+  id String @id @default(uuid())
+
+  memberOneId String
+  memberOne   Member @relation("MemberOne", fields: [memberOneId], references: [id], onDelete: Cascade)
+
+  memberTwoId String
+  memberTwo   Member @relation("MemberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
+
+  directMessages DirectMessage[]
+
+  @@unique([memberOneId, memberTwoId])
+  @@index([memberOneId])
+  @@index([memberTwoId])
+}
+
+model DirectMessage {
+  id      String @id @default(uuid())
+  content String @db.Text
+
+  file_url String? @db.Text
+
+  memberId String
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade) // связь с мембером
+
+  chatId String
+  Chat   Chat   @relation(fields: [chatId], references: [id], onDelete: Cascade) // связь с диалогом
+
+  created_At DateTime @default(now())
+  updated_At DateTime @updatedAt
+
+  @@index([memberId])
+}
+
+model Member {
+  id String @id @default(uuid())
+
+  user_id   String @unique
+  name      String
+  image_url String @db.Text // просто для больших строчек (например, как ссылка на картинку)
+  email     String @db.Text
+
+  // у мембера опять таки много серваков (many to many)
+
+  ConversationInitiated Chat[]          @relation("MemberOne") // теперь мы можем хендлить 2 разных случая, когда кто-то начинает диалог и кто-то его получает
+  ConversationReceived  Chat[]          @relation("MemberTwo") // теперь мы можем хендлить 2 разных случая, когда кто-то начинает диалог и кто-то его получает
+  directMessages        DirectMessage[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

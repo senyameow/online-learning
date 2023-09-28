@@ -1,6 +1,9 @@
 'use client'
+import { getStudents } from '@/actions/get-student'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useModalStore } from '@/hooks/use-modal-store'
+import { StudentWithCourseId } from '@/types'
+import { Student } from '@prisma/client'
 import { Copy, Edit, MoreHorizontal, School, Trash } from 'lucide-react'
 import { redirect, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -8,9 +11,10 @@ import React, { useState } from 'react'
 interface CoursesActionProps {
     courseId: string;
     courseTitle: string;
+    students: StudentWithCourseId[]
 }
 
-const Action = ({ courseId, courseTitle }: CoursesActionProps) => {
+const Action = ({ courseId, courseTitle, students }: CoursesActionProps) => {
 
     const [isLoading, setIsLoading] = useState(false)
     const { onOpen } = useModalStore()
@@ -28,7 +32,7 @@ const Action = ({ courseId, courseTitle }: CoursesActionProps) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem disabled={isLoading} onClick={() => { }}>
+                <DropdownMenuItem disabled={isLoading} onClick={() => onOpen(`UsersModal`, { courseInfo: { courseId }, students: students.filter(student => student.courseId === courseId) })}>
                     <div className="flex flex-row items-center">
                         <School className="w-4 h-4 mr-2" />
                         Students

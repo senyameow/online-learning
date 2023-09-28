@@ -5,12 +5,15 @@ import { CoursesColumn, columns } from './columns'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
+import { Student } from '@prisma/client'
 
 interface CoursesClientProps {
     items: CoursesColumn[]
 }
 
 const CoursesClient = ({ items }: CoursesClientProps) => {
+
+
     return (
         <>
 

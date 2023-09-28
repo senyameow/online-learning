@@ -24,13 +24,28 @@ const CoursesPage = async () => {
 
     if (!myCourses) return redirect('/teacher/new')
 
+    const students = await db.studetsOnCourses.findMany({
+        include: {
+            student: true
+        }
+    })
+
+    const formattedStudents = students.map(student => ({
+        id: student.studentId,
+        name: student.student.name,
+        image_url: student.student.image_url,
+        courseId: student.courseId
+    }))
+
     const formattedCourses: CoursesColumn[] = myCourses.map(course => ({
         id: course.id,
         title: course.title,
         price: formatter.format(Number(course.price)),
         status: course.isPublished,
         created_at: format(course.created_at, 'MMMM do, yyyy'),
+        students: formattedStudents
     }))
+
 
     return (
         <div className="flex flex-col w-full">

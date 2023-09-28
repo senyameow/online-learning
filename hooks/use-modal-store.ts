@@ -1,4 +1,5 @@
-import { Chapter, Course, Student } from '@prisma/client';
+import { StudentWithCourseId } from '@/types';
+import { Chapter, Course } from '@prisma/client';
 import { create } from 'zustand'
 
 export type ModalType = 'DeleteChapter' | 'DeleteCourse' | 'UsersModal'
@@ -10,7 +11,7 @@ interface ModalData {
         courseTitle?: string;
         courseId?: string;
     }
-    students?: Student[]
+    students?: StudentWithCourseId[]
 }
 
 interface useModalStoreProps {

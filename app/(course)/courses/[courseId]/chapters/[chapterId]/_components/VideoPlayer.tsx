@@ -30,7 +30,7 @@ const VideoPlayer = ({ title, chapterId, playbackId, completeOnEnd, courseId, ne
             if (completeOnEnd) {
                 if (!nextChapterId) {
                     onOpen()
-                } else {
+
                     await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/finish`)
                     router.push(`/courses/${courseId}/chapters/${chapterId}`)
                     router.refresh()

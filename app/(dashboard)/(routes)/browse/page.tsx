@@ -36,6 +36,7 @@ const BrowsePage = async ({ searchParams }: BrowsePageProps) => {
             <div className='md:mt-0'>
                 <Queries data={categories} valueKey='categoryId' />
             </div>
+
             <CoursesList courses={courses} />
         </div>
     )

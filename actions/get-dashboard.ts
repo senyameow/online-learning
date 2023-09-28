@@ -1,51 +1,37 @@
-import { db } from "@/lib/db"
-import { Category, Course } from "@prisma/client"
-import axios from "axios";
-import qs from 'query-string'
+import { db } from "@/lib/db";
+import { CourseWithCategoryAndProgress } from "@/types"
 import { getProgress } from "./get-progress";
-import { CourseWithCategoryAndProgress } from "@/types";
 
-interface getCoursesProps {
-    userId: string;
-    title?: string;
-    categoryId?: string;
-    completed?: boolean
+
+
+type DashboardCourses = {
+    completedCourses: CourseWithCategoryAndProgress[];
+    coursesInProgress: CourseWithCategoryAndProgress[];
 }
 
-
-
-export const getDashboard = async ({ userId, title, categoryId, completed }: getCoursesProps): Promise<CourseWithCategoryAndProgress[]> => {
+export const getDashboard = async (userId: string): Promise<DashboardCourses> => {
     try {
-
-        const results: any[] = []
-
         const userPurchases = await db.purchases.findMany({
             where: {
                 userId
             }
         })
-
-        const ids = userPurchases.map(pur => pur.id)
-
-
-        const purchasedCourses = await db.course.findMany({
+        const purchasedCoursesIds = userPurchases.map(purchase => purchase.courseId)
+        const allCourses = await db.course.findMany({
             where: {
                 id: {
-                    in: ids
+                    in: purchasedCoursesIds
                 },
-                title: title,
-                categoryId: categoryId,
+                isPublished: true
             },
             include: {
                 Category: true,
                 Chapter: {
+                    where: {
+                        isPublished: true
+                    },
                     select: {
                         id: true
-                    }
-                },
-                Purchases: {
-                    where: {
-                        userId
                     }
                 }
             },
@@ -54,27 +40,31 @@ export const getDashboard = async ({ userId, title, categoryId, completed }: get
             }
         })
 
-        if (completed) {
-            purchasedCourses.forEach(async (course) => {
-                let courseProgress = await getProgress(userId, course.id)
-                if (courseProgress !== null && courseProgress > 0) {
-                    results.push(course)
-                }
-            })
-        }
-
-        const coursesWithCategoryAndProgress: CourseWithCategoryAndProgress[] = await Promise.all(purchasedCourses.filter(async course => await getProgress(userId, course.id)).map(async (course) => ({
-            category: course.Category,
-            chapters: course.Chapter,
-            progress: (course.Purchases.length === 0 ? null : await getProgress(userId, course.id)),
-            ...course
+        const coursesWithProgress = await Promise.all(allCourses.map(async (course) => ({
+            ...course,
+            progress: await getProgress(userId, course.id)
         })))
 
+        const completedCourses = coursesWithProgress.filter(course => course.progress === 100).map(course => ({
+            category: course.Category,
+            chapters: course.Chapter,
+            ...course
+        }))
+        const coursesInProgress = coursesWithProgress.filter(course => course.progress > 0 && course.progress < 100).map(course => ({
+            category: course.Category,
+            chapters: course.Chapter,
+            ...course
+        }))
 
-        return coursesWithCategoryAndProgress
+        return {
+            completedCourses,
+            coursesInProgress
+        }
 
     } catch (error) {
-        console.log(error)
-        return []
+        return {
+            completedCourses: [],
+            coursesInProgress: [],
+        }
     }
 }

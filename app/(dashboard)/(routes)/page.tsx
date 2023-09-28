@@ -21,12 +21,14 @@ const Dashboard = async ({ searchParams }: DashboardProps) => {
 
     const { userId } = auth()
 
-    if (!userId) return redirect('sign-in')
+    if (!userId) return redirect('/')
 
     const categories = await db.category.findMany()
 
-    const courses = await getDashboard({ userId: userId as string, title: searchParams.title, categoryId: searchParams.categoryId })
-
+    const {
+        completedCourses,
+        coursesInProgress
+    } = await getDashboard(userId)
 
 
     return (
@@ -34,13 +36,14 @@ const Dashboard = async ({ searchParams }: DashboardProps) => {
             <div className='py-4 block'>
                 <Search />
             </div>
-            <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-center'>
-
-            </div>
             <div className='md:mt-0'>
                 <Queries data={categories} valueKey='categoryId' />
             </div>
-            <CoursesList courses={courses} />
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                <div>1 card</div>
+                <div>2 card</div>
+            </div>
+            <CoursesList courses={[...coursesInProgress, ...completedCourses]} />
         </div>
     )
 }

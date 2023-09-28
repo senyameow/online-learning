@@ -59,7 +59,7 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                         {chapter.title}
                     </div>
                     {!purchase && < Enroll price={Number(course.price)} courseId={params.courseId} chapterId={chapter.id} />}
-                    <NextChapterButton nextChapterId={nextChapter?.id!} isCompleted={userProgress?.isCompleted!} courseId={params.courseId} chapterId={chapter.id} userId={userId} chapterTitle={chapter.title} />
+                    {!purchase ? null : <NextChapterButton nextChapterId={nextChapter?.id!} isCompleted={userProgress?.isCompleted!} courseId={params.courseId} chapterId={chapter.id} userId={userId} chapterTitle={chapter.title} />}
                 </div>
                 <Separator className='my-4' />
                 <div className='flex flex-col items-start'>
@@ -78,15 +78,17 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                             <p className=''>{item.title}</p>
                         </a>
                     ))}
-                    {(attachments?.length === 0 || !attachments) && (
+                    {(attachments?.length === 0 && purchase) && (
                         <div className='w-full py-6 text-sky-700 text-center text-xl '>
                             it seems there is no attachments in this chapter..
                         </div>
                     )}
-                    {!purchase && (
+                    {!purchase && (attachments?.length !== 0 || attachments) && (
                         <div className='w-full py-6 text-rose-700 text-center text-xl '>
-                            You have to enroll course to see the attachments
-                            <Eye className='w-4 h-4 ' />
+                            <div className='flex items-center w-full justify-center'>
+                                <span>You have to enroll course to see the attachments</span>
+                                <Eye className='w-8 h-8 ml-2' />
+                            </div>
                         </div>
                     )}
                 </div>

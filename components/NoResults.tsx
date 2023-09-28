@@ -2,7 +2,9 @@ import React from 'react'
 
 const NoResults = () => {
     return (
-        <div>NoResults</div>
+        <div className='w-full h-full flex items-center justify-center'>
+            No reluts found...
+        </div>
     )
 }
 

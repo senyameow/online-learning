@@ -1,9 +1,11 @@
 import React from 'react'
 
-const page = () => {
+const Analitics = () => {
     return (
-        <div>Analytics</div>
+        <div className=''>
+
+        </div>
     )
 }
 
-export default page
+export default Analitics

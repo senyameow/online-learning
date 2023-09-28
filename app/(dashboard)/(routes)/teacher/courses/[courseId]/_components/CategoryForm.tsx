@@ -52,17 +52,18 @@ const CategoryForm = ({ course, categories }: CategoryFormProps) => {
             await axios.patch(`/api/courses/${course.id}`, values)
             router.refresh()
             setIsEditing(false)
-            toast.success(`description has been updated!`)
+            toast.success(`category has been updated!`)
         } catch (error) {
             toast.error('something went wrong')
         }
     }
     const onCreate = async (values: z.infer<typeof createSchema>) => {
         try {
-            await axios.patch(`/api/categories`, values)
+            await axios.post(`/api/categories`, values)
             router.refresh()
             setIsEditing(false)
             toast.success(`You created a category!`)
+
         } catch (error) {
             toast.error('something went wrong')
         }

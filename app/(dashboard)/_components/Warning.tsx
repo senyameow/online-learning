@@ -10,7 +10,7 @@ const Warning = ({ type }: WarningProps) => {
         <div className='w-full p-4 bg-yellow-300/70 text-center  text-md font-semibold'>
             <div className='w-fit flex items-center'>
                 <FileWarning className='w-4 h-4 mr-2' />
-                This <span>{type === 'course' ? 'course' : 'chapter'}</span> is unpublished. Users are not able to see it
+                This {type} is unpublished. Users are not able to see it
             </div>
         </div>
     )

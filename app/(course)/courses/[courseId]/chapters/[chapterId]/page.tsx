@@ -58,7 +58,7 @@ const ChapterPage = async ({ params }: { params: { courseId: string, chapterId: 
                     <div className='text-2xl font-bold mb-3'>
                         {chapter.title}
                     </div>
-                    {!purchase && < Enroll price={Number(course.price)} courseId={params.courseId} chapterId={chapter.id} />}
+                    {!purchase && < Enroll userId={userId} price={Number(course.price)} courseId={params.courseId} chapterId={chapter.id} />}
                     {!purchase ? null : <NextChapterButton nextChapterId={nextChapter?.id!} isCompleted={userProgress?.isCompleted!} courseId={params.courseId} chapterId={chapter.id} userId={userId} chapterTitle={chapter.title} />}
                 </div>
                 <Separator className='my-4' />

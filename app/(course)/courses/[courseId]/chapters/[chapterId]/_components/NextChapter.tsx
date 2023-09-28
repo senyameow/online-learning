@@ -63,7 +63,7 @@ const NextChapterButton = ({ nextChapterId, isCompleted, courseId, chapterId, ch
             {!isCompleted ? <Button onClick={onClick} disabled={isLoading}>Finish</Button> : <Button disabled={isLoading || !nextChapterId} onClick={onNext} className={cn(``, !nextChapterId && 'hidden')}>
                 <span>Next <ArrowRight className='w-4 h-4 ml-2' /></span>
             </Button>}
-            {!nextChapterId && (
+            {!nextChapterId && isCompleted && (
                 <Button>
                     Donate
                 </Button>

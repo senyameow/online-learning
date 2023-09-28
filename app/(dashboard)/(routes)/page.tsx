@@ -41,7 +41,7 @@ const Dashboard = async ({ searchParams }: DashboardProps) => {
             <div className='md:mt-0'>
                 <Queries data={categories} valueKey='categoryId' />
             </div>
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4'>
                 <InfoCard icon={Clock} label='In Progress' numberOfCourses={coursesInProgress.length} variant={'default'} />
                 <InfoCard icon={CheckCircle} label='Completed' numberOfCourses={completedCourses.length} variant={'success'} />
             </div>

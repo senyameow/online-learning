@@ -6,31 +6,24 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
     try {
 
-        const { userId } = auth()
+        const { courseId, userId } = await req.json()
 
-        if (!userId) return new NextResponse('Unauthorizes', { status: 400 })
-
-        const { courseId, userId: id } = await req.json()
         if (!courseId) return new NextResponse(`no course ID provided`, { status: 401 })
-        if (!id) return new NextResponse(`no user ID provided`, { status: 401 })
+        if (!userId) return new NextResponse(`no user ID provided`, { status: 401 })
 
         const purchase = await db.purchases.create({
             data: {
-                userId,
+                userId: userId,
                 courseId
             }
         })
 
-        await db.studetsOnCourses.create({
-            data: {
-                studentId: id,
-                courseId
-            }
-        })
+
 
         return NextResponse.json(purchase, { status: 200 })
 
     } catch (error) {
+        console.log(error)
         return new NextResponse('internal error', { status: 500 })
     }
 }

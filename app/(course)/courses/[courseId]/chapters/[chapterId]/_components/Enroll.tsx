@@ -33,10 +33,11 @@ const Enroll = ({ price, courseId, chapterId, userId }: { price: number, courseI
         const createPurchase = async () => {
             try {
                 setIsLoading(true)
-                const res = await axios.post(`/api/purchases`, { courseId, userId })
+                // const res = await axios.post(`/api/purchases`, { courseId, userId })
                 router.refresh()
-                toast.success(`You've purchased ${res.data.title} course`)
+                toast.success(`You've purchased course`)
             } catch (error) {
+                console.log(error)
                 toast.error(`something went wrong BUT IT'S IMPOSSIBLE`)
             } finally {
                 setIsLoading(false)

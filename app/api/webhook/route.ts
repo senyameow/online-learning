@@ -23,17 +23,40 @@ export async function POST(req: Request) {
     const session = event.data.object as Stripe.Checkout.Session
 
     if (event.type === 'checkout.session.completed') {
-        await stripe.coupons.del(`first_buy_${session?.metadata?.userId}`)
-        const purchase = await db.purchases.create({
+        if (!session?.metadata?.userId || !session?.metadata?.courseId) {
+            return new NextResponse(`Webhook Error: Missing metadata`, { status: 400 });
+        }
+        await stripe?.coupons?.del(`first_buy_${session?.metadata?.userId}`)
+        await db.purchases.create({
             data: {
-                courseId: session.metadata?.courseId!,
-                userId: session.metadata?.userId!
+                courseId: session?.metadata?.courseId!,
+                userId: session?.metadata?.userId!,
             }
         })
 
-        return new NextResponse(null, { status: 200 })
+        await db.student.create({
+            data: {
+                name: session?.customer_details?.name!,
+                image_url: session?.customer_details?.email!,
+                courses: {
+                    create: [
+                        {
+                            course: {
+                                connect: {
+                                    id: session?.metadata?.courseId
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        })
 
+
+    } else {
+        return new NextResponse(`Webhook Error: Unhandled event type ${event.type}`, { status: 200 })
     }
 
+    return new NextResponse(null, { status: 200 })
 
 }

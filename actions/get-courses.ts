@@ -19,7 +19,6 @@ export const getCourses = async ({ userId, title, categoryId }: getCoursesProps)
 
         const courses = await db.course.findMany({
             where: {
-                userId,
                 title: title,
                 categoryId: categoryId
             },

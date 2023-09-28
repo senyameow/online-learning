@@ -12,6 +12,9 @@ const StudentList = ({ students }: StudentListProps) => {
             {students?.map(student => (
                 <StudentCard key={student.id} name={student.name} image_url={student.image_url} id={student.id} date={student.created_at} />
             ))}
+            {students.length === 0 && (
+                <div className='text-center w-full'>Nobody bought your course yet...</div>
+            )}
         </div>
     )
 }

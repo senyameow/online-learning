@@ -32,6 +32,7 @@ const Dashboard = async ({ searchParams }: DashboardProps) => {
         coursesInProgress
     } = await getDashboard(userId)
 
+    if (completedCourses.length === 0 && coursesInProgress.length === 0) redirect('/browse')
 
     return (
         <div className="flex flex-col w-full px-6 h-full">

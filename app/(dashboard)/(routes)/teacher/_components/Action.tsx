@@ -2,7 +2,7 @@
 import { getStudents } from '@/actions/get-student'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useModalStore } from '@/hooks/use-modal-store'
-import { StudentWithCourseId } from '@/types'
+import { StudentWithCourseIdAndDate } from '@/types'
 import { Student } from '@prisma/client'
 import { Copy, Edit, MoreHorizontal, School, Trash } from 'lucide-react'
 import { redirect, useRouter } from 'next/navigation'
@@ -11,7 +11,7 @@ import React, { useState } from 'react'
 interface CoursesActionProps {
     courseId: string;
     courseTitle: string;
-    students: StudentWithCourseId[]
+    students: StudentWithCourseIdAndDate[]
 }
 
 const Action = ({ courseId, courseTitle, students }: CoursesActionProps) => {

@@ -5,6 +5,7 @@ export type CourseWithCategoryAndProgress = Course & {
     chapters: { id: string }[];
     progress: number | null;
 }
-export type StudentWithCourseId = Student & {
+export type StudentWithCourseIdAndDate = Student & {
     courseId: string
+    created_at: string;
 }

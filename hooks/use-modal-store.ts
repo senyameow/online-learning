@@ -1,4 +1,4 @@
-import { StudentWithCourseId } from '@/types';
+import { StudentWithCourseIdAndDate } from '@/types';
 import { Chapter, Course } from '@prisma/client';
 import { create } from 'zustand'
 
@@ -11,7 +11,7 @@ interface ModalData {
         courseTitle?: string;
         courseId?: string;
     }
-    students?: StudentWithCourseId[]
+    students?: StudentWithCourseIdAndDate[]
 }
 
 interface useModalStoreProps {

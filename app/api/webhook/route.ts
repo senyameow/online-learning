@@ -4,9 +4,13 @@ import { NextResponse } from "next/server";
 
 import { stripe } from "@/lib/stripe";
 import { db } from "@/lib/db";
+import { auth } from "@clerk/nextjs";
 
 
 export async function POST(req: Request) {
+
+    const { user } = auth()
+
     const body = await req.text()
     const signature = headers().get('Stripe-Signature') as string;
 
@@ -37,7 +41,7 @@ export async function POST(req: Request) {
         await db.student.create({
             data: {
                 name: session?.customer_details?.name!,
-                image_url: session?.customer_details?.email!,
+                image_url: session?.metadata?.image_url,
                 courses: {
                     create: [
                         {

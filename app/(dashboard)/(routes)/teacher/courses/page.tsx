@@ -34,7 +34,8 @@ const CoursesPage = async () => {
         id: student.studentId,
         name: student.student.name,
         image_url: student.student.image_url,
-        courseId: student.courseId
+        courseId: student.courseId,
+        created_at: format(student.created_at, 'MMMM do, yyyy')
     }))
 
     const formattedCourses: CoursesColumn[] = myCourses.map(course => ({

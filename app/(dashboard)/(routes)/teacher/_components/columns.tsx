@@ -5,8 +5,7 @@ import Action from "./Action";
 import { ArrowUpDown, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Student, StudetsOnCourses } from "@prisma/client";
-import { StudentWithCourseId } from "@/types";
+import { StudentWithCourseIdAndDate } from "@/types";
 
 export type CoursesColumn = {
     id: string;
@@ -14,7 +13,7 @@ export type CoursesColumn = {
     price: string;
     status: boolean;
     created_at: string;
-    students: StudentWithCourseId[]
+    students: StudentWithCourseIdAndDate[]
 }
 
 export const columns: ColumnDef<CoursesColumn>[] = [

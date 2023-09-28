@@ -99,6 +99,7 @@ export async function POST(req: Request) {
             metadata: {
                 courseId,
                 userId: user.id,
+                image_url: user.imageUrl
             },
             discounts: [
                 { coupon: `first_buy_${user.id}` }

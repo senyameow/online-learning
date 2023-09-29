@@ -7,6 +7,9 @@ import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Form } from './ui/form';
 import ChatInput from './ChatInput';
+// import ChatPopover from './ChatPopover';
+import { getChat } from '@/lib/chat';
+import { auth } from '@clerk/nextjs';
 
 interface StudentCardProps {
     name: string;
@@ -15,7 +18,17 @@ interface StudentCardProps {
     date: string;
 }
 
-const StudentCard = ({ name, id, image_url, date }: StudentCardProps) => {
+const StudentCard = async ({ name, id, image_url, date }: StudentCardProps) => {
+
+    const { userId } = auth()
+
+    const chat = await getChat(userId as string, id)
+
+    const memberOne = chat?.memberOne
+    const memberTwo = chat?.memberTwo
+
+    const otherMember = memberOne?.user_id === userId ? memberTwo : memberOne;
+
     return (
         <div className='w-full rounded-lg border border-black p-4 hover:cursor-pointer group'>
             <div className='flex items-center gap-2 justify-between'>
@@ -27,24 +40,7 @@ const StudentCard = ({ name, id, image_url, date }: StudentCardProps) => {
                     </div>
                 </div>
                 <div>
-                    <Popover>
-                        <PopoverTrigger asChild >
-                            <Button className='invisible  group-hover:visible' variant={'ghost'}>
-                                <MessageCircle className='w-6 h-6 ' />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-80">
-                            <div className="grid gap-4">
-                                <div className="space-y-2">
-                                    <h4 className="font-medium leading-none"><span className='text-lg font-semibold'>{name}</span></h4>
-                                    <p className="text-xs text-muted-foreground">
-                                        'DID YOUR DOG EAT YOUR HOMEWORK AGAIN?'
-                                    </p>
-                                </div>
-                                <ChatInput apiUrl={`/api/direct-messages`} query={{ studentId: id }} type='conversation' name={name} />
-                            </div>
-                        </PopoverContent>
-                    </Popover>
+                    {/* <ChatPopover /> */}
                 </div>
 
             </div>

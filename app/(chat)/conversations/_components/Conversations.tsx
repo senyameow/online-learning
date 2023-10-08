@@ -1,17 +1,20 @@
 import { FullConvType } from '@/actions/(chat)/get-conversations'
 import React from 'react'
-import Conversation from './Conversation'
+
 import EmptyState from '@/components/ui/EmptyState'
+import { Student } from '@prisma/client';
+import { Conversation } from './Conversation';
 
 interface ConversationsProps {
-    conversations: FullConvType[]
+    conversations: FullConvType[];
+    currentStudent: Student
 }
 
-const Conversations = ({ conversations }: ConversationsProps) => {
+const Conversations = ({ conversations, currentStudent }: ConversationsProps) => {
     return (
-        <div className='w-full h-full flex flex-col'>
+        <div className='w-full h-full flex flex-col px-4 mx-auto items-center'>
             {conversations?.length > 0 ? conversations?.map(conversation => (
-                <Conversation key={conversation.id} conversation={conversation} />
+                <Conversation currentStudent={currentStudent!} key={conversation.id} conversation={conversation} />
             )) : (
                 <EmptyState />
             )}

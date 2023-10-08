@@ -5,7 +5,7 @@ import { getConversations } from '@/actions/(chat)/get-conversations'
 import ConversationSidebar from '@/app/(dashboard)/_components/ConversationSidebar'
 import { initialStudent } from '@/lib/initialStudent'
 
-const ConversationLayout = async ({ children }: { children: React.ReactNode }) => {
+const ConversationsLayout = async ({ children }: { children: React.ReactNode }) => {
 
     const conversations = await getConversations()
 
@@ -26,4 +26,4 @@ const ConversationLayout = async ({ children }: { children: React.ReactNode }) =
     )
 }
 
-export default ConversationLayout
+export default ConversationsLayout

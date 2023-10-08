@@ -3,7 +3,7 @@ import React from 'react'
 import { Toggle } from "@/components/ui/toggle"
 import Queries from '@/components/ui/Queries'
 import { getCourses } from '@/actions/get-courses'
-import { auth } from '@clerk/nextjs'
+import { auth, currentUser } from '@clerk/nextjs'
 import { Banner } from '@/components/Banner'
 import { redirect } from 'next/navigation'
 import Search from '../_components/Search'
@@ -11,6 +11,8 @@ import CoursesList from './browse/_components/CoursesList'
 import { getDashboard } from '@/actions/get-dashboard'
 import InfoCard from '../_components/InfoCard'
 import { CheckCircle, Clock } from 'lucide-react'
+import { initialStudent } from '@/lib/initialStudent'
+
 
 interface DashboardProps {
     searchParams: {
@@ -24,6 +26,8 @@ const Dashboard = async ({ searchParams }: DashboardProps) => {
     const { userId } = auth()
 
     if (!userId) return redirect('/')
+
+    const student = await initialStudent()
 
     const categories = await db.category.findMany()
 

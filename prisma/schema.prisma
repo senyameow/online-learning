@@ -140,6 +140,7 @@ model Student {
   id            String             @id @default(uuid())
   name          String
   image_url     String
+  email         String             @unique
   courses       StudetsOnCourses[]
   conversations Conversation[]
   seenMessages  Message[]          @relation("Seen")

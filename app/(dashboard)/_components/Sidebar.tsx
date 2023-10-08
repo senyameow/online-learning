@@ -1,22 +1,15 @@
 import React from 'react'
 import Logo from './Logo'
 import SidebarRoutes from './SidebarRoutes'
-import { FullConvType } from '@/actions/(chat)/get-conversations'
-import Conversations from '@/app/(chat)/conversations/_components/Conversations'
 
-interface SidebarProps {
-    conversations: FullConvType[]
-}
-
-const Sidebar = ({ conversations }: SidebarProps) => {
-
+const Sidebar = () => {
     return (
         <div className='border-r border-neutral-500 h-full w-full flex flex-col bg-white overflow-y-auto shadow-md shadow-blue-400'>
-            <div className='p-6 flex items-center justify-center'>
-                <span className='font-bold text-3xl'>Students</span>
+            <div className='p-6'>
+                <Logo />
             </div>
             <div className='w-full h-full'>
-                <Conversations conversations={conversations} />
+                <SidebarRoutes />
             </div>
         </div>
     )

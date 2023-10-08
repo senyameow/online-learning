@@ -1,9 +1,10 @@
 import React from 'react'
-import Navbar from '../(dashboard)/_components/Navbar'
-import Sidebar from '../(dashboard)/_components/Sidebar'
+import Navbar from '../../(dashboard)/_components/Navbar'
+import Sidebar from '../../(dashboard)/_components/Sidebar'
 import { getConversations } from '@/actions/(chat)/get-conversations'
+import ConversationSidebar from '@/app/(dashboard)/_components/ConversationSidebar'
 
-const Dashboard = async ({ children }: { children: React.ReactNode }) => {
+const ConversationLayout = async ({ children }: { children: React.ReactNode }) => {
 
     const conversations = await getConversations()
 
@@ -13,7 +14,7 @@ const Dashboard = async ({ children }: { children: React.ReactNode }) => {
                 <Navbar />
             </div>
             <div className='hidden md:flex inset-y-0 fixed w-72 z-50'>
-                <Sidebar conversations={conversations} />
+                <ConversationSidebar conversations={conversations} />
             </div>
             <div className='md:pl-72 md:pt-20 h-full'>
                 {children}
@@ -22,4 +23,4 @@ const Dashboard = async ({ children }: { children: React.ReactNode }) => {
     )
 }
 
-export default Dashboard
+export default ConversationLayout

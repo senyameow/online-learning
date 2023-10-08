@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { db } from '@/lib/db'
-import { auth } from '@clerk/nextjs'
+import { auth, clerkClient } from '@clerk/nextjs'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -12,6 +12,7 @@ import CoursesClient from '../_components/Client'
 import CourseActions from './[courseId]/_components/CourseActions'
 
 const CoursesPage = async () => {
+
     const { userId } = auth()
 
     if (!userId) return redirect('/sign-in')

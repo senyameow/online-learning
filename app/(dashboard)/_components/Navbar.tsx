@@ -5,8 +5,8 @@ import NavbarRoutes from './NavbarRoutes'
 import Search from './Search'
 const Navbar = () => {
     return (
-        <nav className='px-4 pb-6 pt-6 bg-white w-full pr-6 shadow-sm'>
-            <div className='flex items-center justify-between '>
+        <nav className='px-4 pb-6 pt-6 bg-white w-full pr-6 shadow-md'>
+            <div className='flex items-center justify-between'>
                 {/* <Search /> */}
                 <MobileSidebar />
                 <NavbarRoutes />

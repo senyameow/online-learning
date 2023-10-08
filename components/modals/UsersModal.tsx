@@ -4,7 +4,6 @@ import { useModalStore } from "@/hooks/use-modal-store"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Modal } from "../ui/Modal"
-import { getStudents } from "@/actions/get-student"
 import StudentList from "../StudentList"
 
 export const UsersModal = () => {

@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image';
 import React from 'react'
 import { Button } from './ui/button';
@@ -9,7 +10,7 @@ import { Form } from './ui/form';
 import ChatInput from './ChatInput';
 // import ChatPopover from './ChatPopover';
 import { getChat } from '@/lib/chat';
-import { auth } from '@clerk/nextjs';
+import { auth, clerkClient } from '@clerk/nextjs';
 
 interface StudentCardProps {
     name: string;
@@ -18,16 +19,7 @@ interface StudentCardProps {
     date: string;
 }
 
-const StudentCard = async ({ name, id, image_url, date }: StudentCardProps) => {
-
-    const { userId } = auth()
-
-    const chat = await getChat(userId as string, id)
-
-    const memberOne = chat?.memberOne
-    const memberTwo = chat?.memberTwo
-
-    const otherMember = memberOne?.user_id === userId ? memberTwo : memberOne;
+const StudentCard = ({ name, id, image_url, date }: StudentCardProps) => {
 
     return (
         <div className='w-full rounded-lg border border-black p-4 hover:cursor-pointer group'>
@@ -40,7 +32,7 @@ const StudentCard = async ({ name, id, image_url, date }: StudentCardProps) => {
                     </div>
                 </div>
                 <div>
-                    {/* <ChatPopover /> */}
+
                 </div>
 
             </div>

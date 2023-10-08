@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { useParams, usePathname } from 'next/navigation'
-import { BarChart, Compass, Layout, List, Moon } from 'lucide-react'
+import { BarChart, Compass, Layout, List, MessageCircle, Moon } from 'lucide-react'
 import SidebarRoute from './SidebarRoute'
 
 

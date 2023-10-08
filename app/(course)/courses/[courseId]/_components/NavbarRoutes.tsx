@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { UserButton } from '@clerk/nextjs'
-import { Book, LogOut } from 'lucide-react'
+import { Bell, Book, LogOut } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 import Search from './Search'
@@ -37,6 +37,7 @@ const NavbarRoutes = () => {
                     <Book className='w-4 h-4 mr-2' />
                     Teacher mode
                 </Button>}
+
 
                 <UserButton afterSignOutUrl='/' />
             </div>

@@ -2,6 +2,7 @@
 
 import DeleteChapterModal from "@/components/modals/DeleteChapterModal"
 import DeleteCourse from "@/components/modals/DeleteCourseModal"
+import { StudentsModal } from "@/components/modals/StudentsModal"
 import { UsersModal } from "@/components/modals/UsersModal"
 import { useEffect, useState } from "react"
 
@@ -21,6 +22,7 @@ export const ModalProvider = () => {
             <DeleteChapterModal />
             <DeleteCourse />
             <UsersModal />
+            <StudentsModal />
         </>
     )
 }

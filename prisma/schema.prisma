@@ -137,10 +137,27 @@ model Coupon {
 }
 
 model Student {
-  id        String             @id @default(uuid())
-  name      String
-  image_url String
-  courses   StudetsOnCourses[]
+  id            String             @id @default(uuid())
+  name          String
+  image_url     String
+  courses       StudetsOnCourses[]
+  conversations Conversation[]
+  seenMessages  Message[]          @relation("Seen")
+
+  messages Message[]
+  notes    Note[]
+}
+
+model Note {
+  id     String @id @default(uuid())
+  text   String
+  userId String
+
+  writerId String
+  writer   Student @relation(fields: [writerId], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model StudetsOnCourses {
@@ -158,54 +175,37 @@ model StudetsOnCourses {
 
 // FOR CHAT
 
-model Chat {
-  id String @id @default(uuid())
+model Conversation {
+  id            String   @id @default(uuid())
+  lastMessageAt DateTime @default(now())
+  name          String?
+  lastMessage   String?
+  isGroup       Boolean?
 
-  memberOneId String
-  memberOne   Member @relation("MemberOne", fields: [memberOneId], references: [id], onDelete: Cascade)
+  students Student[]
+  messages Message[]
 
-  memberTwoId String
-  memberTwo   Member @relation("MemberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
-
-  directMessages DirectMessage[]
-
-  @@unique([memberOneId, memberTwoId])
-  @@index([memberOneId])
-  @@index([memberTwoId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model DirectMessage {
-  id      String @id @default(uuid())
-  content String @db.Text
+model Message {
+  id        String  @id @default(uuid())
+  text      String  @db.Text
+  isDeleted Boolean @default(false)
+  isUpdated Boolean @default(false)
+  file_url  String? @db.Text
 
-  file_url String? @db.Text
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
 
-  memberId String
-  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade) // связь с мембером
+  seen Student[] @relation("Seen")
 
-  chatId String
-  Chat   Chat   @relation(fields: [chatId], references: [id], onDelete: Cascade) // связь с диалогом
-
-  created_At DateTime @default(now())
-  updated_At DateTime @updatedAt
-
-  @@index([memberId])
-}
-
-model Member {
-  id String @id @default(uuid())
-
-  user_id   String @unique
-  name      String
-  image_url String @db.Text // просто для больших строчек (например, как ссылка на картинку)
-  email     String @db.Text
-
-  // у мембера опять таки много серваков (many to many)
-
-  ChatInitiated  Chat[]          @relation("MemberOne") // теперь мы можем хендлить 2 разных случая, когда кто-то начинает диалог и кто-то его получает
-  ChatReceived   Chat[]          @relation("MemberTwo") // теперь мы можем хендлить 2 разных случая, когда кто-то начинает диалог и кто-то его получает
-  directMessages DirectMessage[]
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+
+  @@index([studentId, conversationId])
 }

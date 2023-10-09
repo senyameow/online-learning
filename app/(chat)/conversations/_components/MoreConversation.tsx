@@ -4,7 +4,7 @@ import Avatar from '@/app/(dashboard)/_components/Avatar'
 import StudentInfo from '@/components/UserInfo'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Student } from '@prisma/client'
+import { Note, Student } from '@prisma/client'
 import { MoreHorizontal } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 
@@ -12,11 +12,10 @@ interface MoreConversationProps {
     conversation: FullConvType;
     name: string;
     otherStudent: Student | null;
+    otherUserNote: Note
 }
 
-const MoreConversation = ({ conversation, name, otherStudent }: MoreConversationProps) => {
-
-    console.log(otherStudent)
+const MoreConversation = ({ conversation, name, otherStudent, otherUserNote }: MoreConversationProps) => {
 
     return (
         <Sheet>
@@ -32,7 +31,7 @@ const MoreConversation = ({ conversation, name, otherStudent }: MoreConversation
                 </div>
                 <div className='px-4 py-6 pt-24 flex flex-col w-full h-full items-start gap-4 relative z-[999]'>
                     <Avatar image_url={otherStudent?.image_url!} className='md:w-[80px] md:h-[80px]' trackerClassName='md:w-4 md:h-4 right-[2px] top-[2px]' />
-                    <StudentInfo student={otherStudent!} />
+                    <StudentInfo otherUserNote={otherUserNote} student={otherStudent!} />
                 </div>
             </SheetContent>
         </Sheet >

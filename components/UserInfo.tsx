@@ -1,15 +1,16 @@
 import Container from '@/components/ui/Container'
 import { Separator } from '@/components/ui/separator'
-import { Student } from '@prisma/client'
+import { Note, Student } from '@prisma/client'
 import { format } from 'date-fns'
 import React from 'react'
 import NoteForm from './ui/NoteForm'
 
 interface StudentInfoProps {
-    student: Student
+    student: Student;
+    otherUserNote: Note
 }
 
-const StudentInfo = ({ student }: StudentInfoProps) => {
+const StudentInfo = ({ student, otherUserNote }: StudentInfoProps) => {
 
     return (
         <Container>
@@ -23,7 +24,7 @@ const StudentInfo = ({ student }: StudentInfoProps) => {
                 <span className='text-slate-200 text-xs '>{format(student.created_at, 'MMM dd, yyyy')}</span>
             </div>
             <Separator />
-            <NoteForm studentId={student?.id} note='qwe' />
+            <NoteForm note={otherUserNote.text} studentId={student?.id} />
         </Container>
     )
 }

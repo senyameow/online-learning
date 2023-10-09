@@ -4,6 +4,7 @@ import Avatar from '@/app/(dashboard)/_components/Avatar';
 import { Student } from '@prisma/client';
 import React from 'react'
 import MoreConversation from './MoreConversation';
+import { getUserNote } from '@/actions/get-user-note';
 
 interface ConversationInfoProps {
     conversation: FullConvType;
@@ -15,6 +16,7 @@ const ConversationInfo = async ({ conversation, currentStudent }: ConversationIn
 
     const otherStudent = conversation?.students.find(student => student.id !== currentStudent.id)
 
+    const otherUserNote = await getUserNote(otherStudent?.id!)
 
     return (
         <nav className='bg-white shadow-md w-[calc(100vw-18rem)] h-full flex items-center '>
@@ -36,7 +38,7 @@ const ConversationInfo = async ({ conversation, currentStudent }: ConversationIn
                     </div>
                 </div>
                 <div>
-                    <MoreConversation conversation={conversation} name={conversation?.name || otherStudent?.name!} otherStudent={conversation?.isGroup ? null : otherStudent!} />
+                    <MoreConversation otherUserNote={otherUserNote!} conversation={conversation} name={conversation?.name || otherStudent?.name!} otherStudent={conversation?.isGroup ? null : otherStudent!} />
                 </div>
             </div>
         </nav>

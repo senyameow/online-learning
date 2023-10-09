@@ -12,7 +12,7 @@ interface ConversationsProps {
 
 const Conversations = ({ conversations, currentStudent }: ConversationsProps) => {
     return (
-        <div className='w-full h-full flex flex-col px-4 mx-auto items-center'>
+        <div className='w-full h-full flex flex-col px-4 mx-auto items-center gap-3'>
             {conversations?.length > 0 ? conversations?.map(conversation => (
                 <Conversation currentStudent={currentStudent!} key={conversation.id} conversation={conversation} />
             )) : (

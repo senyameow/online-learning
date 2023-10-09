@@ -5,6 +5,8 @@ import { Student } from '@prisma/client';
 import React from 'react'
 import MoreConversation from './MoreConversation';
 import { getUserNote } from '@/actions/get-user-note';
+import GroupPopUp from './GroupPopUp';
+import MembersButton from './MembersButton';
 
 interface ConversationInfoProps {
     conversation: FullConvType;
@@ -31,14 +33,15 @@ const ConversationInfo = async ({ conversation, currentStudent }: ConversationIn
                         </div>
                         <div className='flex flex-col items-start justify-between h-full'>
                             <span>{conversation?.name || otherStudent?.name}</span>
-                            {conversation?.isGroup ? <span className='text-sm text-neutral-400'>{conversation?.students.length} members</span> : (
+                            {conversation?.isGroup ? <MembersButton conversation={conversation} /> : (
                                 <span className='text-sm text-neutral-400'>Inactive</span>
                             )}
                         </div>
                     </div>
                 </div>
                 <div>
-                    <MoreConversation otherUserNote={otherUserNote!} conversation={conversation} name={conversation?.name || otherStudent?.name!} otherStudent={conversation?.isGroup ? null : otherStudent!} />
+                    {!conversation?.isGroup && <MoreConversation otherUserNote={otherUserNote!} conversation={conversation} name={conversation?.name || otherStudent?.name!} otherStudent={conversation?.isGroup ? null : otherStudent!} />}
+                    {conversation.isGroup && <GroupPopUp />}
                 </div>
             </div>
         </nav>

@@ -94,7 +94,8 @@ export async function POST(req: Request) {
                     connect: [
                         ...students.map((student: { value: string }) => ({
                             id: student.value
-                        }))
+                        })),
+                        { id: userId }
                     ]
                 },
             },

@@ -1,6 +1,7 @@
 'use client'
 import { FullConvType } from '@/actions/(chat)/get-conversations'
 import Avatar from '@/app/(dashboard)/_components/Avatar'
+import StudentInfo from '@/components/UserInfo'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Student } from '@prisma/client'
@@ -15,6 +16,7 @@ interface MoreConversationProps {
 
 const MoreConversation = ({ conversation, name, otherStudent }: MoreConversationProps) => {
 
+    console.log(otherStudent)
 
     return (
         <Sheet>
@@ -30,7 +32,7 @@ const MoreConversation = ({ conversation, name, otherStudent }: MoreConversation
                 </div>
                 <div className='px-4 py-6 pt-24 flex flex-col w-full h-full items-start gap-4 relative z-[999]'>
                     <Avatar image_url={otherStudent?.image_url!} className='md:w-[80px] md:h-[80px]' trackerClassName='md:w-4 md:h-4 right-[2px] top-[2px]' />
-                    {/* <UserInfo user={otherStudent!} /> */}
+                    <StudentInfo student={otherStudent!} />
                 </div>
             </SheetContent>
         </Sheet >

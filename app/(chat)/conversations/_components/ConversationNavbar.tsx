@@ -15,6 +15,7 @@ const ConversationInfo = async ({ conversation, currentStudent }: ConversationIn
 
     const otherStudent = conversation?.students.find(student => student.id !== currentStudent.id)
 
+
     return (
         <nav className='bg-white shadow-md w-[calc(100vw-18rem)] h-full flex items-center '>
             <div className='w-full flex items-center justify-between px-4 pr-6'>

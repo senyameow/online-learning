@@ -6,6 +6,7 @@ import { Loader2, MessageCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useModalStore } from '@/hooks/use-modal-store';
 
 interface MiniStudentCardProps {
     name: string;
@@ -19,11 +20,14 @@ const MiniStudentCard = ({ name, id, image_url }: MiniStudentCardProps) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
+    const { onClose } = useModalStore()
+
     const onConversation = async () => {
         try {
             setIsLoading(true)
             const res = await axios.post(`/api/conversations`, { id })
             toast.success(`you have created conversation`)
+            onClose()
             router.push(`/conversations/${res.data.id}`)
         } catch (error) {
             console.log(error)

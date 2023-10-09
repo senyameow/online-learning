@@ -147,6 +147,9 @@ model Student {
 
   messages Message[]
   notes    Note[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model Note {

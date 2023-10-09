@@ -1,5 +1,6 @@
 'use client'
 
+import CreateGroupModal from "@/components/modals/CreateGroupModal"
 import DeleteChapterModal from "@/components/modals/DeleteChapterModal"
 import DeleteCourse from "@/components/modals/DeleteCourseModal"
 import { StudentsModal } from "@/components/modals/StudentsModal"
@@ -23,6 +24,7 @@ export const ModalProvider = () => {
             <DeleteCourse />
             <UsersModal />
             <StudentsModal />
+            <CreateGroupModal />
         </>
     )
 }

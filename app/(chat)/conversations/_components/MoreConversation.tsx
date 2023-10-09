@@ -19,7 +19,7 @@ const MoreConversation = ({ conversation, name, otherStudent, otherUserNote }: M
 
     return (
         <Sheet>
-            <SheetTrigger asChild className="hover:opacity-80 transition hover:shadow-xl hover:bg-gray-100/30 cursor-pointer relative z-[999]">
+            <SheetTrigger asChild className=" transition hover:opacity-80 cursor-pointer relative z-[999]">
                 <MoreHorizontal className='w-6 h-6 text-blue-400' />
             </SheetTrigger >
             <SheetContent className="p-0 w-96 " side={"right"}>

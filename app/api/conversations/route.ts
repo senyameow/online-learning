@@ -9,65 +9,92 @@ export async function POST(req: Request) {
         const { userId } = auth()
         if (!userId) return new NextResponse('Unauthorized', { status: 401 })
 
-        const { id } = await req.json()
-        if (!id) return new NextResponse('No user ID provided', { status: 400 })
+        const { id, isGroup, name, students } = await req.json()
+        if (!isGroup && !id) return new NextResponse('No user ID provided', { status: 400 })
 
-        console.log(id, userId)
+        console.log(id, isGroup, name, students)
 
-        let conversations = await db.conversation.findMany({
-            where: {
-                AND: [
-                    {
-                        OR: [
-                            {
-                                students: {
-                                    some: {
-                                        id: userId,
+        let conversation;
+
+        if (!isGroup) {
+            let conversations = await db.conversation.findMany({
+                where: {
+                    AND: [
+                        {
+                            OR: [
+                                {
+                                    students: {
+                                        some: {
+                                            id: userId,
+                                        },
                                     },
                                 },
-                            },
-                            {
-                                students: {
-                                    some: {
-                                        id: userId,
+                                {
+                                    students: {
+                                        some: {
+                                            id: userId,
+                                        },
                                     },
                                 },
-                            },
-                        ],
+                            ],
+                        },
+                        {
+                            OR: [
+                                {
+                                    students: {
+                                        some: {
+                                            id: userId,
+                                        },
+                                    },
+                                },
+                                {
+                                    students: {
+                                        some: {
+                                            id: userId,
+                                        },
+                                    },
+                                },
+                            ],
+                        },
+                    ],
+                },
+                include: {
+                    students: true
+                }
+            });
+
+            if (conversations[0]) return NextResponse.json(conversations[0], { status: 200 })
+        }
+
+
+        if (!isGroup) {
+
+            conversation = await db.conversation.create({
+                data: {
+                    isGroup,
+                    name,
+                    students: {
+                        connect: [
+                            { id: userId },
+                            { id: id as string },
+                        ]
                     },
-                    {
-                        OR: [
-                            {
-                                students: {
-                                    some: {
-                                        id: userId,
-                                    },
-                                },
-                            },
-                            {
-                                students: {
-                                    some: {
-                                        id: userId,
-                                    },
-                                },
-                            },
-                        ],
-                    },
-                ],
-            },
-            include: {
-                students: true
-            }
-        });
+                },
+                include: {
+                    students: true
+                }
+            })
+        }
 
-        if (conversations[0]) return NextResponse.json(conversations[0], { status: 200 })
-
-        const conversation = await db.conversation.create({
+        conversation = await db.conversation.create({
             data: {
+                isGroup,
+                name,
                 students: {
                     connect: [
-                        { id: userId },
-                        { id: id as string },
+                        ...students.map((student: { value: string }) => ({
+                            id: student.value
+                        }))
                     ]
                 },
             },
@@ -75,6 +102,8 @@ export async function POST(req: Request) {
                 students: true
             }
         })
+
+        console.log(conversation)
 
         return NextResponse.json(conversation, { status: 200 })
 

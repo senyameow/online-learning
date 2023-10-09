@@ -12,6 +12,7 @@ import { Input } from '../ui/input'
 import toast from 'react-hot-toast'
 import Select from '../Select'
 import { useStudentsStore } from '@/hooks/use-students-store'
+import axios from 'axios'
 
 
 
@@ -30,10 +31,12 @@ const CreateGroupModal = () => {
 
     const isModalOpen = isOpen && type === 'CreateGroup'
 
-    const onSubmit = async () => {
+    const onSubmit = async (values: FieldValues) => {
         try {
-
+            await axios.post(`/api/conversations`, { ...values, isGroup: true })
+            toast.success('you have created conversation')
         } catch (error) {
+            toast.error('something went wrong')
             toast.error('something went wrong while creating group')
         }
     }

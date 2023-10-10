@@ -37,8 +37,7 @@ export async function POST(req: Request, { params }: { params: { conversationId:
                 id: params.conversationId
             },
             data: {
-                lastMessageAt: message?.created_at,
-                lastMessage: message?.text || message?.file_url,
+                lastMessageAt: new Date(),
                 messages: {
                     connect: {
                         id: message?.id // хотим добавить смску на этот сервер
@@ -55,7 +54,7 @@ export async function POST(req: Request, { params }: { params: { conversationId:
             }
         })
 
-        await pusherServer.trigger(params.conversationId, 'message:new', message)
+        await pusherServer.trigger(params.conversationId, 'messages:new', message)
 
         const lastMessage = updatedConv.messages[updatedConv.messages.length - 1]
 

@@ -5,6 +5,8 @@ import React, { ElementRef, useEffect, useRef, useState } from 'react'
 import Message from './Message'
 import axios from 'axios'
 import { MessageType } from '@/actions/(chat)/get-messages'
+import { pusherClient } from '@/lib/pusher'
+import { find } from 'lodash'
 
 interface BodyProps {
     initialMessages: MessageType[];
@@ -14,7 +16,7 @@ interface BodyProps {
 
 const Body = ({ initialMessages, conversationId, currentUserId }: BodyProps) => {
 
-    const [messages, setMessages] = useState(initialMessages)
+    const [messages, setMessages] = useState<MessageType[]>(initialMessages)
 
     const chatRef = useRef<ElementRef<'div'>>(null)
     const bottomRef = useRef<ElementRef<'div'>>(null)
@@ -32,13 +34,36 @@ const Body = ({ initialMessages, conversationId, currentUserId }: BodyProps) => 
         axios.post(`/api/conversations/${conversationId}/seen`)
     }, [conversationId]) // чат прогрузился (т.е. юзер нажал на него, его кинуло на юрл чата => он просмотрел смску, тогда мы постзапрос делаем и обновляем наш прикол)
 
+    useEffect(() => {
+        pusherClient.subscribe(conversationId)
+        bottomRef?.current?.scrollIntoView()
+
+        pusherClient.bind('messages:new', messageHandler)
+        return () => {
+            pusherClient.unsubscribe(conversationId)
+            pusherClient.unbind('messages:new')
+        }
+    }, [conversationId])
+
+    const messageHandler = (message: MessageType) => {
+        axios.post(`/api/conversations/${conversationId}/seen`)
+        setMessages(prev => {
+            console.log(message)
+            if (find(prev, { id: message.id })) {
+                return [...prev]
+            }
+            return [...prev, message]
+        })
+        bottomRef.current?.scrollIntoView()
+    }
+
     return (
-        <div className='h-full overflow-y-auto'>
+        <div className='h-full overflow-y-auto scrollbar scrollbar-thumb-gray-900/10 scrollbar-track-transparent'>
             {messages.length === 0 && <EmptyState icon={Ghost} text='Start converstaion right now!' />}
             {messages?.map((message, ind) => (
                 <Message currentUserId={currentUserId} message={message} />
             ))}
-            <div ref={bottomRef} className='!pt--24!' />
+            <div ref={bottomRef} className='pt-20' />
         </div>
     )
 }

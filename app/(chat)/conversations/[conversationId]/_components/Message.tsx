@@ -31,22 +31,22 @@ const Message = ({ message, currentUserId }: MessageProps) => {
     const seenList = message.seen.filter(student => student.email !== message.student.email).map(student => student.name).join(', ')
 
     return (
-        <div className={cn(`w-full flex h-fit py-2`, isOwn ? 'items-end justify-end' : 'items-start justify-start')}>
+        <div className={cn(`w-full flex h-fit py-2 pr-2`, isOwn ? 'items-end justify-end' : 'items-start justify-start')}>
             <div className={cn(`w-fit items-start gap-2`, isOwn ? 'flex flex-row-reverse' : ' flex flex-row')}>
                 <Avatar image_url={message?.student?.image_url!} isOnline={isOwn} />
                 <div className={cn(`flex flex-col gap-1 justify-between items-start`)}>
                     <div className='flex flex-row items-center gap-2'>
                         <span className='text-sm text-neutral-500 font-semibold'>{message?.student?.name}</span>
-                        <span className='text-xs text-neutral-400'>{format(message.created_at!, 'p')}</span>
+                        <span className='text-xs text-neutral-400'>{format(Date.now(), 'p')}</span>
                     </div>
                     <div className={cn(` rounded-full p-2 flex items-center justify-center w-fit`, isOwn ? 'bg-blue-400 place-self-end' : 'bg-gray-100 place-self-start')}>
-                        <span className={cn(`font-bold text-sm`, isOwn ? 'text-white' : 'text-black')}>{message.text}</span>
+                        <span className={cn(`font-bold text-sm`, isOwn ? 'text-white' : 'text-black')}>{message?.text}</span>
                     </div>
-                    {message.seen.length < 4 && isOwn && seenList && (
+                    {message?.seen.length < 4 && isOwn && seenList && (
                         <span className='text-xs w-fit place-self-end text-neutral-400'>Seen by {seenList}</span>
                     )}
-                    {message.seen.length > 4 && isOwn && seenList && (
-                        <span className='text-xs w-fit place-self-end text-neutral-400'>Seen by {seenList.length} people</span>
+                    {message?.seen.length > 4 && isOwn && seenList && (
+                        <span className='text-xs w-fit place-self-end text-neutral-400'>Seen by {seenList?.length} people</span>
                     )}
                 </div>
 

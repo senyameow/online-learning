@@ -2,11 +2,12 @@
 import Image from 'next/image';
 import React, { useState } from 'react'
 import { Button } from './ui/button';
-import { Loader2, MessageCircle } from 'lucide-react';
+import { Loader2, MessageCircle, MoreVertical } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useModalStore } from '@/hooks/use-modal-store';
+import StudentMore from './StudentMore';
 
 interface MiniStudentCardProps {
     name: string;
@@ -19,6 +20,8 @@ const MiniStudentCard = ({ name, id, image_url }: MiniStudentCardProps) => {
     const router = useRouter()
 
     const [isLoading, setIsLoading] = useState(false)
+
+    const { type } = useModalStore()
 
     const { onClose } = useModalStore()
 
@@ -47,9 +50,11 @@ const MiniStudentCard = ({ name, id, image_url }: MiniStudentCardProps) => {
                     </div>
                 </div>
                 <div>
-                    <Button disabled={isLoading} variant={'ghost'} className='opacity-0 group-hover:opacity-100 transition' onClick={onConversation}>
+                    {type === 'UsersModal' ? <Button disabled={isLoading} variant={'ghost'} className='opacity-0 group-hover:opacity-100 transition' onClick={onConversation}>
                         {isLoading ? <Loader2 className='w-5 h-5 animate-spin' /> : <MessageCircle className='w-5 h-5' />}
-                    </Button>
+                    </Button> : (
+                        <StudentMore />
+                    )}
                 </div>
 
             </div>

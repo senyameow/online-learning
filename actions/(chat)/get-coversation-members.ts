@@ -1,23 +1,22 @@
-import { db } from "@/lib/db"
-import { auth } from "@clerk/nextjs"
+// import { db } from "@/lib/db"
+// import { auth } from "@clerk/nextjs"
 
 
-export const getAllStudents = async (id: string) => {
-    try {
+// export const getAllStudents = async (id: string) => {
+//     try {
 
-        const students = await db.conversation.findUnique({
-            where: {
-                id
-            },
-            select: {
-                students: true
-            }
-        })
+//         const students = await db.student.findMany({
+//             where: {
+//                 conversations: {
+                    
+//                 }
+//             },
+//         })
 
-        return students
+//         return students
 
-    } catch (error) {
-        console.log(error)
-        return []
-    }
-}
+//     } catch (error) {
+//         console.log(error)
+//         return []
+//     }
+// }

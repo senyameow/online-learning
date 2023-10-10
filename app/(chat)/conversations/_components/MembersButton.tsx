@@ -12,7 +12,7 @@ const MembersButton = ({ conversation }: MembersButtonProps) => {
     const { onOpen } = useModalStore()
 
     return (
-        <button onClick={() => onOpen('ConversationMembersModal', {})} className='text-sm text-neutral-400 cursor-pointer hover:underline'>{conversation?.students.length} members</button>
+        <button onClick={() => onOpen('ConversationMembersModal', { members: conversation.students })} className='text-sm text-neutral-400 cursor-pointer hover:underline'>{conversation?.students.length} members</button>
     )
 }
 

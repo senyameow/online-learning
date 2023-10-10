@@ -8,15 +8,15 @@ import StudentList from "../StudentList"
 import { useStudentsStore } from "@/hooks/use-students-store"
 import AllStudentList from "../AllStudentsList"
 
-export const StudentsModal = () => {
-    const { onClose, isOpen, type } = useModalStore()
+export const ConversationMembersModal = () => {
+    const { onClose, isOpen, type, data } = useModalStore()
 
-    const { students } = useStudentsStore()
+    const students = data?.members
 
-    const isModalOpen = type === 'StudentsModal' && isOpen
+    const isModalOpen = type === 'ConversationMembersModal' && isOpen
 
     return (
-        <Modal title="All people here!" description="have a great chat!" onClose={() => onClose()} isOpen={isModalOpen}>
+        <Modal title="" description="have a great chat!" onClose={() => onClose()} isOpen={isModalOpen}>
             <div className="">
                 <AllStudentList students={students!} />
             </div>

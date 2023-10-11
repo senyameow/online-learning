@@ -8,6 +8,7 @@ import React, { useMemo } from 'react'
 import DeleteChatButton from './DeleteChatButton';
 import { Student } from '@prisma/client';
 import ProfileButton from '@/components/ProfileButton';
+import { cn } from '@/lib/utils';
 
 // че надо? надо понимать группа или 1 чел
 // имя
@@ -41,7 +42,7 @@ export const Conversation = ({ conversation, currentStudent }: ConversationProps
                     <ProfileButton student={otherStudent!} />
                     <div className='flex flex-col items-start justify-between gap-2'>
                         <span className='font-bold text-[16px]'>{conversation.name || otherStudent?.name}</span>
-                        <span className='text-xs text-neutral-500 '>
+                        <span className={cn(`text-xs text-neutral-500`)}>
                             {lastMessage?.text ? lastMessage?.text : 'conversation created'}
                         </span>
                     </div>

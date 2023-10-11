@@ -3,7 +3,7 @@ import { FullConvType } from '@/actions/(chat)/get-conversations'
 import React, { useEffect, useState } from 'react'
 
 import EmptyState from '@/components/ui/EmptyState'
-import { Student } from '@prisma/client';
+import { Message, Student } from '@prisma/client';
 import { Conversation } from './Conversation';
 import { pusherClient } from '@/lib/pusher';
 import { ConvType } from '@/types';
@@ -22,9 +22,7 @@ const Conversations = ({ conversations, currentStudent }: ConversationsProps) =>
         if (!currentStudent.email) return
 
 
-        const conversationUpdateHandler = (conversation: FullConvType) => {
-            console.log(conversation.name)
-
+        const conversationNewHandler = (conversation: FullConvType) => {
             setItems(prev => {
                 if (find(prev, { id: conversation?.id })) {
                     return prev
@@ -33,8 +31,21 @@ const Conversations = ({ conversations, currentStudent }: ConversationsProps) =>
             })
         }
 
+        const conversationUpdateHandler = ({ id, messages }: { id: string, messages: any[] }) => {
+            setItems(prev => prev.map(oldConv => {
+                if (oldConv?.id === id) {
+                    return {
+                        ...oldConv,
+                        messages: [...oldConv.messages, messages[0]]
+                    }
+                }
+                return oldConv
+            }))
+        }
+
         pusherClient.subscribe(currentStudent?.email)
-        pusherClient.bind('conversation:new', conversationUpdateHandler)
+        pusherClient.bind('conversation:new', conversationNewHandler)
+        pusherClient.bind('conversation:update', conversationUpdateHandler)
 
 
         return () => {

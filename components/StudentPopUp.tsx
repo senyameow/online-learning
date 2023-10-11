@@ -28,13 +28,13 @@ const StudentPopUp = ({ student, isOwn }: StudentPopUpProps) => {
                 <Avatar image_url={student?.image_url} isOnline={isOwn} />
             </DropdownMenuTrigger>
             <DropdownMenuContent side='top' align='start' className='mr-12 z-999 w-fit h-full bg-gray-700'>
-                <div className='absolute left-0 right-0 top-0 w-[326px] h-[150px]'>
+                <div className='absolute left-0 right-0 top-0 w-[326px] h-[100px]'>
                     <div className='w-full absolute top-0 inset-0 bg-gray-200' />
                 </div>
                 <div className='absolute bottom-0 w-full h-[calc(100vh-150px)]'>
                     {/* <div className=' w-[200px] absolute bottom-0 h-[calc(100%-140px)] bg-slate-900/80' /> */}
                 </div>
-                <div className='px-4 py-6 pt-24 flex flex-col w-full h-full items-start gap-4 relative z-[999]'>
+                <div className='px-4 py-6 pt-12 flex flex-col w-full h-full items-start gap-4 relative z-[999]'>
                     <Avatar image_url={student?.image_url} className='md:w-[80px] md:h-[80px]' trackerClassName='md:w-4 md:h-4 right-[2px] top-[2px]' />
                     <StudentInfo student={student} />
                 </div>

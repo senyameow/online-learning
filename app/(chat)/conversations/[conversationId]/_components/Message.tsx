@@ -1,6 +1,8 @@
 'use client'
 import { MessageType } from '@/actions/(chat)/get-messages'
 import Avatar from '@/app/(dashboard)/_components/Avatar'
+import ProfileButton from '@/components/ProfileButton'
+import StudentPopUp from '@/components/StudentPopUp'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 import React from 'react'
@@ -33,7 +35,9 @@ const Message = ({ message, currentUserId }: MessageProps) => {
     return (
         <div className={cn(`w-full flex h-fit py-2 pr-2`, isOwn ? 'items-end justify-end' : 'items-start justify-start')}>
             <div className={cn(`w-fit items-start gap-2`, isOwn ? 'flex flex-row-reverse' : ' flex flex-row')}>
-                <Avatar image_url={message?.student?.image_url!} isOnline={isOwn} />
+                {/* <Avatar image_url={message?.student?.image_url!} isOnline={isOwn} /> */}
+                <StudentPopUp student={message?.student} isOwn={isOwn} />
+                {/* <ProfileButton student={message?.student} /> */}
                 <div className={cn(`flex flex-col gap-1 justify-between items-start`)}>
                     <div className='flex flex-row items-center gap-2'>
                         <span className='text-sm text-neutral-500 font-semibold'>{message?.student?.name}</span>

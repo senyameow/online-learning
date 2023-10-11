@@ -53,7 +53,7 @@ export const Conversation = ({ conversation, currentStudent }: ConversationProps
         <Link href={`/conversations/${conversation.id}`} className='w-full border rounded-xl cursor-pointer group transition relative'>
             <div className={cn(`p-2 flex flex-row justify-between items-start w-full transition  rounded-xl`, isSelected ? 'bg-black group-hover:bg-black/80' : 'bg-transparent group-hover:bg-gray-100')}>
                 <div className='flex items-start flex-row gap-2 w-[75%]'>
-                    <ProfileButton student={otherStudent!} />
+                    <Avatar image_url={otherStudent?.image_url} />
                     <div className='flex flex-col items-start justify-between gap-2 '>
                         <span className={cn(`font-bold text-[16px] truncate max-w-[70%] `, isSelected && 'text-gray-100')}>{conversation?.name || otherStudent?.name}</span>
                         <div className='flex items-center gap-2 w-full'>

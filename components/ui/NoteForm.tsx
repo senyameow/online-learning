@@ -15,7 +15,7 @@ import toast from 'react-hot-toast'
 
 interface NoteFormProps {
     studentId: string;
-    note: string;
+    note?: string;
 }
 
 const formSchema = z.object({

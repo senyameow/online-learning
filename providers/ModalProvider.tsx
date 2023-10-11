@@ -3,6 +3,7 @@
 import { ConversationMembersModal } from "@/components/modals/ConversationMembersModal"
 import CreateGroupModal from "@/components/modals/CreateGroupModal"
 import DeleteChapterModal from "@/components/modals/DeleteChapterModal"
+import DeleteConversationModal from "@/components/modals/DeleteConversation"
 import DeleteCourse from "@/components/modals/DeleteCourseModal"
 import { StudentsModal } from "@/components/modals/StudentsModal"
 import { UsersModal } from "@/components/modals/UsersModal"
@@ -27,6 +28,7 @@ export const ModalProvider = () => {
             <StudentsModal />
             <CreateGroupModal />
             <ConversationMembersModal />
+            <DeleteConversationModal />
         </>
     )
 }

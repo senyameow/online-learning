@@ -7,11 +7,14 @@ import { getConversationById } from '@/actions/(chat)/get-conversation-by-id'
 import ConversationInfo from '../_components/ConversationNavbar'
 import MobileSidebar from '@/app/(dashboard)/_components/MobileSidebar'
 import { MessageInput } from './_components/MessageInput'
+import { redirect } from 'next/navigation'
 
 const ConversationLayout = async ({ children, params }: { children: React.ReactNode, params: { conversationId: string } }) => {
 
     const conversation = await getConversationById(params.conversationId)
     const currentStudent = await initialStudent()
+
+    if (!conversation) return redirect('/conversations')
 
     return (
         <div className='h-full w-full'>

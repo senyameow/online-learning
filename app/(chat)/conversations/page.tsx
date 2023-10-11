@@ -1,5 +1,6 @@
 import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs'
+import { Loader2 } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import toast from 'react-hot-toast'

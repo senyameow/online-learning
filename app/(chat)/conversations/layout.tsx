@@ -9,8 +9,6 @@ const ConversationsLayout = async ({ children }: { children: React.ReactNode }) 
 
     const conversations = await getConversations()
 
-    console.log(conversations)
-
     const currentStudent = await initialStudent()
 
     return (

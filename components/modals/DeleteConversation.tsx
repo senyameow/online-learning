@@ -26,6 +26,8 @@ const DeleteConversationModal = () => {
             setIsLoading(true)
             await axios.delete(`/api/conversations/${conversationId}`)
             router.refresh()
+            onClose()
+            router.push('/conversations')
             toast.success(`you've successfully deleted conversation`)
 
         } catch (error) {

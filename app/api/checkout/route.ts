@@ -100,6 +100,7 @@ export async function POST(req: Request) {
                 courseId,
                 userId: user.id,
                 image_url: user.imageUrl,
+                email: user.primaryEmailAddressId
             },
             discounts: [
                 { coupon: `first_buy_${user.id}` }

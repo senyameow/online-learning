@@ -38,24 +38,40 @@ const Body = ({ initialMessages, conversationId, currentUserId }: BodyProps) => 
         pusherClient.subscribe(conversationId)
         bottomRef?.current?.scrollIntoView()
 
+
+
+        const messageHandler = (message: MessageType) => {
+            axios.post(`/api/conversations/${conversationId}/seen`)
+            setMessages(prev => {
+                if (find(prev, { id: message.id })) {
+                    return [...prev]
+                }
+                return [...prev, message]
+            })
+            bottomRef.current?.scrollIntoView()
+        }
+
+        const messageUpdateHandler = (newMessage: MessageType) => {
+            axios.post(`/api/conversations/${conversationId}/seen`)
+            setMessages(prev => prev.map(oldMessage => {
+                if (oldMessage.id === newMessage.id) {
+                    return newMessage // просто заместо старой смски кладем новую
+                }
+                return oldMessage // все остальные оставляем как были
+            }))
+        }
+
         pusherClient.bind('messages:new', messageHandler)
+        pusherClient.bind('messages:update', messageUpdateHandler)
+
         return () => {
             pusherClient.unsubscribe(conversationId)
             pusherClient.unbind('messages:new')
+            pusherClient.unbind('messages:update')
         }
     }, [conversationId])
 
-    const messageHandler = (message: MessageType) => {
-        axios.post(`/api/conversations/${conversationId}/seen`)
-        setMessages(prev => {
-            console.log(message)
-            if (find(prev, { id: message.id })) {
-                return [...prev]
-            }
-            return [...prev, message]
-        })
-        bottomRef.current?.scrollIntoView()
-    }
+
 
     return (
         <div className='h-full overflow-y-auto scrollbar scrollbar-thumb-gray-900/10 scrollbar-track-transparent'>

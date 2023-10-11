@@ -5,12 +5,15 @@ import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { UtensilsCrossed } from 'lucide-react';
 import Link from 'next/link';
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import DeleteChatButton from './DeleteChatButton';
 import { Student } from '@prisma/client';
 import ProfileButton from '@/components/ProfileButton';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
+import { pusherClient } from '@/lib/pusher';
+import { MessageType } from '@/actions/(chat)/get-messages';
+import axios from 'axios';
 
 // че надо? надо понимать группа или 1 чел
 // имя
@@ -31,7 +34,7 @@ export const Conversation = ({ conversation, currentStudent }: ConversationProps
 
     const isSelected = pathname.includes(conversation?.id)
 
-    const lastMessage = useMemo(() => {
+    let lastMessage = useMemo(() => {
         const messages = conversation?.messages || []
         return messages?.[messages?.length - 1]
     }, [conversation?.messages])
@@ -40,9 +43,11 @@ export const Conversation = ({ conversation, currentStudent }: ConversationProps
         return conversation.students.find(student => student?.id !== currentStudent?.id)
     }, [conversation?.students])
 
-    const hasOtherSeen = lastMessage?.seen.find(student => student.id === otherStudent?.id)
+    let hasOtherSeen = !!lastMessage?.seen.find(student => student.id === otherStudent?.id)
 
-    const hasMeSeen = lastMessage.seen.find(student => student.id === currentStudent.id)
+    let hasMeSeen = !!lastMessage?.seen.find(student => student.id === currentStudent.id)
+
+    console.log(conversation?.lastMessageAt)
 
     return (
         <Link href={`/conversations/${conversation.id}`} className='w-full border rounded-xl cursor-pointer group transition relative'>
@@ -50,9 +55,9 @@ export const Conversation = ({ conversation, currentStudent }: ConversationProps
                 <div className='flex items-start flex-row gap-2'>
                     <ProfileButton student={otherStudent!} />
                     <div className='flex flex-col items-start justify-between gap-2'>
-                        <span className={cn(`font-bold text-[16px]`, isSelected && 'text-gray-100')}>{conversation.name || otherStudent?.name}</span>
+                        <span className={cn(`font-bold text-[16px]`, isSelected && 'text-gray-100')}>{conversation?.name || otherStudent?.name}</span>
                         <div className='flex items-center gap-2 w-full'>
-                            <span className={cn(`text-xs`, isSelected && 'text-neutral-100')}>{lastMessage.student.name}: </span>
+                            <span className={cn(`text-xs`, isSelected && 'text-neutral-100')}>{lastMessage?.student?.name}: </span>
                             <span className={cn(`text-sm text-neutral-700`, isSelected && 'text-gray-100', hasMeSeen ? 'font-normal' : 'font-bold')}>
                                 {lastMessage?.text ? lastMessage?.text : 'conversation created'}
                             </span>
@@ -60,7 +65,7 @@ export const Conversation = ({ conversation, currentStudent }: ConversationProps
                         </div>
                     </div>
                 </div>
-                <span className='text-neutral-400 text-sm'>{format(conversation.lastMessageAt!, 'p')}</span>
+                <span className='text-neutral-400 text-sm'>{format(new Date(conversation?.lastMessageAt!), 'p')}</span>
             </div>
             <DeleteChatButton isSelected={isSelected} id={conversation?.id} />
         </Link>

@@ -1,4 +1,7 @@
+import { FullConvType } from "@/actions/(chat)/get-conversations"
 import { db } from "@/lib/db"
+import { pusherServer } from "@/lib/pusher"
+import { ConvType } from "@/types"
 import { auth } from "@clerk/nextjs"
 import { NextResponse } from "next/server"
 
@@ -14,7 +17,7 @@ export async function POST(req: Request) {
 
         console.log(id, isGroup, name, students)
 
-        let conversation;
+        let conversation: FullConvType
 
         if (!isGroup) {
             let conversations = await db.conversation.findMany({
@@ -79,9 +82,16 @@ export async function POST(req: Request) {
                             { id: id as string },
                         ]
                     },
+                    lastMessageAt: new Date()
                 },
                 include: {
-                    students: true
+                    students: true,
+                    messages: {
+                        include: {
+                            seen: true,
+                            student: true
+                        }
+                    }
                 }
             })
         }
@@ -98,13 +108,25 @@ export async function POST(req: Request) {
                         { id: userId }
                     ]
                 },
+                lastMessageAt: new Date()
             },
             include: {
-                students: true
+                students: true,
+                messages: {
+                    include: {
+                        seen: true,
+                        student: true
+                    }
+                }
             }
         })
 
-        console.log(conversation)
+        conversation?.students.forEach(student => {
+            if (student.email) {
+                console.log('GOGO')
+                pusherServer.trigger(student?.email, 'conversation:new', conversation)
+            }
+        })
 
         return NextResponse.json(conversation, { status: 200 })
 

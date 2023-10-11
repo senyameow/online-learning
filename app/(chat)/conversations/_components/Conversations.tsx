@@ -1,9 +1,13 @@
+'use client'
 import { FullConvType } from '@/actions/(chat)/get-conversations'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import EmptyState from '@/components/ui/EmptyState'
 import { Student } from '@prisma/client';
 import { Conversation } from './Conversation';
+import { pusherClient } from '@/lib/pusher';
+import { ConvType } from '@/types';
+import { find } from 'lodash';
 
 interface ConversationsProps {
     conversations: FullConvType[];
@@ -11,9 +15,37 @@ interface ConversationsProps {
 }
 
 const Conversations = ({ conversations, currentStudent }: ConversationsProps) => {
+
+    const [items, setItems] = useState<FullConvType[]>(conversations)
+
+    useEffect(() => {
+        if (!currentStudent.email) return
+
+
+        const conversationUpdateHandler = (conversation: FullConvType) => {
+            console.log(conversation.name)
+
+            setItems(prev => {
+                if (find(prev, { id: conversation?.id })) {
+                    return prev
+                }
+                return [...prev, conversation]
+            })
+        }
+
+        pusherClient.subscribe(currentStudent?.email)
+        pusherClient.bind('conversation:new', conversationUpdateHandler)
+
+
+        return () => {
+            pusherClient.unsubscribe(currentStudent.email)
+            pusherClient.unbind('conversation:new')
+        }
+    }, [currentStudent?.email])
+
     return (
         <div className='w-full h-full flex flex-col px-4 mx-auto items-center gap-3'>
-            {conversations?.length > 0 ? conversations?.map(conversation => (
+            {items?.length > 0 ? items?.map(conversation => (
                 <Conversation currentStudent={currentStudent!} key={conversation.id} conversation={conversation} />
             )) : (
                 <EmptyState />

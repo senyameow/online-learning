@@ -1,4 +1,5 @@
 import { db } from "@/lib/db"
+import { pusherServer } from "@/lib/pusher"
 import { auth } from "@clerk/nextjs"
 import { NextResponse } from "next/server"
 
@@ -46,6 +47,17 @@ export async function POST(req: Request, { params }: { params: { conversationId:
                 student: true // и этого чела возьмем
             }
         })
+
+        await pusherServer.trigger(userId, 'conversation:update', {
+            id: conversation?.id,
+            messages: [lastMessage]
+        })
+
+        if (lastMessage.seen.findIndex(student => student?.id === userId) !== -1) {
+            return NextResponse.json(conversation)
+        }
+
+        await pusherServer.trigger(params.conversationId!, 'messages:update', updatedMessage) // все кто в этом диалоге, получат инстантное обновление на это событие, если оно произойдет
 
         return NextResponse.json(updatedMessage, { status: 200 })
 

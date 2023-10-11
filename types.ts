@@ -1,4 +1,4 @@
-import { Category, Course, Student, StudetsOnCourses } from "@prisma/client";
+import { Category, Conversation, Course, Student, StudetsOnCourses } from "@prisma/client";
 
 export type CourseWithCategoryAndProgress = Course & {
     category: Category | null;
@@ -8,4 +8,8 @@ export type CourseWithCategoryAndProgress = Course & {
 export type StudentWithCourseIdAndDate = Student & {
     courseId: string
     created_at: string;
+}
+
+export type ConvType = Conversation & {
+    students: Student[]
 }

@@ -11,7 +11,6 @@ interface AvatarProps {
 
 const Avatar = ({ image_url, isOnline, className, trackerClassName }: AvatarProps) => {
 
-
     return (
         <div className={cn(`relative w-9 h-9 md:w-11 md:h-11 rounded-full`, className)}>
             <Image src={image_url! || '/images/avatar.jpg'} alt='user avatar' className='rounded-full' fill />

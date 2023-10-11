@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { ToasterProvider } from '@/providers/ToastProvider'
 import { ModalProvider } from '@/providers/ModalProvider'
 import { ConfettiProvider } from '@/providers/ConfettiProvider'
+// import ActiveListProvider from '@/providers/ActiveListProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,6 +23,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
+          {/* <ActiveListProvider /> */}
           <ToasterProvider />
           <ModalProvider />
           <ConfettiProvider />

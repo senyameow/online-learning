@@ -7,6 +7,7 @@ import axios from 'axios'
 import { MessageType } from '@/actions/(chat)/get-messages'
 import { pusherClient } from '@/lib/pusher'
 import { find } from 'lodash'
+import { ActiveList } from '@/hooks/use-active-students'
 
 interface BodyProps {
     initialMessages: MessageType[];
@@ -17,8 +18,6 @@ interface BodyProps {
 const Body = ({ initialMessages, conversationId, currentUserId }: BodyProps) => {
 
     const [messages, setMessages] = useState<MessageType[]>(initialMessages)
-
-    const chatRef = useRef<ElementRef<'div'>>(null)
     const bottomRef = useRef<ElementRef<'div'>>(null)
 
     // начинаем прописывать логику просмотра смски.
@@ -77,7 +76,7 @@ const Body = ({ initialMessages, conversationId, currentUserId }: BodyProps) => 
         <div className='h-full overflow-y-auto scrollbar scrollbar-thumb-gray-900/10 scrollbar-track-transparent'>
             {messages.length === 0 && <EmptyState icon={Ghost} text='Start converstaion right now!' />}
             {messages?.map((message, ind) => (
-                <Message currentUserId={currentUserId} message={message} />
+                <Message key={ind} currentUserId={currentUserId} message={message} />
             ))}
             <div ref={bottomRef} className='pt-20' />
         </div>

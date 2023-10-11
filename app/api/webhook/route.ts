@@ -40,6 +40,7 @@ export async function POST(req: Request) {
 
         await db.student.create({
             data: {
+                // FIX EMAIL
                 name: session?.customer_details?.name!,
                 image_url: session?.metadata?.image_url,
                 courses: {

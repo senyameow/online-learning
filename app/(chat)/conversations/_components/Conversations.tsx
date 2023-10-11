@@ -55,7 +55,7 @@ const Conversations = ({ conversations, currentStudent }: ConversationsProps) =>
     }, [currentStudent?.email])
 
     return (
-        <div className='w-full h-full flex flex-col px-4 mx-auto items-center gap-3'>
+        <div className='w-full h-full flex flex-col px-4 mx-auto items-center gap-3 scrollbar scrollbar-thumb-gray-900/10 scrollbar-track-transparent'>
             {items?.length > 0 ? items?.map(conversation => (
                 <Conversation currentStudent={currentStudent!} key={conversation.id} conversation={conversation} />
             )) : (

@@ -14,7 +14,7 @@ interface ConversationSidebarProps {
 const ConversationSidebar = ({ conversations, currentStudent }: ConversationSidebarProps) => {
 
     return (
-        <div className='border-r border-neutral-500 h-full w-full flex flex-col bg-white overflow-y-auto shadow-md shadow-blue-400'>
+        <div className='border-r border-neutral-500 h-full w-full flex flex-col bg-white overflow-y-auto shadow-md shadow-blue-400 scrollbar scrollbar-thumb-gray-900/10 scrollbar-track-transparent'>
             <ConversationsHeader />
             <div className='w-full h-full'>
                 <Conversations currentStudent={currentStudent} conversations={conversations} />

@@ -25,7 +25,7 @@ export async function POST(req: Request, { params }: { params: { conversationId:
 
         if (!conversation) return new NextResponse(`Invalid ID`, { status: 400 })
 
-        const lastMessage = conversation.messages[conversation.messages.length - 1] // нам не нужна строка, которую мы засторили в lastMessage, нам нужна сама смска, ее айди и тд, юзер
+        const lastMessage = conversation?.messages[conversation?.messages.length - 1] // нам не нужна строка, которую мы засторили в lastMessage, нам нужна сама смска, ее айди и тд, юзер
         // по айдишнику этой смски мы найдем смску и апдейтнем seen для нее
         // вопрос: почему только у lastMessage? - а нахрена у всех обновлять, когда понятно, что если просмотрел ласт (НУ ТИПО ПРОСМОТРЕЛ - НАЖАЛ ПРОСТО НА ДИАЛОГ, ВПАДЛУ С РЕФАМИ МУЧАТЬСЯ), то просмотрел все смски)))
         if (!lastMessage) return NextResponse.json(conversation, { status: 200 })

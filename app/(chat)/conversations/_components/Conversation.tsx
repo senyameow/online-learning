@@ -40,6 +40,10 @@ export const Conversation = ({ conversation, currentStudent }: ConversationProps
         return conversation.students.find(student => student?.id !== currentStudent?.id)
     }, [conversation?.students])
 
+    const hasOtherSeen = lastMessage?.seen.find(student => student.id === otherStudent?.id)
+
+    const hasMeSeen = lastMessage.seen.find(student => student.id === currentStudent.id)
+
     return (
         <Link href={`/conversations/${conversation.id}`} className='w-full border rounded-xl cursor-pointer group transition relative'>
             <div className={cn(`p-2 flex flex-row justify-between items-start w-full transition  rounded-xl`, isSelected ? 'bg-black group-hover:bg-black/80' : 'bg-transparent group-hover:bg-gray-100')}>
@@ -47,9 +51,13 @@ export const Conversation = ({ conversation, currentStudent }: ConversationProps
                     <ProfileButton student={otherStudent!} />
                     <div className='flex flex-col items-start justify-between gap-2'>
                         <span className={cn(`font-bold text-[16px]`, isSelected && 'text-gray-100')}>{conversation.name || otherStudent?.name}</span>
-                        <span className={cn(`text-xs text-neutral-500`, isSelected && 'text-gray-100')}>
-                            {lastMessage?.text ? lastMessage?.text : 'conversation created'}
-                        </span>
+                        <div className='flex items-center gap-2 w-full'>
+                            <span className={cn(`text-xs`, isSelected && 'text-neutral-100')}>{lastMessage.student.name}: </span>
+                            <span className={cn(`text-sm text-neutral-700`, isSelected && 'text-gray-100', hasMeSeen ? 'font-normal' : 'font-bold')}>
+                                {lastMessage?.text ? lastMessage?.text : 'conversation created'}
+                            </span>
+                            <div className={cn(`w-2 h-2 rounded-full ml-auto`, hasOtherSeen ? ' opacity-0' : 'opacity-100', isSelected ? 'bg-white' : 'bg-black')} />
+                        </div>
                     </div>
                 </div>
                 <span className='text-neutral-400 text-sm'>{format(conversation.lastMessageAt!, 'p')}</span>

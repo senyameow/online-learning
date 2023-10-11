@@ -41,7 +41,7 @@ const ConversationInfo = async ({ conversation, currentStudent }: ConversationIn
                 </div>
                 <div>
                     {!conversation?.isGroup && <MoreConversation otherUserNote={otherUserNote!} conversation={conversation} name={conversation?.name || otherStudent?.name!} otherStudent={conversation?.isGroup ? null : otherStudent!} />}
-                    {conversation.isGroup && <GroupPopUp />}
+                    {conversation?.isGroup && <GroupPopUp />}
                 </div>
             </div>
         </nav>
